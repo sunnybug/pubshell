@@ -1,4 +1,5 @@
 # pubshell
+注意：会自动加上我个人公钥，如果是个人使用的环境请注意修改my_pubkey变量！
 
 ## 使用方式
 `
@@ -13,3 +14,5 @@ rm -rf pubshell ; git clone https://jihulab.com/sunnybug/pubshell.git && bash pu
 2. autojump
    输入`j 模糊目录名`快速跳转到最近进过的目录
 3. 自动检测内网代理/pip自建源
+4. 适配apt-fast(如果存在)
+5. 一些简化的alias，见.myshell/alias.sh
