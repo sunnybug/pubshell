@@ -101,12 +101,14 @@ if [ -x "$(command -v python3)" ]; then
     echo 'check pip host...'
     if curl -IsL http://192.168.1.20:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
         pip_host='192.168.1.20'
-    else
+    elif ! [ -z "$(python3 -m pip config get global.trusted-host)" ]; then
         pip_host='mirrors.aliyun.com'
     fi
 
-    python3 -m pip config set global.trusted-host $pip_host
-    python3 -m pip config set global.index-url http://$pip_host:9090/simple/
+    if [ "$pip_host" -gt 1 ]; then
+        python3 -m pip config set global.trusted-host $pip_host
+        python3 -m pip config set global.index-url http://$pip_host:9090/simple/
+    fi
 fi
 
 echo '默认bash改为zsh'
