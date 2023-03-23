@@ -17,11 +17,6 @@ if ! [ -x "$(command -v git)" ]; then
   fail='y'
 fi
 
-if ! [ -x "$(command -v python3)" ]; then
-  echo 'Error: python3 is not installed.' >&2
-  fail='y'
-fi
-
 if ! [ -x "$(command -v zsh)" ]; then
   echo 'Error: zsh is not installed.' >&2
   fail='y'
@@ -34,14 +29,6 @@ fi
 
 if [ "$fail" = "y" ];then
     exit -1
-fi
-
-##############################################
-echo 'check pip host...'
-pip_host='mirrors.aliyun.com'
-
-if curl -IsL http://192.168.1.20:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
-       pip_host='192.168.1.20'
 fi
 
 #########################
@@ -110,8 +97,17 @@ chmod 700 ~/.ssh
 chmod 644 ~/.ssh/*
 
 #######################
-python3 -m pip config set global.trusted-host $pip_host
-python3 -m pip config set global.index-url http://$pip_host:9090/simple/
+if [ -x "$(command -v python3)" ]; then
+    echo 'check pip host...'
+    if curl -IsL http://192.168.1.20:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
+        pip_host='192.168.1.20'
+    else
+        pip_host='mirrors.aliyun.com'
+    fi
+
+    python3 -m pip config set global.trusted-host $pip_host
+    python3 -m pip config set global.index-url http://$pip_host:9090/simple/
+fi
 
 echo '默认bash改为zsh'
 chsh -s /bin/zsh

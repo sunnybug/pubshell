@@ -20,7 +20,6 @@ alias ll="ls -lah --color=auto"
 alias ls="ls --color=auto"
 
 alias his=history
-alias f=fuck
 alias g=git
 alias s=svn
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
@@ -38,7 +37,11 @@ if [[ "$SHELL" =~ "zsh" ]] ; then
 fi
 ulimit -c unlimited #for coredump
 
-eval $(thefuck --alias)
+if command -v thefuck &> /dev/null
+then
+  eval $(thefuck --alias)
+  alias f=fuck
+fi
 
 if command -v apt-fast &> /dev/null
 then
