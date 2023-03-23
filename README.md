@@ -2,7 +2,7 @@
 
 ## 使用方式
 `
-rm -rf pubshell ; git clone git@jihulab.com:sunnybug/pubshell.git && bash pubshell/install.sh
+rm -rf pubshell ; git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh
 `
 ## 目的
 方便公司工作机的linux账号初始化

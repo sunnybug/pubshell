@@ -17,8 +17,8 @@ if ! [ -x "$(command -v git)" ]; then
   fail='y'
 fi
 
-if ! [ -x "$(command -v python)" ]; then
-  echo 'Error: python is not installed.' >&2
+if ! [ -x "$(command -v python3)" ]; then
+  echo 'Error: python3 is not installed.' >&2
   fail='y'
 fi
 
@@ -110,8 +110,8 @@ chmod 700 ~/.ssh
 chmod 644 ~/.ssh/*
 
 #######################
-python -m pip config set global.trusted-host $pip_host
-python -m pip config set global.index-url http://$pip_host:9090/simple/
+python3 -m pip config set global.trusted-host $pip_host
+python3 -m pip config set global.index-url http://$pip_host:9090/simple/
 
 echo '默认bash改为zsh'
 chsh -s /bin/zsh
