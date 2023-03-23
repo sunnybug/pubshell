@@ -15,13 +15,7 @@ set HISTCONTROL ignorespace 
 if [ -x /usr/bin/dircolors ] ; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
-alias l="ls -lh --color=auto"
-alias ll="ls -lah --color=auto"
-alias ls="ls --color=auto"
 
-alias his=history
-alias g=git
-alias s=svn
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 autoload -U compinit && compinit -u
 
@@ -43,8 +37,3 @@ then
   alias f=fuck
 fi
 
-if command -v apt-fast &> /dev/null
-then
-  echo 'find apt-fast'
-  alias apt=apt-fast
-fi
