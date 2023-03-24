@@ -107,4 +107,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source ~/.myshell/*.sh
+[[ -s /home/xushuwei/.autojump/etc/profile.d/autojump.sh ]] && source /home/xushuwei/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+source ~/.myshell/x.sh && source ~/.myshell/proxy.sh && source ~/.myshell/alias.sh

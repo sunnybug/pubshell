@@ -57,11 +57,11 @@ fi
 #########################
 echo "add my pub key...."
 mkdir -p ~/.ssh/
-grep -q $my_pubkey  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
+grep -q "$my_pubkey"  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
 
 #########################
-patch_bashrc="source ~/.myshell/*.sh"
-grep -q $patch_bashrc ~/.bashrc  || echo $patch_bashrc >>  ~/.bashrc
+patch_bashrc="source ~/.myshell/x.sh && source ~/.myshell/proxy.sh && source ~/.myshell/alias.sh"
+grep -q "$patch_bashrc" ~/.bashrc  || echo $patch_bashrc >>  ~/.bashrc
 
 patch_svn='''
 # patch_svn Start
@@ -122,7 +122,7 @@ if [ -x "$(command -v python3)" ]; then
         pip_host='mirrors.aliyun.com'
     fi
 
-    if [ "$pip_host" -gt 1 ]; then
+    if [ ${#pip_host} -gt 1 ]; then
         python3 -m pip config set global.trusted-host $pip_host
         python3 -m pip config set global.index-url http://$pip_host:9090/simple/
     fi
