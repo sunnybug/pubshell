@@ -47,7 +47,7 @@ echo "use_proxy=$use_proxy"
 if [ "$use_proxy" != "n" ];then
     echo '''
 #/bin/bash
-alias xopenproxy="export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy=\"*.gitclone.com,*.gitee.com,127.0.0.1, localhost, 192.168.*,10.*;\";echo \"HTTP Proxy on\";"
+alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_proxy''';export no_proxy=\"*.gitclone.com,*.gitee.com,127.0.0.1, localhost, 192.168.*,10.*;\";echo \"HTTP Proxy on\";"
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
     ''' > ./files/home/user/.myshell/proxy.sh
     export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy="127.0.0.1, localhost, 192.168.*,10.*";echo "HTTP Proxy on"
