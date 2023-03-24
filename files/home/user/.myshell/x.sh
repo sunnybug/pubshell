@@ -2,12 +2,14 @@
 ###
  # @Date: 2023-03-01
  # @Description: 
- # @LastEditTime: 2023-03-23
+ # @LastEditTime: 2023-03-24
  # @LastEditors: xushuwei
 ### 
 TRAPEXIT() {
     if [[ ! -o login ]]; then
-      . ~/.zlogout
+      if [ -e "~/.zlogout" ]; then
+        . ~/.zlogout
+      fi
     fi
   }
 set HISTCONTROL ignorespace 
