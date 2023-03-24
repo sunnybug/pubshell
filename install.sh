@@ -51,12 +51,29 @@ alias xopenproxy="export http_proxy=$use_proxy;export https_proxy=$use_proxy;exp
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
     ''' > ./files/home/user/.myshell/proxy.sh
     export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy="127.0.0.1, localhost, 192.168.*,10.*";echo "HTTP Proxy on"
+    echo "http_proxy=$user_proxy"
 fi
 
 #########################
 echo "add my pub key...."
 mkdir -p ~/.ssh/
 grep -q $my_pubkey  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
+
+#########################
+patch_bashrc="source ~/.myshell/*.sh"
+grep -q $patch_bashrc ~/.bashrc  || echo $patch_bashrc >>  ~/.bashrc
+
+patch_svn='''
+# patch_svn Start
+[global]
+store-passwords = yes
+store-plaintext-passwords = yes
+'''
+if ! [ -d ~/.subversion/servers ]; then
+    mkdir -p ~/.subversion
+    touch ~/.subversion/servers
+fi
+sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo $patch_svn >> ~/.subversion/servers
 
 #########################
 echo 'install oh-my-zsh...'
