@@ -5,6 +5,11 @@
 `
 git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh && rm -rf pubshell
 `
+
+## 添加证书
+`
+curl -sSL https://jihulab.com/sunnybug/pubshell/-/raw/main/add_pubkey.sh | sh
+`
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件
 
