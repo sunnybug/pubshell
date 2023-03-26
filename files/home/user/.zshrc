@@ -109,4 +109,5 @@ source $ZSH/oh-my-zsh.sh
 
 [[ -s /home/xushuwei/.autojump/etc/profile.d/autojump.sh ]] && source /home/xushuwei/.autojump/etc/profile.d/autojump.sh
 autoload -U compinit && compinit -u
-source ~/.myshell/x.sh && source ~/.myshell/proxy.sh && source ~/.myshell/alias.sh
+source ~/.myshell/x.sh && source ~/.myshell/alias.sh
+[[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh
