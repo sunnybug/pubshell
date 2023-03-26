@@ -3,7 +3,7 @@
 
 ## 使用方式
 `
-git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh
+git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh && rm -rf pubshell
 `
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件

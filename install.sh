@@ -34,8 +34,10 @@ fi
 #########################
 echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
 use_proxy="n"
+github_mirror="gitclone.com/github.com"
 if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
     echo 'curl github.com success'
+    github_mirror="github.com"
     use_proxy="n"
 elif curl -IsL http://192.168.1.199:10880 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.199:10880'
@@ -83,9 +85,9 @@ rm -rf ~/autojump_tmp
 
 sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh) --unattended --keep-zshrc"
 
-git clone https://gitclone.com/github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://gitclone.com/github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-git clone https://gitclone.com/github.com/wting/autojump ~/autojump_tmp && pushd ~/autojump_tmp && ./install.py && popd
+git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://$github_mirror/wting/autojump ~/autojump_tmp && pushd ~/autojump_tmp && ./install.py && popd
 
 ##################################
 if [ -z "$(git config --global user.name)" ]; then
