@@ -1,14 +1,11 @@
 #!/bin/bash
 
-
-# rm -rf pubshell ; git clone git@jihulab.com:sunnybug/pubshell.git && bash pubshell/install.sh
-
 ##############################################
 # config
-my_pubkey="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCUZuVaC48qdqGKHMzyx1PPXzwCdSFopJCqe+VbFm8FaGGZ1JzsABBxjzkfC9E84yMnhoodgC492zSHolx+509jdSByAbHIs5P/AnavRFikEmf3WEZ1vB4zxxeL/JhRIwkGaR4SsK8OVU5LVh6n2OE0+Ept7YQB5RNwXw0VHt8DJ789ygv4QU1gF5++WNDC/P0uM3ZZgb3QM3WZDVMVAhEdqsk2BAUY6b+Lhz92o33ujU6EbIcs1vYTXL3kVvwxdRCafHc4JNRnCf/2uOPWHLuf2WeJjHp8GT6EiatVOsLwNF+cFMhV8oeeSohhbv7+VkFTgCF5BXSU+cWWKyKLiIsljr4eWavlaDLCgw04YMGYqPCrv7nL5XZZ1BgntAzDFnOsP1VlQS/dGimA7Elb51duSwODpmlirZr8wzmNH/bkgnSwykf8vI4gdmOLkhKTxrAWVEcI+AO652VFl1jSQgJVV4AXcluKv9Tvd2Xhy4CIDIAAwmE+4SB91werf5AmcqM= "
 
 SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
+
 ##############################################
 echo 'check tools...'
 fail='n'
@@ -57,9 +54,7 @@ alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\
 fi
 
 #########################
-echo "add my pub key...."
-mkdir -p ~/.ssh/
-grep -q "$my_pubkey"  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
+source $SCRIPT_DIR/add_pubkey.sh
 
 #########################
 patch_bashrc="source ~/.myshell/x.sh && source ~/.myshell/proxy.sh && source ~/.myshell/alias.sh"
@@ -112,8 +107,7 @@ fi
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \; 
 # chown $USER:$USER -R ~
 chown $USER:$USER -R ~/.ssh
-chmod 700 ~/.ssh
-chmod 644 ~/.ssh/*
+
 
 #######################
 if [ -x "$(command -v python3)" ]; then
