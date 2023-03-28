@@ -50,7 +50,9 @@ alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
     ''' > ./files/home/user/.myshell/proxy.sh
     export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy="127.0.0.1, localhost, 192.168.*,10.*";echo "HTTP Proxy on"
-    echo "http_proxy=$user_proxy"
+    echo "http_proxy=$use_proxy"
+else
+    echo '#/bin/bash' > ./files/home/user/.myshell/proxy.sh
 fi
 
 #########################
@@ -78,7 +80,7 @@ rm -rf ~/.oh-my-zsh
 rm -rf ~/.autojump
 rm -rf ~/autojump_tmp
 
-sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh) --unattended --keep-zshrc"
+sh -c $SCRIPT_DIR/tools/onmysh.sh --unattended --keep-zshrc
 
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
