@@ -113,4 +113,6 @@ source ~/.myshell/x.sh && source ~/.myshell/alias.sh
 
 if [ -x "$(command -v autoload)" ]; then
   autoload -U compinit && compinit -u
+else
+  echo '要开启历史命令的自动完成，需要: chsh -s /bin/zsh'
 fi

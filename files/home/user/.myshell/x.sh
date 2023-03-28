@@ -21,6 +21,8 @@ fi
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 if [ -x "$(command -v autoload)" ]; then
   autoload -U compinit && compinit -u
+else
+  echo '要开启历史命令的自动完成，需要: chsh -s /bin/zsh'
 fi
 
 # pip install会安装到~/.local/bin
