@@ -80,7 +80,7 @@ rm -rf ~/.oh-my-zsh
 rm -rf ~/.autojump
 rm -rf ~/autojump_tmp
 
-sh -c $SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc
+chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
 
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
