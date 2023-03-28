@@ -19,7 +19,9 @@ if [ -x /usr/bin/dircolors ] ; then
 fi
 
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
-autoload -U compinit && compinit -u
+if [ -x "$(command -v autoload)" ]; then
+  autoload -U compinit && compinit -u
+fi
 
 # pip install会安装到~/.local/bin
 export PATH=~/.local/bin:$PATH 
