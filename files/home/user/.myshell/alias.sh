@@ -23,7 +23,6 @@ alias histdel='function __histdel(){grep -v "$1" ~/.zsh_history > /tmp/zsh_histo
 
 if command -v apt-fast &> /dev/null
 then
-  echo 'find apt-fast'
   alias apt=apt-fast
 fi
 
