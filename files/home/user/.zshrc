@@ -111,8 +111,5 @@ source $ZSH/oh-my-zsh.sh
 source ~/.myshell/x.sh && source ~/.myshell/alias.sh
 [[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh
 
-if [ -x "$(command -v autoload)" ]; then
-  autoload -U compinit && compinit -u
-else
-  echo '要开启历史命令的自动完成，需要: chsh -s /bin/zsh'
-fi
+[[ -s /root/.autojump/etc/profile.d/autojump.sh ]] && source /root/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
