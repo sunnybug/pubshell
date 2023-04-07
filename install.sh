@@ -72,7 +72,7 @@ if ! [ -d ~/.subversion/servers ]; then
     mkdir -p ~/.subversion
     touch ~/.subversion/servers
 fi
-sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo $patch_svn >> ~/.subversion/servers
+sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.subversion/servers
 
 #########################
 echo 'install oh-my-zsh...'
