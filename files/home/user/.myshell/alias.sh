@@ -2,7 +2,7 @@
 ###
  # @Date: 2023-03-24
  # @Description: 
- # @LastEditTime: 2023-03-25
+ # @LastEditTime: 2023-04-08
  # @LastEditors: xushuwei
 ### 
 alias l="ls -lh --color=auto"
@@ -15,6 +15,7 @@ alias his=history
 alias gitpushall='git add . && git ls-files --deleted -z | xargs -0 git rm ; git commit -m "auto-commit" && git push'
 
 # 模糊查找进程名，显示pid和进程路径
+# todo:用户名 内存 运行时长 命令行 支持tmux
 alias pspath='function _findproc(){ ps aux | grep -i $1 | grep -v grep | awk "{print \$2, \$11}" | column -t | sed "1i PID  Path" ;};_findproc'
 
 # 删除模糊匹配字符串的历史记录

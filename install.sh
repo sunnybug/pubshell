@@ -95,6 +95,8 @@ if [ -z "$(git config --global user.email)" ]; then
     git config --global user.email "$USER@x.com"
 fi
 
+git config --global http.sslVerify false
+
 #################################
 if [ -d $SCRIPT_DIR/files/home/user ]; then
     echo "cp -rTf $SCRIPT_DIR/files/home/user/ ~"
