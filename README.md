@@ -1,9 +1,13 @@
 # pubshell
 注意：会自动加上我个人公钥，如果是个人使用的环境请注意修改my_pubkey变量！
 
-## 使用方式
+## 以管理员身份安装工具
 `
-git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh && rm -rf pubshell
+git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install_tools.sh && rm -rf pubshell
+`
+## 初始化当前用户环境
+`
+git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/init_user_env.sh && rm -rf pubshell
 `
 
 ## 添加证书
