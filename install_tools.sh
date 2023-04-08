@@ -37,9 +37,9 @@ function InstallTools_Debian() {
     echo "install tools for Debian"
 
     if [ "$(sudo -n uptime 2>&1 | grep -c "load")" -gt 0 ]; then
-        echo "当前用户拥有sudo权限"
+        echo "you have sudo.everything is ok"
     else
-        echo "当前用户没有sudo权限，请使用sudo执行本脚本，或者切换到root用户"
+        echo "Please install sudo OR use sudo OR switch to root"
         exit 1
     fi
 
