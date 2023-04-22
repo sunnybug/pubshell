@@ -57,6 +57,8 @@ function InstallTools_Debian() {
         exit 1
     fi
     
+    sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config
+    sed -i '/^PermitRootLogin/d;$aPermitRootLogin yes' /etc/ssh/sshd_config
     echo "复制配置好的文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
 
