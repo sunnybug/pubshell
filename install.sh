@@ -3,8 +3,8 @@
 ###
 # @Date: 2023-04-08
 # @Description:
-# @LastEditTime: 2023-04-22
-# @LastEditors: xushuwei
+ # @LastEditTime: 2023-04-22
+ # @LastEditors: xushuwei
 ###
 
 ##############################################
@@ -16,8 +16,7 @@ cd $SCRIPT_DIR
 # function
 # 定义函数，用于询问用户
 function ask() {
-    echo "$1（y/n）"
-    read answer
+    read -p "$1[y/n]" answer
     
     # 判断用户的输入，将其转换为小写字母并返回
     if [[ "$answer" =~ ^[Yy]$ ]]; then
@@ -124,8 +123,8 @@ function InstallTools_Debian() {
 function InstallToolForDev()
 {
     if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
-        is_cpp=$(ask "Need C++?" 2>&1)
-        is_docker=$(ask "Need Docker?" 2>&1)
+        is_cpp=$(ask "Need C++?")
+        is_docker=$(ask "Need Docker?")
         is_china="y"
         is_github520="y"
         InstallTools_Debian
@@ -145,20 +144,15 @@ function InstallToolForCppServer()
     fi
 }
 
-function main()
-{
-    case "$1" in
-        "--cppserver")
-            InstallToolForCppServer
-        ;;
-        "--dev")
-            InstallToolForDev
-        ;;
-        *)
-            echo "Usage: $0 --cppserver|--dev"
-            exit 1
-    esac
-}
-
-main
+case "$1" in
+    "--cppserver")
+        InstallToolForCppServer
+    ;;
+    "--dev")
+        InstallToolForDev
+    ;;
+    *)
+        echo "Usage: $0 --cppserver|--dev"
+        exit 1
+esac
 exit 0
