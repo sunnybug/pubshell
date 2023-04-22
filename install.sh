@@ -88,6 +88,8 @@ function InstallTools_Debian() {
         # llvm
         gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
         gpg --armor --export 15CF4D18AF4F7421 | apt-key add -
+        grep -qxF 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' /etc/apt/sources.list || echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' >> /etc/apt/sources.list
+        apt update
         apt install -y llvm-15
         unlink /usr/bin/clang               ; link /usr/bin/clang-15 /usr/bin/clang
         unlink /usr/bin/clang++             ; link /usr/bin/clang++-15 /usr/bin/clang++
