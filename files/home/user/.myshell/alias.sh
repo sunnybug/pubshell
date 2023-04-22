@@ -11,7 +11,7 @@ alias ls="ls --color=auto"
 
 alias his=history
 # auto del,auto add,auto commit,and auto push...
-alias gitpushall='git add -A && git commit -m "$1" && git push'
+alias gitpushall="git add -A && git commit -m '$1' && git push"
 
 # 模糊查找进程名，显示pid和进程路径
 alias pspath='_findproc() { printf "%-10s %-15s %-10s %-50s %s\n" "PID" "USER" "MEM" "PATH"; ps aux | grep -i $1 | grep -v grep | awk '"'"'{print $2}'"'"' | while read pidvar; do uservar=$(ps -o user= -p $pidvar); memvar=$(( $(ps -o rss= -p $pidvar) / 1024 ))MB; pathvar=$(readlink "/proc/$pidvar/exe"); printf "%-10s %-15s %-10s %-50s %s\n" "$pidvar" "$uservar" "$memvar" "$pathvar"; done | column -t;}; _findproc'
