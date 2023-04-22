@@ -59,8 +59,13 @@ function InstallTools_Debian() {
     
     echo "复制配置好的文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
-    
-    
+
+    echo "检查域名：mirrors.tencentyun.com是否可用....."
+    if [ "$(ping -c 1 mirrors.tencentyun.com | grep -c "1 received")" -gt 0 ]; then
+        echo "mirrors.tencentyun.com is ok"
+        sed -i "s/mirrors.aliyun.com/mirrors.tencentyun.com/g" /etc/apt/sources.list
+    fi
+
     echo "apt update......."
     apt update
     apt install --no-install-recommends -y debian-keyring
