@@ -53,6 +53,9 @@ elif curl -IsL http://192.168.1.199:10880 --connect-timeout 2 --max-time 2 | gre
     use_proxy='http://192.168.1.199:10880'
 elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://127.0.0.1:10811'
+else
+    sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
+    echo "No proxy detected. So use github520"
 fi
 
 echo "use_proxy=$use_proxy"
