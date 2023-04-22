@@ -7,26 +7,39 @@ SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
 
 ##############################################
-echo 'check tools...'
-fail='n'
-if ! [ -x "$(command -v git)" ]; then
-  echo 'Error: git is not installed.' >&2
-  fail='y'
-fi
+#!/bin/bash
 
-if ! [ -x "$(command -v zsh)" ]; then
-  echo 'Error: zsh is not installed.' >&2
-  fail='y'
-fi
+check_tools() {
+    fail='n'
+    if ! [ -x "$(command -v git)" ]; then
+        echo 'Error: git is not installed.' >&2
+        fail='y'
+    fi
 
-if ! [ -x "$(command -v curl)" ]; then
-  echo 'Error: curl is not installed.' >&2
-  fail='y'
-fi
+    if ! [ -x "$(command -v zsh)" ]; then
+        echo 'Error: zsh is not installed.' >&2
+        fail='y'
+    fi
 
-if [ "$fail" = "y" ];then
-    exit -1
-fi
+    if ! [ -x "$(command -v curl)" ]; then
+        echo 'Error: curl is not installed.' >&2
+        fail='y'
+    fi
+
+    if [ "$fail" = "y" ]; then
+        if [ -x "$(command -v apt)" ]; then
+            echo "Attempting to install missing tools via apt..."
+            sudo apt update
+            sudo apt install -y git zsh curl || { echo "Error: Failed to install missing tools via apt." >&2; exit -1; }
+            echo "Successfully installed missing tools via apt."
+        else
+            echo "Error: apt is not installed. Cannot install missing tools." >&2
+            exit -1
+        fi
+    fi
+}
+
+check_tools
 
 #########################
 echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
