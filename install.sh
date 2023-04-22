@@ -1,11 +1,11 @@
 #!/bin/bash
 
 ###
- # @Date: 2023-04-08
- # @Description: 
- # @LastEditTime: 2023-04-13
- # @LastEditors: xushuwei
-### 
+# @Date: 2023-04-08
+# @Description:
+# @LastEditTime: 2023-04-22
+# @LastEditors: xushuwei
+###
 
 ##############################################
 # config
@@ -18,17 +18,16 @@ cd $SCRIPT_DIR
 function ask() {
     echo "$1（y/n）"
     read answer
-
+    
     # 判断用户的输入，将其转换为小写字母并返回
     if [[ "$answer" =~ ^[Yy]$ ]]; then
-      echo "y"
+        echo "y"
     else
-      echo "n"
+        echo "n"
     fi
 }
 
 ##############################################
-function InstallTools_Debian() {
 # debian 11
 ############################
 # 网络设置
@@ -44,41 +43,40 @@ function InstallTools_Debian() {
 # /etc/resolv.conf 配置 nameserver 8.8.8.8
 
 # /etc/ssh/sshd_config 配置
-#   PermitRootLogin yes 
+#   PermitRootLogin yes
 
 # /etc/init.d/networking restart
 # systemctl restart sshd
 
+function InstallTools_Debian() {
     echo "install tools for Debian"
-
+    
     if [ "$(sudo -n uptime 2>&1 | grep -c "load")" -gt 0 ]; then
         echo "you have sudo.everything is ok"
     else
         echo "Please install sudo OR use sudo OR switch to root"
         exit 1
     fi
-
+    
     echo "复制配置好的文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
-
-    echo "add GitHub520"
-    crontab -l > conf && echo "* 1 * * * sed -i \"/# GitHub520 Host Start/Q" /etc/hosts \&\& curl https://raw.hellogithub.com/hosts >> /etc/hosts\" >> conf && crontab conf && rm -f conf
-
+    
+    
     echo "apt update......."
     apt update
     apt install --no-install-recommends -y debian-keyring
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2166B8DE8BDC3367D1901C11EE2FF37CA8DA16B
-
+    
     echo "install apt-fast......."
     apt update
     apt-get install --no-install-recommends -y apt-fast sudo
     alias apt=apt-fast
-
+    
     echo "install python......."
     apt upgrade -y
     apt install --no-install-recommends -y python3-full python3-autopep8 python3-wheel python3-pip
     sudo unlink /usr/bin/python ; sudo link /usr/bin/python3 /usr/bin/python
-
+    
     if [ "$is_cpp" = "y" ]; then
         echo "install tools of C++......."
         apt install --no-install-recommends -y gcc-12 gdb cgdb make cmake ninja-build build-essential linux-perf
@@ -92,19 +90,26 @@ function InstallTools_Debian() {
         unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-15 /usr/bin/clang-format
         unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-15 /usr/bin/clang-tidy
     fi
-
+    
     echo "install other......."
     apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh
-
+    
+    # locale
+    sudo locale-gen en_US.UTF-8
+    export LANG=en_US.UTF-8
+    # 24小时
+    echo "" >> /etc/default/locale && echo "LC_TIME=en_DK.UTF-8" >> /etc/default/locale
+    
+    if [ "$is_github520" = "y" ]; then
+        echo "add GitHub520"
+        crontab -l > conf && echo "* 1 * * * sed -i \"/# GitHub520 Host Start/Q" /etc/hosts \&\& curl https://raw.hellogithub.com/hosts >> /etc/hosts\" >> conf && crontab conf && rm -f conf
+    fi
+    
     if [ "$is_china" = "y" ]; then
-        sudo locale-gen en_US.UTF-8
-        export LANG=en_US.UTF-8
         # 时区
         ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-        # 24小时
-        echo "" >> /etc/default/locale && echo "LC_TIME=en_DK.UTF-8" >> /etc/default/locale
     fi
-
+    
     if [ "$is_docker" = "y" ]; then
         echo "install docker......."
         # docker
@@ -116,13 +121,44 @@ function InstallTools_Debian() {
 }
 
 ##############################################
-if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
-    is_cpp=$(ask "Need C++?" 2>&1)
-    is_docker=$(ask "Need Docker?" 2>&1)
-    is_china=$(ask "Set timezone for china?" 2>&1)
-    InstallTools_Debian
-else
-    echo "Current OS is not Debian"
-fi
+function InstallToolForDev()
+{
+    if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
+        is_cpp=$(ask "Need C++?" 2>&1)
+        is_docker=$(ask "Need Docker?" 2>&1)
+        is_china="y"
+        is_github520="y"
+        InstallTools_Debian
+    else
+        echo "Current OS is not Debian"
+    fi
+}
 
+function InstallToolForCppServer()
+{
+    if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
+        is_cpp="y"
+        is_docker="y"
+        InstallTools_Debian
+    else
+        echo "Current OS is not Debian"
+    fi
+}
 
+function main()
+{
+    case "$1" in
+        "--cppserver")
+            InstallToolForCppServer
+        ;;
+        "--dev")
+            InstallToolForDev
+        ;;
+        *)
+            echo "Usage: $0 --cppserver|--dev"
+            exit 1
+    esac
+}
+
+main
+exit 0
