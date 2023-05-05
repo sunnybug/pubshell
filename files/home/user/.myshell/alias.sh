@@ -11,7 +11,7 @@ alias ls="ls --color=auto"
 
 alias his=history
 # auto del,auto add,auto commit,and auto push...
-# alias gitpushall='git add -A && git commit -m "commit" && git push'
+alias gitpushall='git add -A && git commit -m "commit" && git push'
 alias gc='git add -A && git commit --message'
 
 # 模糊查找进程名，显示pid和进程路径
