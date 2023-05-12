@@ -39,6 +39,14 @@ check_tools() {
     fi
 }
 
+set_zsh_theme() {
+    if [ -z "$ZSH_THEME" ]; then
+        ZSH_THEME="xhotgame"
+    fi
+
+    sed -i "s/^ZSH_THEME=.*/ZSH_THEME=\"$ZSH_THEME\"/g" ~/.zshrc
+}
+
 check_tools
 
 #########################
@@ -98,7 +106,8 @@ rm -rf ~/.oh-my-zsh
 rm -rf ~/.autojump
 rm -rf ~/autojump_tmp
 
-chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
+# chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting

@@ -9,9 +9,13 @@ git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh 
 `
 git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh --cppserver && rm -rf pubshell
 `
-## 初始化当前用户环境
+## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
 git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/mybash.sh && rm -rf pubshell
+`
+or
+`
+git clone git@jihulab.com:sunnybug/pubshell.git && bash pubshell/install.sh && rm -rf pubshell
 `
 
 ## 添加证书
