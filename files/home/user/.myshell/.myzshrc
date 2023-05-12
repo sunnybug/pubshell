@@ -1,4 +1,6 @@
-#/bin/bash
+
+ZSH_THEME="xhotgame"
+
 plugins=(
     git
     extract #适配解压命令，只需要extract 文件名
@@ -12,3 +14,5 @@ plugins=(
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 source ~/.myshell/x.sh && source ~/.myshell/alias.sh
 [[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh
+
+source $ZSH/oh-my-zsh.sh

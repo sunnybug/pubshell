@@ -1,0 +1,2 @@
+source ~/.myshell/x.sh && source ~/.myshell/alias.sh
+[[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh

@@ -39,15 +39,18 @@ check_tools() {
     fi
 }
 
-set_zsh_theme() {
-    if [ -z "$ZSH_THEME" ]; then
-        ZSH_THEME="xhotgame"
-    fi
-
-    sed -i "s/^ZSH_THEME=.*/ZSH_THEME=\"$ZSH_THEME\"/g" ~/.zshrc
-}
-
 check_tools
+
+
+#################################
+# 复制配置文件 files/home/user/ 到 ~
+if [ -d $SCRIPT_DIR/files/home/user ]; then
+    echo "cp -rTf $SCRIPT_DIR/files/home/user/ ~"
+    cp -rTf $SCRIPT_DIR/files/home/user/ ~
+else 
+    echo "Error: $SCRIPT_DIR/files/home/user not found."
+    exit -1
+fi
 
 #########################
 echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
@@ -63,9 +66,11 @@ elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "4
     use_proxy='http://127.0.0.1:10811'
 elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.186:10813'
-else
+fi
+
+# 如果当前用户是root
+if [ "$USER" = "root" ]; then
     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
-    echo "No proxy detected. So use github520"
 fi
 
 echo "use_proxy=$use_proxy"
@@ -74,18 +79,22 @@ if [ "$use_proxy" != "n" ];then
 #/bin/bash
 alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_proxy''';export no_proxy=\"*.gitclone.com,*.gitee.com,127.0.0.1, localhost, 192.168.*,10.*;\";echo \"HTTP Proxy on\";"
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
-    ''' > ./files/home/user/.myshell/proxy.sh
+    ''' > ~/.myshell/proxy.sh
     export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy="127.0.0.1, localhost, 192.168.*,10.*";echo "HTTP Proxy on"
     echo "http_proxy=$use_proxy"
 else
-    echo '#/bin/bash' > ./files/home/user/.myshell/proxy.sh
+    echo '#/bin/bash' > ~/.myshell/proxy.sh
 fi
+
+# 非交互下，默认alias不生效，所以这里要手动开启
+shopt -s expand_aliases
+source ~/.myshell/proxy.sh
 
 #########################
 source $SCRIPT_DIR/add_pubkey.sh
 
 #########################
-patch_bashrc="source ~/.myshell/x.sh && source ~/.myshell/proxy.sh && source ~/.myshell/alias.sh"
+patch_bashrc="source ~/.myshell/.myrc"
 grep -q "$patch_bashrc" ~/.bashrc  || echo $patch_bashrc >>  ~/.bashrc
 
 patch_svn='''
@@ -106,12 +115,23 @@ rm -rf ~/.oh-my-zsh
 rm -rf ~/.autojump
 rm -rf ~/autojump_tmp
 
+xopenproxy
+# 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
 # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
+
 
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 git clone https://$github_mirror/wting/autojump ~/autojump_tmp && pushd ~/autojump_tmp && ./install.py && popd
+
+# 从.zshrc中删除source $ZSH/oh-my-zsh.sh，改为从.myzshrc调用
+sed -i '' '/source $ZSH\/oh-my-zsh.sh/d' ~/.zshrc
+if ! grep -q "source ~/.myshell/.myzshrc" ~/.zshrc; then
+    echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
+fi
+
+cp -rTf $SCRIPT_DIR/files/home/user/.oh-my-zsh/ ~/.oh-my-zsh
 
 ##################################
 if [ -z "$(git config --global user.name)" ]; then
@@ -123,15 +143,6 @@ if [ -z "$(git config --global user.email)" ]; then
 fi
 
 git config --global http.sslVerify false
-
-#################################
-if [ -d $SCRIPT_DIR/files/home/user ]; then
-    echo "cp -rTf $SCRIPT_DIR/files/home/user/ ~"
-    cp -rTf $SCRIPT_DIR/files/home/user/ ~
-else 
-    echo "Error: $SCRIPT_DIR/files/home/user not found."
-    exit -1
-fi
 
 #################################
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
