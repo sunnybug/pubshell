@@ -11,7 +11,7 @@ entry_venv(){
         
         # 检查目录是否存在
         if [ ! -d "$venv_dir" ]; then
-            echo "Error: Directory '$venv_dir' does not exist."
+            echo "Error: Directory '$venv_dir' isn't exist."
             should_exit=1
         fi
         
@@ -20,12 +20,12 @@ entry_venv(){
         
         # 检查activate脚本是否存在
         if [ ! -f "$activate_script" ]; then
-            echo "Error: Activate script '$activate_script' does not exist."
+            echo "Error: Activate script '$activate_script' isn't exist."
             cd "$venv_dir" || return
             venv_dir=$(find . -maxdepth 1 -type d -exec test -f '{}/bin/activate' \; -print)
             activate_script="$venv_dir/bin/activate"
             if [ ! -f "$activate_script" ]; then
-                echo "Error: Activate script '$activate_script' does not exist."
+                echo "Error: Activate script '$activate_script' isn't exist."
                 should_exit=1
             fi
         fi
@@ -35,7 +35,7 @@ entry_venv(){
         local venv_dir=$(find . -maxdepth 1 -type d -exec test -f '{}/bin/activate' \; -print)
         local activate_script="$venv_dir/bin/activate"
         if [ ! -f "$activate_script" ]; then
-            echo "Error: Activate script '$activate_script' does not exist."
+            echo "Error: Activate script '$activate_script' isn't exist."
             should_exit=1
         fi
         # 在这里添加您希望执行的其他命令或操作
