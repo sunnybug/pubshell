@@ -33,3 +33,4 @@ curl -sSL https://jihulab.com/sunnybug/pubshell/-/raw/main/add_pubkey.sh | sh
 3. 自动检测内网代理/pip自建源
 4. 适配apt-fast(如果存在)
 5. 一些简化的alias，见.myshell/alias.sh
+6. venv命令，支持在当前目录下自动查找python的venv环境并激活
