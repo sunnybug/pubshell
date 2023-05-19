@@ -26,4 +26,4 @@ then
   alias apt=apt-fast
 fi
 
-alias venv='source ~/.myshell/venv.sh'
+alias venv='source ~/.myshell/venv.sh;entry_venv'
