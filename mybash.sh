@@ -94,8 +94,8 @@ source ~/.myshell/proxy.sh
 source $SCRIPT_DIR/add_pubkey.sh
 
 #########################
-patch_bashrc="source ~/.myshell/.myrc"
-grep -q "$patch_bashrc" ~/.bashrc  || echo $patch_bashrc >>  ~/.bashrc
+sed -i '/.myshell/d' ~/.bashrc
+echo "source ~/.myshell/.myrc" >> ~/.bashrc
 
 patch_svn='''
 # patch_svn Start
@@ -110,11 +110,15 @@ fi
 sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.subversion/servers
 
 #########################
-echo 'install oh-my-zsh...'
-rm -rf ~/.myshell/.z
-
 if [ "$use_proxy" != "n" ];then
     xopenproxy
+fi
+
+echo 'install oh-my-zsh and plugins...'
+if ! [ -d ~/.myshell/.z ]; then
+    git clone https://$github_mirror/rupa/z.git ~/.myshell/.z
+else
+    echo "use current z."
 fi
 
 # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
@@ -122,17 +126,23 @@ fi
 # 如果已经有oh-my-zsh了，就不再安装
 if ! [ -d ~/.oh-my-zsh ]; then
     sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
+else
+    echo "use current oh-my-zsh."
 fi
 
-git clone https://github.com/rupa/z.git ~/.myshell/.z
-git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-
-# 从.zshrc中删除source $ZSH/oh-my-zsh.sh，改为从.myzshrc调用
-sed -i '' '/source $ZSH\/oh-my-zsh.sh/d' ~/.zshrc
-if ! grep -q "source ~/.myshell/.myzshrc" ~/.zshrc; then
-    echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
+if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
+    git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+else
+    echo "use current zsh-syntax-highlighting."
 fi
+if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
+    git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+else
+    echo "use current zsh-autosuggestions."
+fi
+
+sed -i '/.myshell/d' ~/.zshrc
+echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
 
 cp -rTf $SCRIPT_DIR/files/home/user/.oh-my-zsh/ ~/.oh-my-zsh
 
