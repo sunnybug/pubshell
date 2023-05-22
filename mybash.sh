@@ -15,17 +15,17 @@ check_tools() {
         echo 'Error: git is not installed.' >&2
         fail='y'
     fi
-
+    
     if ! [ -x "$(command -v zsh)" ]; then
         echo 'Error: zsh is not installed.' >&2
         fail='y'
     fi
-
+    
     if ! [ -x "$(command -v curl)" ]; then
         echo 'Error: curl is not installed.' >&2
         fail='y'
     fi
-
+    
     if [ "$fail" = "y" ]; then
         if [ -x "$(command -v apt)" ]; then
             echo "Attempting to install missing tools via apt..."
@@ -47,7 +47,7 @@ check_tools
 if [ -d $SCRIPT_DIR/files/home/user ]; then
     echo "cp -rTf $SCRIPT_DIR/files/home/user/ ~"
     cp -rTf $SCRIPT_DIR/files/home/user/ ~
-else 
+else
     echo "Error: $SCRIPT_DIR/files/home/user not found."
     exit -1
 fi
@@ -60,11 +60,11 @@ if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep "200 OK"
     echo 'curl github.com success'
     github_mirror="github.com"
     use_proxy="n"
-elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.199:10816'
-elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://127.0.0.1:10811'
-elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.186:10813'
 fi
 
@@ -116,11 +116,14 @@ rm -rf ~/.myshell/.z
 
 if [ "$use_proxy" != "n" ];then
     xopenproxy
-fi 
+fi
 
 # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
 # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
-sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
+# 如果已经有oh-my-zsh了，就不再安装
+if ! [ -d ~/.oh-my-zsh ]; then
+    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
+fi
 
 git clone https://github.com/rupa/z.git ~/.myshell/.z
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
@@ -147,7 +150,7 @@ git config --global http.sslVerify false
 
 #################################
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
-# find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \; 
+# find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
 chown $USER:$USER -R ~/.ssh
 
