@@ -11,7 +11,7 @@ plugins=(
     zsh-syntax-highlighting #必须在最后，shell 命令的代码高亮
 )
 
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+[[ -s ~/.myshell/.z/z.sh ]] && source ~/.myshell/.z/z.sh
 source ~/.myshell/x.sh && source ~/.myshell/alias.sh
 [[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh
 

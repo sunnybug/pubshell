@@ -112,18 +112,19 @@ sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.s
 #########################
 echo 'install oh-my-zsh...'
 rm -rf ~/.oh-my-zsh
-rm -rf ~/.autojump
-rm -rf ~/autojump_tmp
+rm -rf ~/.myshell/.z
 
-xopenproxy
+if [ "$use_proxy" != "n" ];then
+    xopenproxy
+fi 
+
 # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
 # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
 sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
 
-
+git clone https://github.com/rupa/z.git ~/.myshell/.z
 git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-git clone https://$github_mirror/wting/autojump ~/autojump_tmp && pushd ~/autojump_tmp && ./install.py && popd
 
 # 从.zshrc中删除source $ZSH/oh-my-zsh.sh，改为从.myzshrc调用
 sed -i '' '/source $ZSH\/oh-my-zsh.sh/d' ~/.zshrc
