@@ -111,7 +111,6 @@ sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.s
 
 #########################
 echo 'install oh-my-zsh...'
-rm -rf ~/.oh-my-zsh
 rm -rf ~/.myshell/.z
 
 if [ "$use_proxy" != "n" ];then
