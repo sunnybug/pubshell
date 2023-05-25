@@ -85,7 +85,7 @@ function InstallTools_Debian() {
     
     if [ "$is_cpp" = "y" ]; then
         echo "install tools of C++......."
-        apt install --no-install-recommends -y gcc-12 gdb cgdb make cmake ninja-build build-essential linux-perf
+        apt install --no-install-recommends -y gcc-12 gdb cgdb make cmake ninja-build build-essential linux-perf elfutils
         ##########################################
         # llvm
         gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
@@ -100,7 +100,7 @@ function InstallTools_Debian() {
     fi
     
     echo "install other......."
-    apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh
+    apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh lua5.4
     
     # locale
     sudo locale-gen en_US.UTF-8

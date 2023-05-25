@@ -26,14 +26,19 @@ check_tools() {
         fail='y'
     fi
     
+    if ! [ -x "$(command -v lua)" ]; then
+        echo 'Error: lua is not installed.' >&2
+        fail='y'
+    fi
+
     if [ "$fail" = "y" ]; then
         if [ -x "$(command -v apt)" ]; then
             echo "Attempting to install missing tools via apt..."
             sudo apt update
-            sudo apt install -y git zsh curl || { echo "Error: Failed to install missing tools via apt." >&2; exit -1; }
+            sudo apt install -y git zsh curl lua5.4 || { echo "install fail: apt install -y git zsh curl lua5.4." >&2; exit -1; }
             echo "Successfully installed missing tools via apt."
         else
-            echo "Error: apt is not installed. Cannot install missing tools." >&2
+            echo "Error: apt is not installed. Cannot install missing tools: apt install -y git zsh curl lua5.4" >&2
             exit -1
         fi
     fi
@@ -115,10 +120,16 @@ if [ "$use_proxy" != "n" ];then
 fi
 
 echo 'install oh-my-zsh and plugins...'
-if ! [ -d ~/.myshell/.z ]; then
-    git clone https://$github_mirror/rupa/z.git ~/.myshell/.z
+# if ! [ -d ~/.myshell/.z ]; then
+#     git clone https://$github_mirror/rupa/z.git ~/.myshell/.z
+# else
+#     echo "use current z."
+# fi
+
+if ! [ -d ~/.myshell/.z.lua ]; then
+    git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
 else
-    echo "use current z."
+    echo "use current z.lua"
 fi
 
 # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
@@ -181,5 +192,9 @@ if [ -x "$(command -v python3)" ]; then
     fi
 fi
 
-echo '默认bash改为zsh'
-chsh -s /bin/zsh
+curr_shell="$(echo $SHELL)"
+# 判断是否是zsh
+if [[ "$curr_shell" != "/bin/zsh" ]]; then
+  echo "将默认shell修改为zsh"
+  chsh -s $(which zsh)
+fi

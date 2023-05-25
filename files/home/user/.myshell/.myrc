@@ -1,3 +1,4 @@
-[[ -s ~/.myshell/.z/z.sh ]] && source ~/.myshell/.z/z.sh
+# [[ -s ~/.myshell/.z/z.sh ]] && source ~/.myshell/.z/z.sh
+eval "$(lua ~/.myshell/.z.lua/z.lua  --init bash)"   # BASH 初始化
 source ~/.myshell/x.sh && source ~/.myshell/alias.sh
 [[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh

@@ -11,7 +11,8 @@ plugins=(
     zsh-syntax-highlighting #必须在最后，shell 命令的代码高亮
 )
 
-[[ -s ~/.myshell/.z/z.sh ]] && source ~/.myshell/.z/z.sh
+# [[ -s ~/.myshell/.z/z.sh ]] && source ~/.myshell/.z/z.sh
+eval "$(lua ~/.myshell/.z.lua/z.lua  --init zsh)"
 source ~/.myshell/x.sh
 [[ -s ~/.myshell/proxy.sh ]] && source ~/.myshell/proxy.sh
 
