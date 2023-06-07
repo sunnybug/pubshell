@@ -30,6 +30,11 @@ check_tools() {
         echo 'Error: lua is not installed.' >&2
         fail='y'
     fi
+    
+    if ! [ -x "$(command -v rsync)" ]; then
+        echo 'Error: rsync is not installed.' >&2
+        fail='y'
+    fi
 
     if [ "$fail" = "y" ]; then
         if [ -x "$(command -v apt)" ]; then
@@ -50,7 +55,8 @@ check_tools
 #################################
 # 复制配置文件 files/home/user/ 到 ~
 if [ -d $SCRIPT_DIR/files/home/user ]; then
-    echo "cp -rTf $SCRIPT_DIR/files/home/user/ ~"
+# rsync会改变~的所有者
+    # rsync -av --exclude='.oh-my-zsh' $SCRIPT_DIR/files/home/user/ ~
     cp -rTf $SCRIPT_DIR/files/home/user/ ~
 else
     echo "Error: $SCRIPT_DIR/files/home/user not found."
@@ -119,14 +125,8 @@ if [ "$use_proxy" != "n" ];then
     xopenproxy
 fi
 
-echo 'install oh-my-zsh and plugins...'
-# if ! [ -d ~/.myshell/.z ]; then
-#     git clone https://$github_mirror/rupa/z.git ~/.myshell/.z
-# else
-#     echo "use current z."
-# fi
-
 if ! [ -d ~/.myshell/.z.lua ]; then
+    echo "install z.lua...."
     git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
 else
     echo "use current z.lua"
@@ -136,17 +136,20 @@ fi
 # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
 # 如果已经有oh-my-zsh了，就不再安装
 if ! [ -d ~/.oh-my-zsh ]; then
+    echo "install oh-my-zsh...."
     sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
 else
-    echo "use current oh-my-zsh."
+    echo "use current ~/.oh-my-zsh."
 fi
 
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
+    echo "install zsh-syntax-highlighting...."
     git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 else
     echo "use current zsh-syntax-highlighting."
 fi
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
+    echo "install zsh-autosuggestions...."
     git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 else
     echo "use current zsh-autosuggestions."
@@ -155,7 +158,8 @@ fi
 sed -i '/.myshell/d' ~/.zshrc
 echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
 
-cp -rTf $SCRIPT_DIR/files/home/user/.oh-my-zsh/ ~/.oh-my-zsh
+# 必须在omz安装之后
+cp -rTf $SCRIPT_DIR/files/home/.oh-my-zsh/ ~/.oh-my-zsh
 
 ##################################
 if [ -z "$(git config --global user.name)" ]; then
