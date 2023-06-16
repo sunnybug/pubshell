@@ -88,15 +88,28 @@ function InstallTools_Debian() {
         apt install --no-install-recommends -y gcc-12 gdb cgdb make cmake ninja-build build-essential linux-perf elfutils
         ##########################################
         # llvm
+        # https://apt.llvm.org/
         gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
         gpg --armor --export 15CF4D18AF4F7421 | apt-key add -
-        grep -qxF 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' /etc/apt/sources.list || echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' >> /etc/apt/sources.list
+
+        # llvm-15
+        # grep -qxF 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' /etc/apt/sources.list || echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' >> /etc/apt/sources.list
+        # apt update
+        # apt install -y llvm-15
+        # unlink /usr/bin/clang               ; link /usr/bin/clang-15 /usr/bin/clang
+        # unlink /usr/bin/clang++             ; link /usr/bin/clang++-15 /usr/bin/clang++
+        # unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-15 /usr/bin/clang-format
+        # unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-15 /usr/bin/clang-tidy
+
+        # llvm-16
+        grep -qxF 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' /etc/apt/sources.list || echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' >> /etc/apt/sources.list
         apt update
-        apt install -y llvm-15
-        unlink /usr/bin/clang               ; link /usr/bin/clang-15 /usr/bin/clang
-        unlink /usr/bin/clang++             ; link /usr/bin/clang++-15 /usr/bin/clang++
-        unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-15 /usr/bin/clang-format
-        unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-15 /usr/bin/clang-tidy
+        apt remove -y llvm-15 clang-15 clang-format-15 clang-tidy-15 clang-tools-15
+        apt install -y llvm-16 clang-16 clang-format-16 clang-tidy-16 clang-tools-16
+        unlink /usr/bin/clang               ; link /usr/bin/clang-16 /usr/bin/clang
+        unlink /usr/bin/clang++             ; link /usr/bin/clang++-16 /usr/bin/clang++
+        unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-16 /usr/bin/clang-format
+        unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-16 /usr/bin/clang-tidy
     fi
     
     echo "install other......."
