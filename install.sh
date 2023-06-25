@@ -1,11 +1,20 @@
 #!/bin/bash
 
-###
-# @Date: 2023-04-08
-# @Description:
- # @LastEditTime: 2023-04-22
- # @LastEditors: xushuwei
-###
+
+# deb http://mirrors.aliyun.com/debian/ bullseye main contrib non-free
+# deb http://mirrors.aliyun.com/debian/ bullseye-updates main contrib non-free
+# deb http://mirrors.aliyun.com/debian-security bullseye-security main contrib non-free
+
+# deb http://mirrors.aliyun.com/debian/ testing main contrib non-free 
+# deb http://mirrors.aliyun.com/debian/ testing-updates main contrib non-free
+# deb http://mirrors.aliyun.com/debian-security testing-security main contrib non-free
+
+# # llvm-15
+# # deb https://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main
+
+# # 腾讯云内网
+# # mirrors.tencentyun.com
+
 
 ##############################################
 # config

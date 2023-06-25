@@ -25,6 +25,14 @@ curl -sSL https://jihulab.com/sunnybug/pubshell/-/raw/main/add_pubkey.sh | sh
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件
 
+## 限制用户权限
+/etc/sudoers.d/目录下添加文件，文件名随意，内容如下：
+```
+Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
+指定权限 ALL=(ALL) NOPASSWD: SVR_CMD
+所有权限 ALL=(ALL)  ALL
+```
+
 ## 功能
 1. zsh-autosuggestions
    历史命令自动完成
