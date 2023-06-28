@@ -1,9 +1,83 @@
 #!/bin/bash
 
 # 检查是否传递了一个参数
+deactivate () {
+    # reset old environment variables
+    if [ -n "${_OLD_VIRTUAL_PATH:-}" ] ; then
+        PATH="${_OLD_VIRTUAL_PATH:-}"
+        export PATH
+        unset _OLD_VIRTUAL_PATH
+    fi
+    if [ -n "${_OLD_VIRTUAL_PYTHONHOME:-}" ] ; then
+        PYTHONHOME="${_OLD_VIRTUAL_PYTHONHOME:-}"
+        export PYTHONHOME
+        unset _OLD_VIRTUAL_PYTHONHOME
+    fi
+
+    # This should detect bash and zsh, which have a hash command that must
+    # be called to get it to forget past commands.  Without forgetting
+    # past commands the $PATH changes we made may not be respected
+    if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+        hash -r 2> /dev/null
+    fi
+
+    if [ -n "${_OLD_VIRTUAL_PS1:-}" ] ; then
+        PS1="${_OLD_VIRTUAL_PS1:-}"
+        export PS1
+        unset _OLD_VIRTUAL_PS1
+    fi
+
+    unset VIRTUAL_ENV
+    unset VIRTUAL_ENV_PROMPT
+    if [ ! "${1:-}" = "nondestructive" ] ; then
+    # Self destruct!
+        unset -f deactivate
+    fi
+}
+
+activate(){
+    local arg1=$1
+    VIRTUAL_ENV=$(readlink -f "$arg1")
+    export VIRTUAL_ENV
+
+    _OLD_VIRTUAL_PATH="$PATH"
+    PATH="$VIRTUAL_ENV/bin:$PATH"
+    export PATH
+
+    # unset PYTHONHOME if set
+    # this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
+    # could use `if (set -u; : $PYTHONHOME) ;` in bash
+    if [ -n "${PYTHONHOME:-}" ] ; then
+        _OLD_VIRTUAL_PYTHONHOME="${PYTHONHOME:-}"
+        unset PYTHONHOME
+    fi
+
+    if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
+        _OLD_VIRTUAL_PS1="${PS1:-}"
+        PS1="(.venv) ${PS1:-}"
+        export PS1
+        VIRTUAL_ENV_PROMPT="(.venv) "
+        export VIRTUAL_ENV_PROMPT
+    fi
+
+    # This should detect bash and zsh, which have a hash command that must
+    # be called to get it to forget past commands.  Without forgetting
+    # past commands the $PATH changes we made may not be respected
+    if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+        hash -r 2> /dev/null
+fi
+
+}
+
+
+
 entry_venv() {
     local should_exit=0
     local current_dir=$(pwd)
+    
+    # unset irrelevant variables
+    deactivate nondestructive
+
 
     if [ $# -eq 1 ]; then
         # 获取虚拟环境目录
@@ -47,7 +121,7 @@ entry_venv() {
         cd "$current_dir"
     else
         echo "Found venv script in ${activate_script}"
-        source "$activate_script"
+        activate $venv_dir
         cd "$current_dir"
     fi
 }

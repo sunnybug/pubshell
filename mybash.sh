@@ -177,7 +177,8 @@ git config --global http.sslVerify false
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
 chown $USER:$USER -R ~/.ssh
-
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/*
 
 #######################
 if [ -x "$(command -v python3)" ]; then
