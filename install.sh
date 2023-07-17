@@ -143,8 +143,9 @@ function InstallTools_Debian() {
     if [ "$is_docker" = "y" ]; then
         echo "install docker......."
         # docker
-        sudo curl -sS https://download.docker.com/linux/debian/gpg | gpg --dearmor > /usr/share/keyrings/docker-ce.gpg
-        sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-ce.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian $(lsb_release -sc) stable" > /etc/apt/sources.list.d/docker.list
+		sudo curl -sS https://download.docker.com/linux/debian/gpg | gpg --dearmor > /usr/share/keyrings/docker-ce.gpg
+		source /etc/os-release
+        sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-ce.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
         sudo apt update
         sudo apt install --no-install-recommends -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
     fi
@@ -153,7 +154,7 @@ function InstallTools_Debian() {
 ##############################################
 function InstallToolForDev()
 {
-    if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
+    if [ -x /usr/bin/apt ] && grep -q "NAME.*Debian" /etc/os-release; then
         is_cpp=$(ask "Need C++?")
         is_docker=$(ask "Need Docker?")
         is_china="y"
@@ -166,7 +167,7 @@ function InstallToolForDev()
 
 function InstallToolForCppServer()
 {
-    if [ -x /usr/bin/apt ] && [ "$(lsb_release -d | awk '{print $2}')" = "Debian" ]; then
+    if [ -x /usr/bin/apt ] && grep -q "NAME.*Debian" /etc/os-release; then
         is_cpp="y"
         is_docker="y"
         InstallTools_Debian
