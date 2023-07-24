@@ -35,7 +35,7 @@ check_tools() {
         echo 'Error: rsync is not installed.' >&2
         fail='y'
     fi
-
+    
     if [ "$fail" = "y" ]; then
         if [ -x "$(command -v apt)" ]; then
             echo "Attempting to install missing tools via apt..."
@@ -55,7 +55,7 @@ check_tools
 #################################
 # 复制配置文件 files/home/user/ 到 ~
 if [ -d $SCRIPT_DIR/files/home/user ]; then
-# rsync会改变~的所有者
+    # rsync会改变~的所有者
     # rsync -av --exclude='.oh-my-zsh' $SCRIPT_DIR/files/home/user/ ~
     cp -rTf $SCRIPT_DIR/files/home/user/ ~
 else
@@ -67,15 +67,15 @@ fi
 echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
 use_proxy="n"
 github_mirror="gitclone.com/github.com"
-if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
+if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep " 200" > /dev/null; then
     echo 'curl github.com success'
     github_mirror="github.com"
     use_proxy="n"
-    elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.199:10816'
-    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://127.0.0.1:10811'
-    elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.186:10813'
 fi
 
