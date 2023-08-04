@@ -124,6 +124,8 @@ function InstallTools_Debian() {
     echo "install other......."
     apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh lua5.4
     
+    echo 'core.%e.%s.%t' > /proc/sys/kernel/core_pattern 
+
     # locale
     sudo locale-gen en_US.UTF-8
     export LANG=en_US.UTF-8
