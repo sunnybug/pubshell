@@ -92,6 +92,8 @@ function InstallTools_Debian() {
     apt install --no-install-recommends -y python3-full python3-autopep8 python3-wheel python3-pip
     sudo unlink /usr/bin/python ; sudo link /usr/bin/python3 /usr/bin/python
     
+    apt install default-mysql-client  -y
+    
     if [ "$is_cpp" = "y" ]; then
         echo "install tools of C++......."
         apt install --no-install-recommends -y gcc-12 gdb cgdb make cmake ninja-build build-essential linux-perf elfutils
@@ -124,7 +126,8 @@ function InstallTools_Debian() {
     echo "install other......."
     apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh lua5.4
     
-    echo 'core.%e.%s.%t' > /proc/sys/kernel/core_pattern 
+    sudo ulimit -c unlimited # coredump size
+    sudo echo 'core.%e.%s.%t.dmp' > /proc/sys/kernel/core_pattern 
 
     # locale
     sudo locale-gen en_US.UTF-8

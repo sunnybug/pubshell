@@ -6,6 +6,11 @@
 SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
 
+# /etc/sudoers.d/all
+# Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh,/bin/mysql
+# a ALL=(ALL) NOPASSWD: SVR_CMD
+# b ALL=(ALL) NOPASSWD: SVR_CMD,/usr/bin/veracrypt
+
 ##############################################
 #!/bin/bash
 
@@ -28,11 +33,6 @@ check_tools() {
     
     if ! [ -x "$(command -v lua)" ]; then
         echo 'Error: lua is not installed.' >&2
-        fail='y'
-    fi
-    
-    if ! [ -x "$(command -v rsync)" ]; then
-        echo 'Error: rsync is not installed.' >&2
         fail='y'
     fi
     
@@ -176,9 +176,9 @@ git config --global http.sslVerify false
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
-chown $USER:$USER -R ~/.ssh
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/*
+sudo chown $USER:$USER -R ~/.ssh
+sudo chmod 700 ~/.ssh
+sudo chmod 600 ~/.ssh/*
 
 #######################
 if [ -x "$(command -v python3)" ]; then
@@ -203,3 +203,5 @@ if [[ "$curr_shell" != "/bin/zsh" ]]; then
   echo "将默认shell修改为zsh"
   chsh -s $(which zsh)
 fi
+
+# sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
