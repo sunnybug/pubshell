@@ -1,0 +1,11 @@
+*.bat
+*.sh
+*.txt
+.flag.json
+.venv
+out
+patch
+pylog
+wb
+build
+myprj.cmake
