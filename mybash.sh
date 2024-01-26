@@ -102,7 +102,6 @@ shopt -s expand_aliases
 source ~/.myshell/proxy.sh
 
 #########################
-source $SCRIPT_DIR/add_pubkey.sh
 
 #########################
 sed -i '/.myshell/d' ~/.bashrc
@@ -176,9 +175,9 @@ git config --global http.sslVerify false
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
-sudo chown $USER:$USER -R ~/.ssh
-sudo chmod 700 ~/.ssh
-sudo chmod 600 ~/.ssh/*
+chown $USER:$USER -R ~/.ssh
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/*
 
 #######################
 if [ -x "$(command -v python3)" ]; then

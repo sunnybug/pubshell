@@ -3,11 +3,11 @@
 
 ## 以管理员身份安装dev工具
 `
-git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh --dev && rm -rf pubshell
+git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/root_tools/install.sh --dev && rm -rf pubshell
 `
 ## 以管理员身份安装CPP服务器所需工具
 `
-git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/install.sh --cppserver && rm -rf pubshell
+git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/root_tools/install.sh --cppserver && rm -rf pubshell
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
@@ -15,12 +15,12 @@ git clone https://jihulab.com/sunnybug/pubshell.git && bash pubshell/mybash.sh &
 `
 or
 `
-git clone git@jihulab.com:sunnybug/pubshell.git && bash pubshell/install.sh && rm -rf pubshell
+git clone git@jihulab.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh && rm -rf pubshell
 `
 
 ## 添加证书
 `
-curl -sSL https://jihulab.com/sunnybug/pubshell/-/raw/main/add_pubkey.sh | sh
+curl -sSL https://jihulab.com/sunnybug/pubshell/-/raw/main/tools/add_xsw_key.sh | sh
 `
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件
