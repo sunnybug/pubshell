@@ -57,6 +57,7 @@ check_tools
 if [ -d $SCRIPT_DIR/files/home/user ]; then
     # rsync会改变~的所有者
     # rsync -av --exclude='.oh-my-zsh' $SCRIPT_DIR/files/home/user/ ~
+    echo "copy files/home/user/ to ~"
     cp -rTf $SCRIPT_DIR/files/home/user/ ~
 else
     echo "Error: $SCRIPT_DIR/files/home/user not found."
@@ -71,16 +72,17 @@ if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep " 200" >
     echo 'curl github.com success'
     github_mirror="github.com"
     use_proxy="n"
-elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.199:10816'
-elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://127.0.0.1:10811'
-elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
     use_proxy='http://192.168.1.186:10813'
 fi
 
 # 如果当前用户是root
 if [ "$USER" = "root" ]; then
+    echo "add GitHub520"
     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
 fi
 
@@ -99,6 +101,7 @@ fi
 
 # 非交互下，默认alias不生效，所以这里要手动开启
 shopt -s expand_aliases
+echo "source ~/.myshell/proxy.sh"
 source ~/.myshell/proxy.sh
 
 #########################
@@ -175,9 +178,27 @@ git config --global http.sslVerify false
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
+echo "chmod for ~/.ssh"
 chown $USER:$USER -R ~/.ssh
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
+
+########################
+echo "add ssh-rsa to ~/.ssh/config"
+if [ ! -f ~/.ssh/config ]; then
+    echo "new ~/.ssh/config"
+    touch ~/.ssh/config  # 如果文件不存在，则创建一个新的文件
+fi
+
+# 检查是否已经存在所需的配置，如果不存在则新增配置
+if ! grep -q "HostKeyAlgorithms +ssh-rsa" ~/.ssh/config; then
+    echo "HostKeyAlgorithms +ssh-rsa" >> ~/.ssh/config
+fi
+
+if ! grep -q "PubkeyAcceptedKeyTypes +ssh-rsa" ~/.ssh/config; then
+    echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
+fi
+########################
 
 #######################
 if [ -x "$(command -v python3)" ]; then
