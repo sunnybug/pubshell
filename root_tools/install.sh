@@ -5,7 +5,7 @@
 # deb http://mirrors.aliyun.com/debian/ bullseye-updates main contrib non-free
 # deb http://mirrors.aliyun.com/debian-security bullseye-security main contrib non-free
 
-# deb http://mirrors.aliyun.com/debian/ testing main contrib non-free 
+# deb http://mirrors.aliyun.com/debian/ testing main contrib non-free
 # deb http://mirrors.aliyun.com/debian/ testing-updates main contrib non-free
 # deb http://mirrors.aliyun.com/debian-security testing-security main contrib non-free
 
@@ -70,13 +70,13 @@ function InstallTools_Debian() {
     sed -i '/^PermitRootLogin/d;$aPermitRootLogin yes' /etc/ssh/sshd_config
     echo "复制配置好的文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
-
+    
     echo "检查域名：mirrors.tencentyun.com是否可用....."
     if [ "$(ping -c 1 mirrors.tencentyun.com | grep -c "1 received")" -gt 0 ]; then
         echo "mirrors.tencentyun.com is ok"
         sed -i "s/mirrors.aliyun.com/mirrors.tencentyun.com/g" /etc/apt/sources.list
     fi
-
+    
     echo "apt update......."
     apt update
     apt install --no-install-recommends -y debian-keyring gnupg
@@ -102,7 +102,7 @@ function InstallTools_Debian() {
         # https://apt.llvm.org/
         gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
         gpg --armor --export 15CF4D18AF4F7421 | apt-key add -
-
+        
         # llvm-15
         # grep -qxF 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' /etc/apt/sources.list || echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main' >> /etc/apt/sources.list
         # apt update
@@ -111,24 +111,24 @@ function InstallTools_Debian() {
         # unlink /usr/bin/clang++             ; link /usr/bin/clang++-15 /usr/bin/clang++
         # unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-15 /usr/bin/clang-format
         # unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-15 /usr/bin/clang-tidy
-
-        # llvm-16
-        grep -qxF 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' /etc/apt/sources.list || echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-16 main' >> /etc/apt/sources.list
+        
+        # llvm-18
+        grep -qxF 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' /etc/apt/sources.list || echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' >> /etc/apt/sources.list
         apt update
-        apt remove -y llvm-15 clang-15 clang-format-15 clang-tidy-15 clang-tools-15
-        apt install -y llvm-16 clang-16 clang-format-16 clang-tidy-16 clang-tools-16
-        unlink /usr/bin/clang               ; link /usr/bin/clang-16 /usr/bin/clang
-        unlink /usr/bin/clang++             ; link /usr/bin/clang++-16 /usr/bin/clang++
-        unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-16 /usr/bin/clang-format
-        unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-16 /usr/bin/clang-tidy
+        apt remove -y llvm-16 clang-16 clang-format-16 clang-tidy-16 clang-tools-16
+        apt install -y llvm-18 clang-18 clang-format-18 clang-tidy-18 clang-tools-18
+        unlink /usr/bin/clang               ; link /usr/bin/clang-18 /usr/bin/clang
+        unlink /usr/bin/clang++             ; link /usr/bin/clang++-18 /usr/bin/clang++
+        unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-18 /usr/bin/clang-format
+        unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
     fi
     
     echo "install other......."
     apt install --no-install-recommends -y locales subversion git curl man aria2 gpg-agent rsync zip apt-file zsh sudo iptables p7zip-full psmisc htop ssh lua5.4
     
     sudo ulimit -c unlimited # coredump size
-    sudo echo 'core.%e.%s.%t.dmp' > /proc/sys/kernel/core_pattern 
-
+    sudo echo 'core.%e.%s.%t.dmp' > /proc/sys/kernel/core_pattern
+    
     # locale
     sudo locale-gen en_US.UTF-8
     export LANG=en_US.UTF-8
@@ -148,8 +148,8 @@ function InstallTools_Debian() {
     if [ "$is_docker" = "y" ]; then
         echo "install docker......."
         # docker
-		sudo curl -sS https://download.docker.com/linux/debian/gpg | gpg --dearmor > /usr/share/keyrings/docker-ce.gpg
-		source /etc/os-release
+        sudo curl -sS https://download.docker.com/linux/debian/gpg | gpg --dearmor > /usr/share/keyrings/docker-ce.gpg
+        source /etc/os-release
         sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-ce.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
         sudo apt update
         sudo apt install --no-install-recommends -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
