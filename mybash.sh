@@ -219,9 +219,9 @@ fi
 
 curr_shell="$(echo $SHELL)"
 # 判断是否是zsh
-# if [[ "$curr_shell" != "/bin/zsh" ]]; then
-#   echo "将默认shell修改为zsh"
-#   chsh -s $(which zsh)
-# fi
+if [[ "$curr_shell" != "/bin/zsh" ]]; then
+  echo "将默认shell修改为zsh"
+  chsh -s $(which zsh)
+fi
 
-# sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
+sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
