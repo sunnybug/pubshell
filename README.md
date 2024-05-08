@@ -11,11 +11,11 @@ git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/instal
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/mybash.sh && rm -rf pubshell
+git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/mybash.sh
 `
 or
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh && rm -rf pubshell
+git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh
 `
 
 ## 添加证书
