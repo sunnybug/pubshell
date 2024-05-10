@@ -1,5 +1,5 @@
 #!/bin/bash
-# 使用方法：./add_user.sh
+# 新增用户，随机初始化密码，生成密钥对 bash root_tools/add_user.sh
 
 PASSWORD=""
 USERNAME=""
@@ -38,15 +38,15 @@ function CreateUser()
         echo "设置密码失败。"
         exit 3
     fi
+    
+    echo "密码：$PASSWORD"
 }
 
 function SetUserPermission()
 {
     FILENAME="/etc/sudoers.d/$USERNAME"
-    #FILENAME="/root/pubshell/root_tools/$USERNAME"
-    # 准备要写入的sudoers规则
-    SUDOERS_ENTRY="Cmnd_Alias SVR_CMD_$USERNAME =  /bin/apt,/usr/bin/docker,/usr/bin/rm"
-    SUDOERS_RULE="$USERNAME ALL=(ALL) NOPASSWD: SVR_CMD_$USERNAME"
+    rm -f "$FILENAME"
+    SUDOERS_RULE="$USERNAME ALL=(ALL) NOPASSWD: /bin/apt,/usr/bin/docker,/usr/bin/rm"
     
     # 写入sudoers文件的两行内容
     echo "$SUDOERS_ENTRY" | sudo tee -a "$FILENAME" > /dev/null
@@ -90,12 +90,30 @@ function CreateCredentials()
         exit 4
     fi
     # cat id_rsa.pub >> authorized_keys
-
+    # 输出公钥路径
     echo "公钥路径: $HOME_DIR/.ssh/id_rsa.pub"
-    echo "私钥路径: $HOME_DIR/.ssh/id_rsa"
 }
 
+function MyBash() {
+    CURRENT_DIR=$(pwd)
+
+    # 以新用户身份执行命令
+    # 下载https://gitee.com/sunnybug/pubshell/repository/archive/main.zip，并解压
+    echo $PASSWORD | su - $USERNAME -c "bash -c 'cd $HOME_DIR && curl -L https://gitee.com/sunnybug/pubshell/repository/archive/main.zip -o main.zip && unzip main.zip && rm -rf main.zip && mv pubshell-main pubshell && cd pubshell && bash mybash.sh'"
+}
+
+function Check()
+{
+    # 如果不存在unzip命令则自动安装
+    if [ ! -f /usr/bin/unzip ]; then
+        echo "unzip not found, installing..."
+        apt install -y unzip
+    fi
+}
+
+Check
 GetAccount
 CreateUser
 SetUserPermission
 CreateCredentials
+MyBash

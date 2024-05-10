@@ -128,7 +128,7 @@ fi
 
 if ! [ -d ~/.myshell/.z.lua ]; then
     echo "install z.lua...."
-    git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
 else
     echo "use current z.lua"
 fi
@@ -145,13 +145,13 @@ fi
 
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
     echo "install zsh-syntax-highlighting...."
-    git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 else
     echo "use current zsh-syntax-highlighting."
 fi
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
     echo "install zsh-autosuggestions...."
-    git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 else
     echo "use current zsh-autosuggestions."
 fi
