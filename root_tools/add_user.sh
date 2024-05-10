@@ -39,7 +39,6 @@ function CreateUser()
         exit 3
     fi
     
-    echo "密码：$PASSWORD"
 }
 
 function SetUserPermission()
@@ -91,7 +90,6 @@ function CreateCredentials()
     fi
     # cat id_rsa.pub >> authorized_keys
     # 输出公钥路径
-    echo "公钥路径: $HOME_DIR/.ssh/id_rsa.pub"
 }
 
 function MyBash() {
@@ -111,9 +109,18 @@ function Check()
     fi
 }
 
+function ShowResult()
+{
+    echo "密码：$PASSWORD"
+    echo "私钥路径: $HOME_DIR/.ssh/id_rsa"
+    echo "公钥路径: $HOME_DIR/.ssh/id_rsa.pub"
+
+}
+
 Check
 GetAccount
 CreateUser
 SetUserPermission
 CreateCredentials
 MyBash
+ShowResult
