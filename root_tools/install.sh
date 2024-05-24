@@ -113,14 +113,14 @@ function InstallTools_Debian() {
         # unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-15 /usr/bin/clang-tidy
         
         # llvm-18
-        grep -qxF 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' /etc/apt/sources.list || echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' >> /etc/apt/sources.list
-        apt update
-        apt remove -y llvm-16 clang-16 clang-format-16 clang-tidy-16 clang-tools-16
-        apt install -y llvm-18 clang-18 clang-format-18 clang-tidy-18 clang-tools-18
-        unlink /usr/bin/clang               ; link /usr/bin/clang-18 /usr/bin/clang
-        unlink /usr/bin/clang++             ; link /usr/bin/clang++-18 /usr/bin/clang++
-        unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-18 /usr/bin/clang-format
-        unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
+        grep -qxF 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' /etc/apt/sources.list || sudo echo 'deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-18 main' >> /etc/apt/sources.list
+        sudo apt update
+        sudo apt remove -y llvm-16 clang-16 clang-format-16 clang-tidy-16 clang-tools-16
+        sudo apt install -y llvm-18 clang-18 clang-format-18 clang-tidy-18 clang-tools-18 libc++-16-dev libc++abi-16-dev
+        sudo unlink /usr/bin/clang               ; link /usr/bin/clang-18 /usr/bin/clang
+        sudo unlink /usr/bin/clang++             ; link /usr/bin/clang++-18 /usr/bin/clang++
+        sudo unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-18 /usr/bin/clang-format
+        sudo unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
     fi
     
     echo "install other......."
