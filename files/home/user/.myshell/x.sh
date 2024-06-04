@@ -12,7 +12,7 @@ TRAPEXIT() {
         fi
     fi
 }
-set HISTCONTROL ignorespace 
+set HISTCONTROL ignorespace
 
 if [ -x /usr/bin/dircolors ] ; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -23,13 +23,12 @@ export PATH=~/.local/bin:$PATH
 export LD_LIBRARY_PATH=./
 
 TERM=xterm-256color
-if [[ "$SHELL" =~ "zsh" ]] ; then
-    bindkey  "^[[H"   beginning-of-line
-    bindkey  "^[[F"   end-of-line
-    bindkey  "^[[3~"  delete-char
-    
-    
-    
+if [ -z "$BASH" ]; then # 先判断不处于bash
+    if [[ "$SHELL" =~ "zsh" ]] ; then
+        bindkey  "^[[H"   beginning-of-line
+        bindkey  "^[[F"   end-of-line
+        bindkey  "^[[3~"  delete-char
+    fi
 fi
 ulimit -c unlimited #for coredump
 
@@ -39,3 +38,4 @@ then
     alias f=fuck
 fi
 
+export no_proxy="*.gitclone.com,*.gitee.com,127.0.0.1, localhost, 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"

@@ -90,10 +90,9 @@ echo "use_proxy=$use_proxy"
 if [ "$use_proxy" != "n" ];then
     echo '''
 #/bin/bash
-alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_proxy''';export no_proxy=\"*.gitclone.com,*.gitee.com,127.0.0.1, localhost, 192.168.*,10.*;\";echo \"HTTP Proxy on\";"
+alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_proxy''';echo \"HTTP Proxy on\";"
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
     ''' > ~/.myshell/proxy.sh
-    export http_proxy=$use_proxy;export https_proxy=$use_proxy;export no_proxy="127.0.0.1, localhost, 192.168.*,10.*";echo "HTTP Proxy on"
     echo "http_proxy=$use_proxy"
 else
     echo '#/bin/bash' > ~/.myshell/proxy.sh
@@ -129,7 +128,7 @@ fi
 
 if ! [ -d ~/.myshell/.z.lua ]; then
     echo "install z.lua...."
-    git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
 else
     echo "use current z.lua"
 fi
@@ -146,13 +145,13 @@ fi
 
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
     echo "install zsh-syntax-highlighting...."
-    git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 else
     echo "use current zsh-syntax-highlighting."
 fi
 if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
     echo "install zsh-autosuggestions...."
-    git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 else
     echo "use current zsh-autosuggestions."
 fi
@@ -219,9 +218,9 @@ fi
 
 curr_shell="$(echo $SHELL)"
 # 判断是否是zsh
-# if [[ "$curr_shell" != "/bin/zsh" ]]; then
-#   echo "将默认shell修改为zsh"
-#   chsh -s $(which zsh)
-# fi
+if [[ "$curr_shell" != "/bin/zsh" ]]; then
+  echo "将默认shell修改为zsh"
+  chsh -s $(which zsh)
+fi
 
-# sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
+sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config

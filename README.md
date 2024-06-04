@@ -8,14 +8,20 @@ git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/instal
 ## 以管理员身份安装CPP服务器所需工具
 `
 git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh --cppserver && rm -rf pubshell
+
+## 以管理员身份增加用户
+`
+git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/add_user.sh
+`
+
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/mybash.sh && rm -rf pubshell
+git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/mybash.sh
 `
 or
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh && rm -rf pubshell
+git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh
 `
 
 ## 添加证书

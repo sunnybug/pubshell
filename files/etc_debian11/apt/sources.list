@@ -10,3 +10,5 @@ deb http://mirrors.aliyun.com/debian-security testing-security main contrib non-
 # 腾讯云内网
 # mirrors.tencentyun.com
 
+# llvm-15
+# deb https://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bullseye/ llvm-toolchain-bullseye-15 main
