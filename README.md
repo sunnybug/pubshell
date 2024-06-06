@@ -41,7 +41,7 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 
 ## 功能
 1. zsh-autosuggestions
-   历史命令自动完成
+   历史命令自动完成（不支持模糊匹配）
 2. z.lua
    输入`z 模糊目录名`快速跳转到最近进过的目录
    使用技巧：https://github.com/skywind3000/z.lua/blob/master/README.cn.md

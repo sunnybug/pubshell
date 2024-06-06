@@ -12,7 +12,9 @@ cd $SCRIPT_DIR
 # b ALL=(ALL) NOPASSWD: SVR_CMD,/usr/bin/veracrypt
 
 ##############################################
-#!/bin/bash
+
+# 非交互下，默认alias不生效，所以这里要手动开启
+shopt -s expand_aliases
 
 check_tools() {
     fail='n'
@@ -65,47 +67,6 @@ else
 fi
 
 #########################
-echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
-use_proxy="n"
-github_mirror="gitclone.com/github.com"
-if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep " 200" > /dev/null; then
-    echo 'curl github.com success'
-    github_mirror="github.com"
-    use_proxy="n"
-    elif curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-    use_proxy='http://192.168.1.199:10816'
-    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-    use_proxy='http://127.0.0.1:10811'
-    elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-    use_proxy='http://192.168.1.186:10813'
-fi
-
-# 如果当前用户是root
-if [ "$USER" = "root" ]; then
-    echo "add GitHub520"
-    sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
-fi
-
-echo "use_proxy=$use_proxy"
-if [ "$use_proxy" != "n" ];then
-    echo '''
-#/bin/bash
-alias xopenproxy="export http_proxy='''$use_proxy''';export https_proxy='''$use_proxy''';echo \"HTTP Proxy on\";"
-alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
-    ''' > ~/.myshell/proxy.sh
-    echo "http_proxy=$use_proxy"
-else
-    echo '#/bin/bash' > ~/.myshell/proxy.sh
-fi
-
-# 非交互下，默认alias不生效，所以这里要手动开启
-shopt -s expand_aliases
-echo "source ~/.myshell/proxy.sh"
-source ~/.myshell/proxy.sh
-
-#########################
-
-#########################
 sed -i '/.myshell/d' ~/.bashrc
 echo "source ~/.myshell/.myrc" >> ~/.bashrc
 
@@ -122,11 +83,13 @@ fi
 sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.subversion/servers
 
 #########################
-if [ "$use_proxy" != "n" ];then
+source ~/.myshell/proxy.sh
+xcheckproxy
+if [ "$use_proxy" == "y" ];then
     xopenproxy
 fi
 
-if ! [ -d ~/.myshell/.z.lua ]; then
+if ! [ -e ~/.myshell/.z.lua/z.lua ]; then
     echo "install z.lua...."
     GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
 else
@@ -136,20 +99,25 @@ fi
 # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
 # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
 # 如果已经有oh-my-zsh了，就不再安装
-if ! [ -d ~/.oh-my-zsh ]; then
+if ! [ -e ~/.oh-my-zsh/oh-my-zsh.sh ]; then
     echo "install oh-my-zsh...."
-    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended
+    rm -rf ~/.oh-my-zsh
+    rm -rf /tmp/ohmyzsh
+    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/ohmyzsh/ohmyzsh /tmp/ohmyzsh
+    export RUNZSH='no'
+    sh -c /tmp/ohmyzsh/tools/install.sh --unattended
+    rm -rf /tmp/ohmyzsh
 else
     echo "use current ~/.oh-my-zsh."
 fi
 
-if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
+if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
     echo "install zsh-syntax-highlighting...."
     GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 else
     echo "use current zsh-syntax-highlighting."
 fi
-if ! [ -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
+if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     echo "install zsh-autosuggestions...."
     GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 else
@@ -197,7 +165,6 @@ fi
 if ! grep -q "PubkeyAcceptedKeyTypes +ssh-rsa" ~/.ssh/config; then
     echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
 fi
-########################
 
 #######################
 if [ -x "$(command -v python3)" ]; then
@@ -223,4 +190,5 @@ if [[ "$curr_shell" != "/bin/zsh" ]]; then
   chsh -s $(which zsh)
 fi
 
-sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
+echo 'init mybash suc'
+exec zsh -l
