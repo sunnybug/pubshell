@@ -1,0 +1,50 @@
+FROM debian:12
+
+####################################################################
+#base 
+ENV TZ=Asia/Shanghai
+
+COPY sources.list /etc/apt/sources.list
+RUN echo '' > /etc/apt/sources.list.d/debian.sources
+COPY preferences /etc/apt/preferences
+
+RUN apt update\
+    && apt install --no-install-recommends -y ssh p7zip-full python3.11-minimal python3-pip locales subversion git curl apt-file zsh sudo lua5.4\
+    && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
+    && git config --global user.email "$USER@x.com"\
+    && git config --global user.name "$USER"\
+    && locale-gen en_US.UTF-8\
+    && export LANG=en_US.UTF-8\
+    && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python
+
+WORKDIR /root
+
+RUN git clone https://gitee.com/sunnybug/pubshell
+
+####################################################################
+#gcc
+# RUN apt update\
+#     && apt install --no-install-recommends -y gcc-13 g++-13 gdb cgdb make cmake ninja-build build-essential linux-perf elfutils
+
+
+####################################################################
+# llvm    
+# RUN apt update\
+#     && apt install -y --no-install-recommends apt-transport-https ca-certificates debian-keyring gnupg\
+#     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2166B8DE8BDC3367D1901C11EE2FF37CA8DA16B\
+#     && gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421\
+#     && gpg --armor --export 15CF4D18AF4F7421 | apt-key add -\
+#     && echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bookworm/ llvm-toolchain-bookworm-18 main' >>  /etc/apt/sources.list\
+#     && apt update
+    
+# RUN apt install --no-install-recommends -y llvm-18 clang-18 clang-format-18 clang-tidy-18 clang-tools-18 libc++-18-dev libc++abi-18-dev \
+#     &&  unlink /usr/bin/clang               ; link /usr/bin/clang-18 /usr/bin/clang\
+#     &&  unlink /usr/bin/clang++             ; link /usr/bin/clang++-18 /usr/bin/clang++\
+#     &&  unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-18 /usr/bin/clang-format\
+#     &&  unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy\
+#     && link /usr/bin/clang-format-18 /usr/bin/clang-format\
+#     && link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
+
+####################################################################
+#final
+# RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
