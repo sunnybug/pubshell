@@ -4,4 +4,7 @@
 if [ ! -d ~/.myshell ]; then
     git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/mybash.sh
     rm -rf /tmp/pubshell
+    echo 'init suc'
+else
+    echo '~/.myshell exists'
 fi

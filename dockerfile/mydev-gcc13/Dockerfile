@@ -51,7 +51,6 @@ RUN apt update\
 # RUN apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
 
 WORKDIR /root
-
-
 COPY init.sh /mytools/init.sh
+RUN chmod +x /mytools/init.sh
 ENTRYPOINT ["sh", "-c", "/mytools/init.sh"]    
