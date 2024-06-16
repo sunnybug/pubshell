@@ -28,9 +28,9 @@ bindkey "^R" history-substring-search-up        # ctrl+r
 bindkey "^S" history-substring-search-down      # ctrl+s 
 bindkey "^[[A" up-line-or-beginning-search      #Up
 bindkey "^[[B" down-line-or-beginning-search    #Down
-; bindkey ";5A" history-beginning-search-backward # Ctrl-Up 向前查找以此开头
-; bindkey ";5B" history-beginning-search-forward  # Ctrl-Down 向后查找以此开头
-bindkey ";5C" emacs-forward-word                # Ctrl-Right 向前跳过一个单词
-bindkey ";5D" emacs-backward-word               # Ctrl-Left 向后跳过一个单词
+; bindkey ";5A" history-beginning-search-backward # Ctrl+Up 向前查找以此开头
+; bindkey ";5B" history-beginning-search-forward  # Ctrl+Down 向后查找以此开头
+bindkey ";5C" emacs-forward-word                # Ctrl+Right 向前跳过一个单词
+bindkey ";5D" emacs-backward-word               # Ctrl+Left 向后跳过一个单词
 bindkey "^[^D" list-choices                     # Ctrl+Shift+D 功能：列出选择
-bindkey '^c' autosuggest-accept #c=complete,代替默认的right
+bindkey '^j' autosuggest-accept #ctrl+j 代替默认的right
