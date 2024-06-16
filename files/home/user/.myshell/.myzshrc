@@ -33,4 +33,4 @@ bindkey "^[[B" down-line-or-beginning-search    #Down
 bindkey ";5C" emacs-forward-word                # Ctrl-Right 向前跳过一个单词
 bindkey ";5D" emacs-backward-word               # Ctrl-Left 向后跳过一个单词
 bindkey "^[^D" list-choices                     # Ctrl+Shift+D 功能：列出选择
-bindkey '^j' autosuggest-accept #代替默认的right
+bindkey '^c' autosuggest-accept #c=complete,代替默认的right
