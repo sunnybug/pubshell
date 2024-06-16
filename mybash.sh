@@ -192,5 +192,5 @@ if [[ "$curr_shell" != "/bin/zsh" ]]; then
 fi
 
 echo 'init mybash suc'
-touch ~/.myshell/suc
+echo '1.0' > ~/.myshell/ver
 exec zsh -l

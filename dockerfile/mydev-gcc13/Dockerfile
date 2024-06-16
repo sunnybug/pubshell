@@ -11,7 +11,7 @@ RUN echo '' > /etc/apt/sources.list.d/debian.sources
 COPY preferences /etc/apt/preferences
 
 RUN apt update\
-    && apt install --no-install-recommends -y ssh p7zip-full python3.11-minimal python3-pip locales subversion git curl apt-file zsh sudo lua5.4\
+    && apt install --no-install-recommends -y ssh p7zip-full python3.11-minimal python3-pip locales subversion git curl zsh sudo lua5.4\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
     && git config --global user.email "$USER@x.com"\
     && git config --global user.name "$USER"\
@@ -20,14 +20,15 @@ RUN apt update\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
     && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
     && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
-    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
-    && update-rc.d ssh defaults \
-    && service ssh restart
+    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config 
 
 ####################################################################
 #gcc
 RUN apt update\
-    && apt install --no-install-recommends -y gcc-13 g++-13 gdb cgdb make cmake ninja-build
+    && apt install --no-install-recommends -y gcc-13 g++-13 gdb make cmake ninja-build\
+    && link /usr/bin/gcc-13 /usr/bin/gcc\
+    && link /usr/bin/g++-13 /usr/bin/g++\
+    && link /usr/bin/g++-13 /usr/bin/c++
 
 
 ####################################################################
