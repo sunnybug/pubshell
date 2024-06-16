@@ -7,7 +7,7 @@ SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
 
 # /etc/sudoers.d/all
-# Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh,/bin/mysql
+# Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/chsh,/bin/mysql
 # a ALL=(ALL) NOPASSWD: SVR_CMD
 # b ALL=(ALL) NOPASSWD: SVR_CMD,/usr/bin/veracrypt
 
@@ -39,20 +39,13 @@ check_tools() {
     fi
     
     if [ "$fail" = "y" ]; then
-        if [ -x "$(command -v apt)" ]; then
-            echo "Attempting to install missing tools via apt..."
-            sudo apt update
-            sudo apt install -y git zsh curl lua5.4 || { echo "install fail: apt install -y git zsh curl lua5.4." >&2; exit -1; }
-            echo "Successfully installed missing tools via apt."
-        else
-            echo "Error: apt is not installed. Cannot install missing tools: apt install -y git zsh curl lua5.4" >&2
-            exit -1
-        fi
+        echo "please install missing tools: "
+        echo "apt install -y git zsh curl lua5.4"
+        exit -1
     fi
 }
 
 check_tools
-
 
 #################################
 # 复制配置文件 files/home/user/ 到 ~
@@ -84,48 +77,56 @@ sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.s
 
 #########################
 source ~/.myshell/proxy.sh
-xcheckproxy
+xdetectproxy
 if [ "$use_proxy" == "y" ];then
     xopenproxy
 fi
 
-if ! [ -e ~/.myshell/.z.lua/z.lua ]; then
-    echo "install z.lua...."
-    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
-else
-    echo "use current z.lua"
-fi
+install_omz(){
+    if ! [ -e ~/.myshell/.z.lua/z.lua ]; then
+        echo "install z.lua...."
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
+    else
+        echo "use current z.lua"
+    fi
 
-# 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
-# chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
-# 如果已经有oh-my-zsh了，就不再安装
-if ! [ -e ~/.oh-my-zsh/oh-my-zsh.sh ]; then
-    echo "install oh-my-zsh...."
-    rm -rf ~/.oh-my-zsh
-    rm -rf /tmp/ohmyzsh
-    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/ohmyzsh/ohmyzsh /tmp/ohmyzsh
-    export RUNZSH='no'
-    sh -c /tmp/ohmyzsh/tools/install.sh --unattended
-    rm -rf /tmp/ohmyzsh
-else
-    echo "use current ~/.oh-my-zsh."
-fi
+    # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
+    # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
+    # 如果已经有oh-my-zsh了，就不再安装
+    if ! [ -e ~/.oh-my-zsh/oh-my-zsh.sh ]; then
+        echo "install oh-my-zsh...."
+        rm -rf ~/.oh-my-zsh
+        rm -rf /tmp/ohmyzsh
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/ohmyzsh/ohmyzsh /tmp/ohmyzsh
+        export RUNZSH='no'
+        sh -c /tmp/ohmyzsh/tools/install.sh --unattended
+        rm -rf /tmp/ohmyzsh
+    else
+        echo "use current ~/.oh-my-zsh."
+    fi
 
-if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    echo "install zsh-syntax-highlighting...."
-    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-else
-    echo "use current zsh-syntax-highlighting."
-fi
-if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    echo "install zsh-autosuggestions...."
-    GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-else
-    echo "use current zsh-autosuggestions."
-fi
-
-sed -i '/.myshell/d' ~/.zshrc
-echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
+    if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+        echo "install zsh-syntax-highlighting...."
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    else
+        echo "use current zsh-syntax-highlighting."
+    fi
+    if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+        echo "install zsh-autosuggestions...."
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    else
+        echo "use current zsh-autosuggestions."
+    fi
+    if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
+        echo "install zsh-history-substring-search...."
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+    else
+        echo "use current zsh-history-substring-search."
+    fi
+    sed -i '/.myshell/d' ~/.zshrc
+    echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
+}
+install_omz
 
 # 必须在omz安装之后
 cp -rTf $SCRIPT_DIR/files/home/.oh-my-zsh/ ~/.oh-my-zsh

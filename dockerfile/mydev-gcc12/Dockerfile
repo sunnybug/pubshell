@@ -2,6 +2,8 @@ FROM debian:12
 
 ####################################################################
 #base 
+EXPOSE 22/tcp
+
 ENV TZ=Asia/Shanghai
 
 COPY sources.list /etc/apt/sources.list
@@ -15,16 +17,17 @@ RUN apt update\
     && git config --global user.name "$USER"\
     && locale-gen en_US.UTF-8\
     && export LANG=en_US.UTF-8\
-    && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python
-
-WORKDIR /root
-
-RUN git clone https://gitee.com/sunnybug/pubshell
+    && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
+    && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
+    && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
+    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
+    && update-rc.d ssh defaults \
+    && service ssh restart
 
 ####################################################################
 #gcc
-# RUN apt update\
-#     && apt install --no-install-recommends -y gcc-13 g++-13 gdb cgdb make cmake ninja-build build-essential linux-perf elfutils
+RUN apt update\
+    && apt install --no-install-recommends -y gcc-13 g++-13 gdb cgdb make cmake ninja-build
 
 
 ####################################################################
@@ -38,13 +41,17 @@ RUN git clone https://gitee.com/sunnybug/pubshell
 #     && apt update
     
 # RUN apt install --no-install-recommends -y llvm-18 clang-18 clang-format-18 clang-tidy-18 clang-tools-18 libc++-18-dev libc++abi-18-dev \
-#     &&  unlink /usr/bin/clang               ; link /usr/bin/clang-18 /usr/bin/clang\
-#     &&  unlink /usr/bin/clang++             ; link /usr/bin/clang++-18 /usr/bin/clang++\
-#     &&  unlink /usr/bin/clang-format        ; link /usr/bin/clang-format-18 /usr/bin/clang-format\
-#     &&  unlink /usr/bin/clang-tidy          ; link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy\
-#     && link /usr/bin/clang-format-18 /usr/bin/clang-format\
-#     && link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
+#     &&  link /usr/bin/clang-18 /usr/bin/clang\
+#     &&  link /usr/bin/clang++-18 /usr/bin/clang++\
+#     &&  link /usr/bin/clang-format-18 /usr/bin/clang-format\
+#     &&  link /usr/bin/clang-tidy-18 /usr/bin/clang-tidy
 
 ####################################################################
 #final
-# RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
+
+WORKDIR /root
+
+
+COPY init.sh /mytools/init.sh
+ENTRYPOINT ["sh", "-c", "/mytools/init.sh"]    

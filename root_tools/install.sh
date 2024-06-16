@@ -56,18 +56,24 @@ function ask() {
 # /etc/init.d/networking restart
 # systemctl restart sshd
 
+function set_ssh(){
+    sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config
+    sed -i '/^PermitRootLogin/d;$aPermitRootLogin yes' /etc/ssh/sshd_config
+    sed -i 's|#MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config
+    sed -i 's|MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config
+}
+
 function InstallTools_Debian() {
     echo "install tools for Debian"
     
     if [ "$(sudo -n uptime 2>&1 | grep -c "load")" -gt 0 ]; then
-        echo "you have sudo.everything is ok"
+        echo "you have sudo. everything is ok"
     else
         echo "Please install sudo OR use sudo OR switch to root"
         exit 1
     fi
     
-    sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config
-    sed -i '/^PermitRootLogin/d;$aPermitRootLogin yes' /etc/ssh/sshd_config
+    set_ssh
     echo "复制配置好的文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
     

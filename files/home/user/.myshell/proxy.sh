@@ -6,7 +6,7 @@ alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\
 #########################
 github_mirror="gitclone.com/github.com"
 
-xcheckproxy(){
+xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     use_proxy="n"
     if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep " 200" > /dev/null; then
