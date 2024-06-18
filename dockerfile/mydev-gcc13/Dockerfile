@@ -20,15 +20,13 @@ RUN apt update\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
     && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
     && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
-    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config 
-
-####################################################################
-#gcc
-RUN apt update\
+    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
     && apt install --no-install-recommends -y gcc-13 g++-13 gdb make cmake ninja-build\
     && link /usr/bin/gcc-13 /usr/bin/gcc\
     && link /usr/bin/g++-13 /usr/bin/g++\
-    && link /usr/bin/g++-13 /usr/bin/c++
+    && link /usr/bin/g++-13 /usr/bin/c++\
+    && apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
+
 
 
 ####################################################################
