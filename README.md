@@ -46,6 +46,22 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
    输入`z 模糊目录名`快速跳转到最近进过的目录
    使用技巧：https://github.com/skywind3000/z.lua/blob/master/README.cn.md
 3. 自动检测内网代理/pip自建源
-4. 适配apt-fast(如果存在)
-5. 一些简化的alias，见.myshell/alias.sh
-6. venv命令，支持在当前目录下自动查找python的venv环境并激活
+4. 适配apt-fast(如果已安装apt-fast)
+
+## 部分常用命令/alias
+注：一些简化的alias，见.myshell/alias.sh
+| 命令         | 功能                               | 示例          |
+|--------------|------------------------------------|---------------|
+| venv         | 查找当前目录下的疑似venv目录并激活 | venv          |
+| gp           | git pull                           | gp            |
+| gc           | git commit -m                      | gc '提交信息' |
+| xopenproxy   | 打开代理                           | xopenproxy    |
+| xcloseproxy  | 关闭代理                           | xcloseproxy   |
+| xdetectproxy | 检测代理                           | xdetectproxy  |
+
+
+## 部分常用快捷键
+| 快捷键 | 功能                            |
+|--------|---------------------------------|
+| ctrl+j | 采用当前的命令行建议(同Right键) |
+|        |                                 |
