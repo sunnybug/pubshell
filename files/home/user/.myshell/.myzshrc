@@ -34,3 +34,5 @@ bindkey ";5C" emacs-forward-word                # Ctrl+Right 向前跳过一个�
 bindkey ";5D" emacs-backward-word               # Ctrl+Left 向后跳过一个单词
 bindkey "^[^D" list-choices                     # Ctrl+Shift+D 功能：列出选择
 bindkey '^j' autosuggest-accept #ctrl+j 代替默认的right
+bindkey "\e[H" beginning-of-line #Home 行首
+bindkey "\e[F" end-of-line #End 行尾

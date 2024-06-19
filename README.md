@@ -3,25 +3,25 @@
 
 ## 以管理员身份安装dev工具
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh --dev && rm -rf pubshell
+rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh --dev && rm -rf pubshell
 `
 ## 以管理员身份安装CPP服务器所需工具
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh --cppserver && rm -rf pubshell
+rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh --cppserver && rm -rf pubshell
 
 ## 以管理员身份增加用户
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/add_user.sh
+rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/add_user.sh
 `
 
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/mybash.sh
+rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/mybash.sh
 `
 or
 `
-git clone git@gitee.com:sunnybug/pubshell.git && bash pubshell/root_tools/install.sh
+rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh
 `
 
 ## 添加证书
@@ -55,13 +55,16 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 | venv         | 查找当前目录下的疑似venv目录并激活 | venv          |
 | gp           | git pull                           | gp            |
 | gc           | git commit -m                      | gc '提交信息' |
+| gl           | git pull                           | gl            |
 | xopenproxy   | 打开代理                           | xopenproxy    |
 | xcloseproxy  | 关闭代理                           | xcloseproxy   |
 | xdetectproxy | 检测代理                           | xdetectproxy  |
 
 
 ## 部分常用快捷键
-| 快捷键 | 功能                            |
-|--------|---------------------------------|
-| ctrl+j | 采用当前的命令行建议(同Right键) |
-|        |                                 |
+| 快捷键     | 功能                            |
+|------------|-------------------------------|
+| ctrl+j     | 接受当前的命令行建议(同Right键) |
+| ctrl+right | 接受当前建议的单词              |
+| Home       | 跳到行首                        |
+| End        | 跳到行尾                        |
