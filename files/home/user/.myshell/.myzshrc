@@ -18,6 +18,7 @@ source ~/.myshell/proxy.sh
 source $ZSH/oh-my-zsh.sh
 source ~/.myshell/alias.sh # 在oh-my-zsh.sh之后，覆盖oh-my-zsh的alias
 
+setopt rm_star_silent #取消rm -f 的警告
 setopt HIST_EXPIRE_DUPS_FIRST       # 修剪掉过量的历史记录时首先去重复
 setopt HIST_IGNORE_ALL_DUPS         # 如果新内容重复，则删除旧内容
 setopt HIST_IGNORE_SPACE            # 不记录以空格开头的内容
