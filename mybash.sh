@@ -123,6 +123,12 @@ install_omz(){
     else
         echo "use current zsh-history-substring-search."
     fi
+    if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-you-should-use/zsh-you-should-use.plugin.zsh ]; then
+        echo "install zsh-you-should-use...."
+        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/MichaelAquilina/zsh-you-should-use ~/.oh-my-zsh/custom/plugins/zsh-you-should-use
+    else
+        echo "use current zsh-you-should-use."
+    fi
     sed -i '/.myshell/d' ~/.zshrc
     echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
 }
