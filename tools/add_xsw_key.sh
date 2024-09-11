@@ -10,4 +10,4 @@ grep -q "$my_pubkey"  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/aut
 chmod 700 ~/.ssh
 chmod 644 ~/.ssh/*
 
-sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config
+# sudo sed -i 's|#MaxAuthTries.*|MaxAuthTries 20|' /etc/ssh/sshd_config

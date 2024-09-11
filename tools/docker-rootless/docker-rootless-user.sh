@@ -32,10 +32,15 @@ fi
 curl -fsSL https://get.docker.com/rootless | FORCE_ROOTLESS_INSTALL=1 sh
 systemctl --user --now enable docker
 
-# 允许用户服务开机自启
-echo "sudo loginctl enable-linger $USER"
-sudo loginctl enable-linger $USER
-
+echo "允许当前用户服务开机自启:y/n"
+read -r user_input
+if [[ "$user_input" == "y" ]]; then
+    echo "sudo loginctl enable-linger $USER"
+    sudo loginctl enable-linger $USER
+    echo "允许当前用户服务开机自启"
+else
+    echo '禁止当前用户服务开机自启'
+fi
 
 ###############
 #手动处理
