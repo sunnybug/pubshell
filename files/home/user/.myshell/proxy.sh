@@ -9,7 +9,7 @@ github_mirror="gitclone.com/github.com"
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     use_proxy="n"
-    if curl -IsL https://github.com --connect-timeout 2 --max-time 2 | grep " 200" > /dev/null; then
+    if ! curl -fsSL --connect-timeout 3 --max-time 3 https://github.com/login | grep -q "/githubusercontent.com/"; then
         echo 'curl github.com success'
         github_mirror="github.com"
         use_proxy="n"

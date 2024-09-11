@@ -78,12 +78,14 @@ init_worknet_pip
 source $SCRIPT_DIR/install/ssh_config.sh
 init_ssh_config
 
-curr_shell="$(echo $SHELL)"
+
+## 安装时zsh会处理，而且这里拿到的$SHELL依然是旧的
 # 判断是否是zsh
-if [[ "$curr_shell" != "/bin/zsh" ]]; then
-    echo "将默认shell修改为zsh"
-    chsh -s $(which zsh)
-fi
+# curr_shell="$(echo $SHELL)"
+# if [[ "$curr_shell" != "/bin/zsh" ]]; then
+#     echo "将默认shell修改为zsh"
+#     chsh -s $(which zsh)
+# fi
 
 echo 'init mybash suc'
 echo '1.1' > ~/.myshell/ver
