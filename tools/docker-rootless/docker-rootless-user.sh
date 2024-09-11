@@ -1,4 +1,11 @@
 #!/bin/bash
+set -e
+
+# 不能是root
+if [ "$(id -u)" = "0" ]; then
+    echo "please run as non-root user"
+    exit 1
+fi
 
 mkdir -p ~/.config/systemd/user/docker.service.d
 
@@ -14,6 +21,14 @@ EOF
 fi
 
 ################
+# 检查是否能正常访问
+if ! curl -fsSL --connect-timeout 3 --max-time 3 https://get.docker.com/rootless | grep -q "/docs.docker.com/"; then
+    echo "can not access https://get.docker.com/rootless"
+    exit 1
+else
+    echo "网络检查通过: https://get.docker.com/rootless"
+fi
+
 curl -fsSL https://get.docker.com/rootless | FORCE_ROOTLESS_INSTALL=1 sh
 systemctl --user --now enable docker
 
