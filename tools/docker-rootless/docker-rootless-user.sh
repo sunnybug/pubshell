@@ -34,7 +34,7 @@ systemctl --user --now enable docker
 
 ####################
 #开机自启
-if sudo loginctl show-user "$USER" | grep -qw 'Linger=yes'; then
+if loginctl show-user "$USER" | grep -qw 'Linger=yes'; then
     echo "当前用户服务已经设置为开机自启"
 else
     echo "是否允许当前用户服务开机自启:y/n"
@@ -42,9 +42,9 @@ else
     if [[ "$user_input" == "y" ]]; then
         echo "sudo loginctl enable-linger $USER"
         if sudo loginctl enable-linger "$USER"; then
-            echo "成功设置开机自启。"
+            echo "[SUC] 成功设置开机自启。"
         else
-            echo "无法设置开机自启，请检查权限或联系管理员。"
+            echo -e "\033[31m[ERR]无法设置开机自启，请检查权限或联系管理员执行sudo loginctl enable-linger $USER\033[0m"
         fi
     else
         echo '禁止当前用户服务开机自启'
@@ -56,9 +56,9 @@ fi
 current_path="$PATH"
 if [[ "$current_path" != *":$HOME/bin:"* ]]; then
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-    echo "Added '~/bin' to PATH in ~/.bashrc"
+    echo "[SUC] Added '~/bin' to PATH in ~/.bashrc"
 else
-    echo " '~/bin' is already in PATH"
+    echo "[SUC] '~/bin' is already in PATH"
 fi
 
 ###############
@@ -66,7 +66,7 @@ fi
 if [ -z "$DOCKER_HOST" ]; then
     # 环境变量未设置，将其添加到~/.bashrc
     echo 'export DOCKER_HOST=unix://run/user/1000/docker.sock' >> ~/.bashrc
-    echo "DOCKER_HOST set to 'unix://run/user/1000/docker.sock' in ~/.bashrc"
+    echo "[SUC] DOCKER_HOST set to 'unix://run/user/1000/docker.sock' in ~/.bashrc"
 else
-    echo "DOCKER_HOST is already set to '$DOCKER_HOST'"
+    echo "[SUC] DOCKER_HOST is already set to '$DOCKER_HOST'"
 fi
