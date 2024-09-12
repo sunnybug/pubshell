@@ -11,14 +11,14 @@ mkdir -p ~/.config/systemd/user/docker.service.d
 
 ################
 # proxy
-if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-cat <<EOF > ~/.config/systemd/user/docker.service.d/proxy.conf
-[Service]
-Environment="HTTP_PROXY=http://192.168.1.199:10816/"
-Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
-Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn"
-EOF
-fi
+# if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+# cat <<EOF > ~/.config/systemd/user/docker.service.d/proxy.conf
+# [Service]
+# Environment="HTTP_PROXY=http://192.168.1.199:10816/"
+# Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
+# Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn"
+# EOF
+# fi
 
 ################
 # 检查是否能正常访问
