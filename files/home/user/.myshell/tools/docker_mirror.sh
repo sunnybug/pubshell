@@ -5,6 +5,7 @@ docker_root_mirror(){
     if [ -f $conf ]; then
         mv $conf ${conf}.bak.$(date +"%Y%m%d%H%M%S")
     fi
+    
 cat <<EOF > $conf
 {
     "registry-mirrors": [
@@ -13,12 +14,12 @@ cat <<EOF > $conf
         "https://docker.mirrors.ustc.edu.cn/",
         "https://yxzrazem.mirror.aliyuncs.com"
     ]
-}#
+}
 EOF
 }
 
 docker_root_proxy(){
-    
+    echo 'todo docker_root_proxy'
 }
 
 docker_rootless_proxy(){
@@ -37,10 +38,13 @@ Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
 Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net"
 EOF
     fi
+    echo "create suc: $proxy_conf"
+    echo '手动执行: systemctl --user daemon-reload && systemctl --user restart docker'
 }
 
 docker_rootless_mirror(){
-    # /.config/docker/daemon.json
+    echo 'todo docker_rootless_mirror'
+    # ~/.config/docker/daemon.json
 }
 
 auto_docker_mirror(){

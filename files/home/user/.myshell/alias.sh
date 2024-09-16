@@ -19,3 +19,5 @@ then
 fi
 
 alias venv='source ~/.myshell/venv.sh;entry_venv'
+alias sysd='systemctl'
+alias sysd='systemctl --user'
