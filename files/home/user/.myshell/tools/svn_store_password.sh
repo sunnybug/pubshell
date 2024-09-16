@@ -13,3 +13,4 @@ svn_store_password(){
     fi
     sed -i "/# patch_svn Start/Q" ~/.subversion/servers && echo "$patch_svn" >> ~/.subversion/servers
 }
+svn_store_password

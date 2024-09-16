@@ -29,3 +29,5 @@ check_tools() {
         exit -1
     fi
 }
+
+check_tools

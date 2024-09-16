@@ -16,3 +16,4 @@ init_ssh_config(){
         echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
     fi
 }
+init_ssh_config

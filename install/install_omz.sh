@@ -52,3 +52,4 @@ install_omz(){
     sed -i '/.myshell/d' ~/.zshrc
     echo "source ~/.myshell/.myzshrc" >> ~/.zshrc
 }
+install_omz

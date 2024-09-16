@@ -1,6 +1,7 @@
 #!/bin/bash
 
-init_worknet_pip(){
+
+auto_pip_mirror(){
     if [ -x "$(command -v python3)" ]; then
         echo 'check pip host...'
         if curl -IsL http://192.168.1.20:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
@@ -17,3 +18,6 @@ init_worknet_pip(){
         fi
     fi
 }
+
+
+auto_pip_mirror

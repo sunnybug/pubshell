@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ##############################################
 # config
@@ -17,7 +18,6 @@ cd $SCRIPT_DIR
 shopt -s expand_aliases
 
 source $SCRIPT_DIR/install/check_tools.sh
-check_tools
 
 #################################
 # 复制配置文件 files/home/user/ 到 ~
@@ -35,18 +35,16 @@ fi
 sed -i '/.myshell/d' ~/.bashrc
 echo "source ~/.myshell/.myrc" >> ~/.bashrc
 
-source $SCRIPT_DIR/install/svn_store_password.sh
-svn_store_password
+source ~/.myshell/tools/svn_store_password.sh
 
 #########################
-source ~/.myshell/proxy.sh
+source ~/.myshell/tools/proxy.sh
 xdetectproxy
 if [ "$use_proxy" == "y" ];then
     xopenproxy
 fi
 
 source $SCRIPT_DIR/install/install_omz.sh
-install_omz
 
 # 必须在omz安装之后
 cp -rTf $SCRIPT_DIR/files/home/.oh-my-zsh/ ~/.oh-my-zsh
@@ -72,11 +70,9 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 
 #######################
-source $SCRIPT_DIR/install/worknet_pip.sh
-init_worknet_pip
-
-source $SCRIPT_DIR/install/ssh_config.sh
-init_ssh_config
+source ~/.myshell/tools/pip_mirror.sh
+source ~/.myshell/tools/docker_mirror.sh
+source ~/.myshell/tools/ssh_config.sh
 
 
 ## 安装时zsh会处理，而且这里拿到的$SHELL依然是旧的
