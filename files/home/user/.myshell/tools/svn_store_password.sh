@@ -2,10 +2,10 @@
 
 svn_store_password(){
     patch_svn='''
-    # patch_svn Start
-    [global]
-    store-passwords = yes
-    store-plaintext-passwords = yes
+# patch_svn Start
+[global]
+store-passwords = yes
+store-plaintext-passwords = yes
     '''
     if ! [ -d ~/.subversion/servers ]; then
         mkdir -p ~/.subversion
