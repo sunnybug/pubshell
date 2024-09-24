@@ -3,6 +3,9 @@ set -e
 
 git_repo_url="https://gitee.com/sunnybug/pubshell"
 
+# 接收所有传递给脚本的参数
+args=("$@")
+
 # 临时目录
 temp_dir=$(mktemp -d)
 if [[ ! "$temp_dir" || ! -d "$temp_dir" ]]; then
@@ -21,4 +24,4 @@ fi
 
 echo "Cloned repo to $temp_dir"
 
-source $temp_dir/mybash.sh
+bash $temp_dir/mybash.sh "${args[@]}"
