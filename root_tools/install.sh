@@ -145,7 +145,10 @@ function InstallTools_Debian() {
     
     # 使用sudo无法找到ulimit
     ulimit -c unlimited # coredump size
-    sudo echo 'core.%e.%s.%t.dmp' > /proc/sys/kernel/core_pattern
+    # 检查对/proc/sys/kernel/core_pattern是否可写
+    if [ -w /proc/sys/kernel/core_pattern ]; then
+        sudo echo 'core.%e.%s.%t.dmp' > /proc/sys/kernel/core_pattern
+    fi
     
     # locale
     sudo locale-gen en_US.UTF-8
