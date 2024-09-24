@@ -213,4 +213,6 @@ case "$1" in
         echo "Usage: $0 --cppserver|--dev"
         exit 1
 esac
+
+echo 'install tools suc'
 exit 0
