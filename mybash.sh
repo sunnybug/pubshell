@@ -32,6 +32,9 @@ else
 fi
 
 #########################
+if [ ! -e ~/.bashrc ]; then
+    touch ~/.bashrc
+fi
 sed -i '/.myshell/d' ~/.bashrc
 echo "source ~/.myshell/.myrc" >> ~/.bashrc
 
