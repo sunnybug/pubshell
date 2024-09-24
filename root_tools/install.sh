@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 
 # deb http://mirrors.aliyun.com/debian/ bullseye main contrib non-free
 # deb http://mirrors.aliyun.com/debian/ bullseye-updates main contrib non-free
@@ -25,8 +26,8 @@ cd $SCRIPT_DIR
 # function
 # 定义函数，用于询问用户
 function ask() {
-    read -p "$1[y/n]" answer
-    
+    read -p "$1[y/n]" answer < /dev/stdin
+
     # 判断用户的输入，将其转换为小写字母并返回
     if [[ "$answer" =~ ^[Yy]$ ]]; then
         echo "y"
@@ -94,7 +95,6 @@ function InstallTools_Debian() {
     alias apt=apt-fast
     
     echo "install python......."
-    apt upgrade -y
     apt install --no-install-recommends -y python3-full python3-autopep8 python3-wheel python3-pip
     sudo unlink /usr/bin/python ; sudo link /usr/bin/python3 /usr/bin/python
     
