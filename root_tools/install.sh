@@ -22,8 +22,8 @@ set -e
 SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
 if [ ! -d "$SCRIPT_DIR/files" ]; then
-    # 从webinstall.sh触发时，往上走2级
-    cd ../..
+    # 从webinstall.sh触发时，往上走1级
+    cd ..
     SCRIPT_DIR=$(pwd)
     echo "SCRIPT_DIR: $SCRIPT_DIR"
     if [ ! -d "$SCRIPT_DIR/files" ]; then
