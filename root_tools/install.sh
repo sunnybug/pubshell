@@ -214,5 +214,5 @@ case "$1" in
         exit 1
 esac
 
-echo 'install tools suc'
+echo '=== install tools suc ==='
 exit 0
