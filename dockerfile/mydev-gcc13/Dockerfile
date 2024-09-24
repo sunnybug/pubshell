@@ -24,8 +24,9 @@ RUN apt update\
     && apt install --no-install-recommends -y gcc-13 g++-13 gdb make cmake ninja-build\
     && link /usr/bin/gcc-13 /usr/bin/gcc\
     && link /usr/bin/g++-13 /usr/bin/g++\
-    && link /usr/bin/g++-13 /usr/bin/c++\
-    && apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
+    && link /usr/bin/g++-13 /usr/bin/c++
+    
+    # && apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
 
 
 
@@ -50,6 +51,7 @@ RUN apt update\
 # RUN apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
 
 WORKDIR /root
-COPY init.sh /mytools/init.sh
-RUN chmod +x /mytools/init.sh
-ENTRYPOINT ["sh", "-c", "/mytools/init.sh"]    
+# 不能放root下，因为root目录后面会被挂载出去
+COPY entrypoint.sh /mytools/entrypoint.sh
+RUN chmod +x /mytools/entrypoint.sh
+ENTRYPOINT ["sh", "-c", "/mytools/entrypoint.sh"]    

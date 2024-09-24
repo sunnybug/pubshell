@@ -2,7 +2,7 @@ C++开发用的镜像
 
 ## 镜像构建
 ```shell
-docker build -t mydev:gcc13.2 .  --progress=plain
+docker build -t mydev:gcc13.0924 .
 ```
 
 docker pull registry.cn-hangzhou.aliyuncs.com/vigoo_pub/mydev:3.2
@@ -23,13 +23,17 @@ docker pull registry.cn-hangzhou.aliyuncs.com/vigoo_pub/mydev:3.2
 export mydev_name=mydev13
 export mydev_home=~/mydev13_home
 export mydev_sshport=4013
-export mydev_ver=gcc13.2
 # 命令
 docker stop $mydev_name && docker remove $mydev_name
-docker run -v $mydev_home:/root -p $mydev_sshport:22 --hostname $mydev_name\_docker -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent -itd --name $mydev_name mydev:$mydev_ver
+docker run -v $mydev_home:/root -p $mydev_sshport:22 --hostname $mydev_name\_docker -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent -itd --name $mydev_name mydev:gcc13.0924
+
+# 初始化ssh（可选）
 mkdir -p $mydev_home/.ssh
 cp ~/.ssh/authorized_keys $mydev_home/.ssh/authorized_keys
 docker exec -it $mydev_name /bin/bash -c 'chown root:root ~/.ssh/authorized_keys'
+
+# 初始化shell（可选）
+docker exec -it $mydev_name bash -c 'curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/install_pubshell.sh | bash'
 
 ```
 

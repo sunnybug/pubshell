@@ -3,25 +3,23 @@
 
 ## 以管理员身份安装dev工具
 `
-rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh --dev && rm -rf pubshell
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/install.sh | bash -s -- --dev
 `
 ## 以管理员身份安装CPP服务器所需工具
 `
-rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh --cppserver && rm -rf pubshell
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/install.sh | bash -s -- --cppserver
+`
 
 ## 以管理员身份增加用户
 `
-rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/add_user.sh
+有bug
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/add_user.sh | bash
 `
 
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
-rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/mybash.sh
-`
-or
-`
-rm -rf /tmp/pubshell && git clone https://gitee.com/sunnybug/pubshell /tmp/pubshell && bash /tmp/pubshell/root_tools/install.sh
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
 `
 
 ## 添加证书

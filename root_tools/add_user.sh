@@ -1,6 +1,8 @@
 #!/bin/bash
 # 新增用户，随机初始化密码，生成密钥对 bash root_tools/add_user.sh
 
+set -e
+
 PASSWORD=""
 USERNAME=""
 
