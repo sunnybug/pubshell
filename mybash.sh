@@ -67,10 +67,13 @@ git config --global http.sslVerify false
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
 # chown $USER:$USER -R ~
-echo "chmod for ~/.ssh"
-chown $USER:$USER -R ~/.ssh
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/*
+
+if [ -d ~/.ssh ]; then
+    echo "chmod for ~/.ssh"
+    chown $USER:$USER -R ~/.ssh
+    chmod 700 ~/.ssh
+    chmod 600 ~/.ssh/*
+fi
 
 #######################
 source ~/.myshell/tools/pip_mirror.sh
@@ -89,3 +92,5 @@ source ~/.myshell/tools/ssh_config.sh
 echo 'init mybash suc'
 echo '1.1' > ~/.myshell/ver
 exec zsh -l
+
+echo 'install pubshell suc'
