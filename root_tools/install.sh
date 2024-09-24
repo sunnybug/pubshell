@@ -24,6 +24,7 @@ cd $SCRIPT_DIR
 if [ ! -d "$SCRIPT_DIR/files" ]; then
     # 从webinstall.sh触发时，往上走2级
     cd ../..
+    SCRIPT_DIR=$(pwd)
     if [ ! -d "$SCRIPT_DIR/files" ]; then
         echo "Error: Could not find files directory"
         exit 1
