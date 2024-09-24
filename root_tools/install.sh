@@ -21,6 +21,15 @@ set -e
 # config
 SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 cd $SCRIPT_DIR
+if [ ! -d "$SCRIPT_DIR/files" ]; then
+    # 从webinstall.sh触发时，往上走2级
+    cd ../..
+    if [ ! -d "$SCRIPT_DIR/files" ]; then
+        echo "Error: Could not find files directory"
+        exit 1
+    fi
+    
+fi
 
 ###############################################
 # function
@@ -75,7 +84,7 @@ function InstallTools_Debian() {
     fi
     
     set_ssh
-    echo "复制配置好的文件....."
+    echo "复制配置文件....."
     cp -rTf $SCRIPT_DIR/files/etc_debian11/ /etc
     
     echo "检查域名：mirrors.tencentyun.com是否可用....."
@@ -170,7 +179,7 @@ function InstallToolForDev()
         is_cpp=$(ask "Need C++?")
         is_docker=$(ask "Need Docker?")
         is_china="y"
-        is_github520="y"
+        is_github520="n"
         InstallTools_Debian
     else
         echo "Current OS is not Debian"
