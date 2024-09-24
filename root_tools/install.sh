@@ -98,7 +98,7 @@ function InstallTools_Debian() {
     echo "apt update......."
     apt update
     apt install --no-install-recommends -y debian-keyring gnupg
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2166B8DE8BDC3367D1901C11EE2FF37CA8DA16B
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E2824A7F22B44BD 1EE2FF37CA8DA16B
     
     echo "install apt-fast......."
     apt update
