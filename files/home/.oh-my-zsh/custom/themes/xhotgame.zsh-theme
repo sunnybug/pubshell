@@ -1,5 +1,15 @@
-PROMPT="%(?:%{$fg_bold[green]%}%1{➜%} :%{$fg_bold[red]%}%1{➜%} ) %{$fg[cyan]%}%n@%m[%/]%{$reset_color%}"
+# Check if running inside a gs Container
+if [[ -n "$SERVER_ID" ]]; then
+    DOCKER_PROMPT="%{$fg_bold[yellow]%}GS:$(echo $SERVER_ID) "
+elif [[ -n "$HOST" && "$HOST" == *Docker ]]; then
+    DOCKER_PROMPT="%{$fg_bold[yellow]%}Docker ) "
+else
+    DOCKER_PROMPT=""
+fi
+
+PROMPT="%(?:${DOCKER_PROMPT}%{$fg_bold[green]%}%1{➜%}:%{$fg_bold[red]%}%1{➜%}) %{$fg[cyan]%}%n@%m[%/]%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
+
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
