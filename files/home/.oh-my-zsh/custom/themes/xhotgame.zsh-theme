@@ -2,7 +2,7 @@
 if [[ -n "$SERVER_ID" ]]; then
     DOCKER_PROMPT="%{$fg_bold[yellow]%}GS:$(echo $SERVER_ID) "
 elif [[ -n "$IS_DOCKER" ]]; then
-    DOCKER_PROMPT="%{$fg_bold[yellow]%}Docker ) "
+    DOCKER_PROMPT="%{$fg_bold[yellow]%}Docker"
 else
     DOCKER_PROMPT=""
 fi
