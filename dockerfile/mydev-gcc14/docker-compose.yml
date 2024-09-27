@@ -2,9 +2,9 @@ services:
   mydev:
     image: mydev:gcc14.0924
     container_name: ${CONTAINER_NAME}
-    hostname: ${CONTAINER_NAME}_Docker
+    hostname: ${CONTAINER_NAME}
     environment:
-      - SSH_AUTH_SOCK:/run/ssh_agent.sock
+      - SSH_AUTH_SOCK=/run/ssh_agent.sock
       - IS_DOCKER
       # 建议挂载conan目录，否则每次都要重新下载依赖
       - CONAN_HOME

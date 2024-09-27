@@ -11,20 +11,22 @@ RUN echo '' > /etc/apt/sources.list.d/debian.sources
 COPY preferences /etc/apt/preferences
 
 RUN apt update\
-    && apt install --no-install-recommends -y ssh p7zip-full python3.11-minimal python3-pip locales subversion git curl zsh sudo lua5.4\
+    && apt install --no-install-recommends -y ssh nano p7zip-full python3.12-minimal python3-pip python3.12-venv locales  locales-all subversion git curl zsh sudo lua5.4\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
     && git config --global user.email "$USER@x.com"\
     && git config --global user.name "$USER"\
-    && locale-gen en_US.UTF-8\
     && export LANG=en_US.UTF-8\
+    && locale-gen en_US.UTF-8\
+    && update-locale LANG=en_US.UTF-8\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
     && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
     && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
     && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
-    && apt install --no-install-recommends -y gcc-13 g++-13 gdb make cmake ninja-build\
-    && link /usr/bin/gcc-13 /usr/bin/gcc\
-    && link /usr/bin/g++-13 /usr/bin/g++\
-    && link /usr/bin/g++-13 /usr/bin/c++
+    # && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/files/home/user/.myshell/tools/pip_mirror.sh | bash \
+    && apt install --no-install-recommends -y gcc-14 g++-14 gdb make cmake ninja-build\
+    && link /usr/bin/gcc-14 /usr/bin/gcc\
+    && link /usr/bin/g++-14 /usr/bin/g++\
+    && link /usr/bin/g++-14 /usr/bin/c++
     
     # && apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
 

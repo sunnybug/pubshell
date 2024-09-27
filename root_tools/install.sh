@@ -95,12 +95,10 @@ function InstallTools_Debian() {
         sed -i "s/mirrors.aliyun.com/mirrors.tencentyun.com/g" /etc/apt/sources.list
     fi
     
-    echo "apt update......."
+    echo "install apt-fast......."
     apt update
     apt install --no-install-recommends -y debian-keyring gnupg
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E2824A7F22B44BD 1EE2FF37CA8DA16B
-    
-    echo "install apt-fast......."
     apt update
     apt-get install --no-install-recommends -y apt-fast sudo
     alias apt=apt-fast
