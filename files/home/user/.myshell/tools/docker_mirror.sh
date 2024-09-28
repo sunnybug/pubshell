@@ -1,7 +1,13 @@
 #!/bin/bash
 
 docker_root_mirror(){
-    conf=/etc/docker/daemon.json
+    conf="/etc/docker/daemon.json"
+    # 如果有配置镜像就不配置了
+    if grep -q "registry-mirrors" ${conf}; then
+        echo "registry-mirrors already exists, skip"
+        return
+    fi
+    
     if [ -f $conf ]; then
         mv $conf ${conf}.bak.$(date +"%Y%m%d%H%M%S")
     fi
@@ -19,24 +25,25 @@ EOF
 }
 
 docker_root_proxy(){
-    echo 'todo docker_root_proxy'
+    echo '未实现root docker，暂不支持'
+    exit 1
 }
 
 docker_rootless_proxy(){
     echo 'docker_rootless_proxy......'
+    proxy_conf="~/.config/systemd/user/docker.service.d/proxy.conf"
     
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        mkdir -p ~/.config/systemd/user/docker.service.d
-        proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
         if [ -f $proxy_conf ]; then
             # 如果旧文件中已存在192.168.1.199，则跳过
             if grep -q "192.168.1.199" $proxy_conf; then
-                echo "proxy_conf already exists 192.168.1.199, skip"
+                echo "${proxy_conf} already exists 192.168.1.199, skip"
                 return
             fi
             mv $proxy_conf ${proxy_conf}.bak.$(date +"%Y%m%d%H%M%S")
         fi
-cat <<EOF > $proxy_conf
+        mkdir -p ~/.config/systemd/user/docker.service.d
+        cat <<EOF > $proxy_conf
 [Service]
 Environment="HTTP_PROXY=http://192.168.1.199:10816/"
 Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
