@@ -152,7 +152,7 @@ function InstallTools_Debian() {
     sudo locale-gen en_US.UTF-8
     export LANG=en_US.UTF-8
     # 24小时
-    echo "" >> /etc/default/locale && echo "LC_TIME=en_DK.UTF-8" >> /etc/default/locale
+    echo "" >> /etc/default/locale && echo "LC_TIME=en_US.UTF-8" >> /etc/default/locale
     
     if [ "$is_github520" = "y" ]; then
         echo "add GitHub520"
