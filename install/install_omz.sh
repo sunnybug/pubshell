@@ -9,7 +9,7 @@ install_omz(){
     fi
     
     # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
-    # chmod +x $SCRIPT_DIR/tools/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tools/ohmyzsh.sh --unattended --keep-zshrc"
+    # chmod +x $SCRIPT_DIR/tool/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tool/ohmyzsh.sh --unattended --keep-zshrc"
     # 如果已经有oh-my-zsh了，就不再安装
     if ! [ -e ~/.oh-my-zsh/oh-my-zsh.sh ]; then
         echo "install oh-my-zsh...."

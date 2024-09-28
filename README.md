@@ -24,7 +24,7 @@ curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubsh
 
 ## 添加证书
 `
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tools/add_xsw_key.sh | sh
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/add_xsw_key.sh | sh
 `
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件

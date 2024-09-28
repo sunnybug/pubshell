@@ -20,16 +20,9 @@ shopt -s expand_aliases
 source $SCRIPT_DIR/install/check_tools.sh
 
 #################################
-# 复制配置文件 files/home/user/ 到 ~
-if [ -d $SCRIPT_DIR/files/home/user ]; then
-    # rsync会改变~的所有者
-    # rsync -av --exclude='.oh-my-zsh' $SCRIPT_DIR/files/home/user/ ~
-    echo "copy files/home/user/ to ~"
-    cp -rTf $SCRIPT_DIR/files/home/user/ ~
-else
-    echo "Error: $SCRIPT_DIR/files/home/user not found."
-    exit -1
-fi
+echo "copy files/home/ to ~"
+cp -rTf $SCRIPT_DIR/files/home/ ~
+cp -rTf $SCRIPT_DIR/tool/ ~/.myshell/tool/
 
 #########################
 if [ ! -e ~/.bashrc ]; then
@@ -38,10 +31,10 @@ fi
 sed -i '/.myshell/d' ~/.bashrc
 echo "source ~/.myshell/.myrc" >> ~/.bashrc
 
-source ~/.myshell/tools/svn_store_password.sh
+source ~/.myshell/tool/svn_store_password.sh
 
 #########################
-source ~/.myshell/tools/proxy.sh
+source ~/.myshell/tool/proxy.sh
 xdetectproxy
 if [ "$use_proxy" == "y" ];then
     xopenproxy
@@ -76,9 +69,9 @@ if [ -d ~/.ssh ]; then
 fi
 
 #######################
-source ~/.myshell/tools/pip_mirror.sh
-source ~/.myshell/tools/docker_mirror.sh
-source ~/.myshell/tools/ssh_config.sh
+source ~/.myshell/tool/pip_mirror.sh
+source ~/.myshell/tool/docker_mirror.sh
+source ~/.myshell/tool/ssh_config.sh
 
 
 ## 安装时zsh会处理，而且这里拿到的$SHELL依然是旧的
