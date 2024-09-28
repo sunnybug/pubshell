@@ -31,7 +31,7 @@ docker_root_proxy(){
 
 docker_rootless_proxy(){
     echo 'docker_rootless_proxy......'
-    proxy_conf="~/.config/systemd/user/docker.service.d/proxy.conf"
+    proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
     
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         if [ -f $proxy_conf ]; then
