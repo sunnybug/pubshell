@@ -58,3 +58,5 @@ if [ -z "$DOCKER_HOST" ]; then
 else
     echo "[SUC] DOCKER_HOST is already set to '$DOCKER_HOST'"
 fi
+
+echo "[SUC] Docker Rootless 安装完成"
