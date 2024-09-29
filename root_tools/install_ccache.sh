@@ -15,10 +15,17 @@ if [ ! -d "$target_dir" ]; then
 fi
 
 # 要创建的符号链接列表
-targets=("g++" "gcc" "g++-14" "gcc-14")
+targets=("g++" "gcc" "g++-12" "gcc-12" "g++-14" "gcc-14")
 
 # 检查并创建符号链接
 for target in "${targets[@]}"; do
+
+    # 如果存在target命令，则跳过
+    if [ -x "$(command -v $target)" ]; then
+        echo "目标命令 $target 已存在，跳过创建符号链接。"
+        continue
+    fi
+    
     link_target="$target_dir/$target"
     
     # 检查源文件是否存在
