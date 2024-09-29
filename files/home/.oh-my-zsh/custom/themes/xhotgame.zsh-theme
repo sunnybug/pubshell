@@ -26,15 +26,6 @@ ZSH_THEME_SVN_PROMPT_SUFFIX="$YS_VCS_PROMPT_SUFFIX"
 ZSH_THEME_SVN_PROMPT_DIRTY="$YS_VCS_PROMPT_DIRTY"
 ZSH_THEME_SVN_PROMPT_CLEAN="$YS_VCS_PROMPT_CLEAN"
  
-# Virtualenv
-local venv_info='$(virtenv_prompt)'
-YS_THEME_VIRTUALENV_PROMPT_PREFIX=" %{$fg[green]%}"
-YS_THEME_VIRTUALENV_PROMPT_SUFFIX=" %{$reset_color%}%"
-virtenv_prompt() {
-        [[ -n "${VIRTUAL_ENV:-}" ]] || return
-        echo "${YS_THEME_VIRTUALENV_PROMPT_PREFIX}${VIRTUAL_ENV:t}${YS_THEME_VIRTUALENV_PROMPT_SUFFIX}"
-}
- 
 local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
  
 # Prompt format:
@@ -46,8 +37,7 @@ local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
 #
 # % ys @ ys-mbp in ~/.oh-my-zsh on git:master x [21:47:42] C:0
 # $
-PROMPT="
-%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+PROMPT="%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
 %{$fg[cyan]%}%n \
 %{$reset_color%}@ \
 %{$fg[green]%}%m \
@@ -55,7 +45,6 @@ PROMPT="
 %{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
 ${git_info}\
 ${svn_info}\
-${venv_info}\
  \
 $exit_code
 %{$terminfo[bold]$fg[green]%}$ %{$reset_color%}"
