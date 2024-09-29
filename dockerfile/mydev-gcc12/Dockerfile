@@ -13,6 +13,7 @@ COPY file/preferences /etc/apt/preferences
 RUN apt update\
     && apt install --no-install-recommends -y ssh nano p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
+    && pip install regex click --break-sys\
     && git config --global user.email "$USER@x.com"\
     && git config --global user.name "$USER"\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
