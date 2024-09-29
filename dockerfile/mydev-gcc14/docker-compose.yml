@@ -1,0 +1,35 @@
+services:
+  mydev:
+    image: mydev:gcc14.0924
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
+    environment:
+      - SSH_AUTH_SOCK=/run/ssh_agent.sock
+      - IS_DOCKER
+      # 建议挂载conan目录，否则每次都要重新下载依赖
+      - CONAN_HOME=${MYHOME}/.conan2
+      # - DISTCC_HOSTS
+      
+    volumes:
+      # ssh代理转发，如果失效需要重建容器
+      - ${SSH_AUTH_SOCK}:/run/ssh_agent.sock
+      
+      # 自己想挂载的目录
+      - ${MYHOME}/g:/${MYHOME}/g
+      - ${MYHOME}/module:/${MYHOME}/module
+      - ${MYHOME}/.conan2:/${MYHOME}/.conan2
+      
+      # 要保证${DEV_HOME}目录存在，方便保存数据
+      - ${DEV_HOME}:/root
+      - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys
+    
+    ports:
+      - "${SSH_PORT}:22"
+      # - "${DISTCC_PORT}:3632"
+    tty: true
+    stdin_open: true
+    command: /bin/zsh
+
+volumes:
+  g:
+  module:
