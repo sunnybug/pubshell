@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 apt install ccache -y
 
