@@ -8,12 +8,15 @@ github_mirror="gitclone.com/github.com"
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     use_proxy="n"
-    if ! curl -fsSL --connect-timeout 3 --max-time 3 https://github.com/login | grep -q "/githubusercontent.com/"; then
-        echo 'curl github.com success'
-        github_mirror="github.com"
-        use_proxy="n"
+    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -o response.log -w "%{http_code}" https://github.com/login)
+    if [ "$response" -eq 200 ]; then
+        if grep -q "xxx" response.log; then
+            echo 'curl github.com success'
+            github_mirror="github.com"
+            use_proxy="n"
+        fi
     fi
-    
+
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         my_proxy='http://192.168.1.199:10816'
         use_proxy="y"
@@ -26,7 +29,7 @@ xdetectproxy(){
     fi
     
     # 如果当前用户是root
-    # if [ "$USER" = "root" ]; then
+    # if [ "$(whoami)" = "root" ]; then
     #     echo "add GitHub520"
     #     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
     # fi

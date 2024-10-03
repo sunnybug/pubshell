@@ -41,3 +41,5 @@ for target in "${targets[@]}"; do
         break
     fi
 done
+
+ccache --set-config=compiler_check=content

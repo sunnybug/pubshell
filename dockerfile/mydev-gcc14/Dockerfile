@@ -12,10 +12,14 @@ COPY file/preferences /etc/apt/preferences
 
 RUN apt update\
     && apt install --no-install-recommends -y ssh nano p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
-    && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
-    && git config --global user.email "$USER@x.com"\
-    && git config --global user.name "$USER"\
+    # && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
+    && pip config set global.trusted-host 192.168.1.20\
+    && pip config set global.index-url http://192.168.1.20:9090/simple/\
+    && pip install regex click xBaseDev --break-sys\
+    && git config --global user.email "$MY_NAME@x.com"\
+    && git config --global user.name "$MY_NAME"\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
+    && mkdir /data\
     && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
     && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
     && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
@@ -23,8 +27,7 @@ RUN apt update\
     && link /usr/bin/gcc-14 /usr/bin/gcc\
     && link /usr/bin/g++-14 /usr/bin/g++\
     && link /usr/bin/g++-14 /usr/bin/c++\
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/locale.sh | bash \
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/install_ccache.sh | bash
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/locale.sh | bash
 
 # distcc
 # RUN apt install -y distcc distcc-pump

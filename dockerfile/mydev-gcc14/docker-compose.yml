@@ -1,13 +1,14 @@
 services:
   mydev:
-    image: mydev:gcc14.0924
+    image: ${IMAGE_VER}
     container_name: ${CONTAINER_NAME}
     hostname: ${CONTAINER_NAME}
     environment:
       - SSH_AUTH_SOCK=/run/ssh_agent.sock
-      - IS_DOCKER
+      - IS_DOCKER=1
+      - MY_NAME=${USER}
       # 建议挂载conan目录，否则每次都要重新下载依赖
-      - CONAN_HOME=${MYHOME}/.conan2
+      - CONAN_HOME=${MY_CONAN_HOME} 
       # - DISTCC_HOSTS
       
     volumes:
@@ -15,17 +16,20 @@ services:
       - ${SSH_AUTH_SOCK}:/run/ssh_agent.sock
       
       # 自己想挂载的目录
-      - ${MYHOME}/g:/${MYHOME}/g
-      - ${MYHOME}/module:/${MYHOME}/module
-      - ${MYHOME}/.conan2:/${MYHOME}/.conan2
-      
-      # 要保证${DEV_HOME}目录存在，方便保存数据
-      - ${DEV_HOME}:/root
+      - ${HOST_HOME}/g:/${HOST_HOME}/g
+      - ${HOST_HOME}/module:/${HOST_HOME}/module
+      - ${HOST_HOME}/.conan2:/${HOST_HOME}/.conan2
+      - ${HOST_HOME}/.subversion:/root/.subversion
+      # 要保证${DOCKER_HOME}目录存在，方便保存数据
+      - ${DOCKER_HOME}:/root
       - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys
     
     ports:
       - "${SSH_PORT}:22"
-      # - "${DISTCC_PORT}:3632"
+      - "${WS_PORT}:9521"
+      - "${WSS_PORT}:29521"
+      - "${MGR_PORT}:20522"
+     # - "${DISTCC_PORT}:3632"
     tty: true
     stdin_open: true
     command: /bin/zsh

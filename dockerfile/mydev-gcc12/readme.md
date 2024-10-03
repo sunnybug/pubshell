@@ -26,6 +26,7 @@ docker pull registry.cn-hangzhou.aliyuncs.com/vigoo_pub/mydev:3.2
 docker compose up -d
 
 docker compose stop && docker compose rm -f && docker build -t mydev:gcc12.0924 . && docker compose up -d && docker exec -it mydev12 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'     
+
 ```
 
 # 初始化shell（可选）

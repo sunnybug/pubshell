@@ -47,23 +47,23 @@ cp -rTf $SCRIPT_DIR/files/home/.oh-my-zsh/ ~/.oh-my-zsh
 
 ##################################
 if [ -z "$(git config --global user.name)" ]; then
-    git config --global user.name "$USER"
+    git config --global user.name "$(whoami)"
 fi
 
 if [ -z "$(git config --global user.email)" ]; then
-    git config --global user.email "$USER@x.com"
+    git config --global user.email "$(whoami)@x.com"
 fi
 
 git config --global http.sslVerify false
 
 #################################
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
-# find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $USER:$USER {} \;
-# chown $USER:$USER -R ~
+# find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $(whoami):$(whoami) {} \;
+# chown $(whoami):$(whoami) -R ~
 
 if [ -d ~/.ssh ]; then
     echo "chmod for ~/.ssh"
-    chown $USER:$USER -R ~/.ssh
+    chown $(whoami):$(whoami) -R ~/.ssh
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*
 fi

@@ -27,6 +27,42 @@ docker compose up -d
 
 docker compose stop && docker compose rm -f && docker build -t mydev:gcc14.0924 . && docker compose up -d && docker exec -it mydev14 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'     
 
+
+# docker run
+IMAGE_VER=mydev:gcc14
+CONTAINER_NAME=mydev14-m
+# 宿主机中用户的home目录(认为是代码和conan的默认目录)
+HOST_HOME=/home/$USER
+# 容器中用户的home目录在宿主机中的挂载
+DOCKER_HOME=/home/$USER/mydev14-m_home
+SSH_PORT=4014
+AUTHORIZED_KEYS=~/.ssh/authorized_keys
+SSH_PORT=4014
+WS_PORT=9524
+WSS_PORT=29524
+MGR_PORT=20524
+docker run \
+  --name ${CONTAINER_NAME} \
+  --hostname ${CONTAINER_NAME} \
+  -e SSH_AUTH_SOCK=/run/ssh_agent.sock \
+  -e IS_DOCKER \
+  -e MY_NAME=${USER} \
+  -e CONAN_HOME=${HOST_HOME}/.conan2 \
+  -v ${SSH_AUTH_SOCK}:/run/ssh_agent.sock \
+  -v ${HOST_HOME}/g:/${HOST_HOME}/g \
+  -v ${HOST_HOME}/module:/${HOST_HOME}/module \
+  -v ${HOST_HOME}/.conan2:/${HOST_HOME}/.conan2 \
+  -v ${DOCKER_HOME}:/root \
+  -v ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys \
+  -p ${SSH_PORT}:22 \
+  -p ${WS_PORT}:9521 \
+  -p ${WSS_PORT}:29521 \
+  -p ${MGR_PORT}:20522 \
+  --tty \
+  --interactive \
+  ${IMAGE_VER} \
+  /bin/zsh
+
 ```
 
 # 初始化shell（可选）

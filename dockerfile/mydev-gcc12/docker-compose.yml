@@ -5,7 +5,8 @@ services:
     hostname: ${CONTAINER_NAME}
     environment:
       - SSH_AUTH_SOCK=/run/ssh_agent.sock
-      - IS_DOCKER
+      - IS_DOCKER=1
+      - MY_NAME=${USER}
       # 建议挂载conan目录，否则每次都要重新下载依赖
       - CONAN_HOME=${MYHOME}/.conan2
       # - DISTCC_HOSTS
