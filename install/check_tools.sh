@@ -23,9 +23,14 @@ check_tools() {
         fail='y'
     fi
     
+    if ! [ -x "$(command -v jq)" ]; then
+        echo 'Error: jq is not installed.' >&2
+        fail='y'
+    fi
+    
     if [ "$fail" = "y" ]; then
         echo "please install missing tools: "
-        echo "apt install -y git zsh curl lua5.4"
+        echo "sudo apt install -y git zsh curl lua5.4 jq"
         exit -1
     fi
 }
