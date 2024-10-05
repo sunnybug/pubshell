@@ -48,7 +48,7 @@ docker_rootless_proxy(){
 [Service]
 Environment="HTTP_PROXY=http://192.168.1.199:10816/"
 Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
-Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.*"
+Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1,185"
 EOF
     echo "create suc: $proxy_conf"
     echo '手动执行: systemctl --user daemon-reload && systemctl --user restart docker'
@@ -63,7 +63,7 @@ docker_rootless_mirror(){
         touch $daemon_cfg
     fi    
     # insecure-registries
-    jq -s '.[0] + {"insecure-registries": "192.168.1.185:5000"}' $daemon_cfg >  tmp.json && mv tmp.json $daemon_cfg
+    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' $daemon_cfg >  tmp.json && mv tmp.json $daemon_cfg
     echo '[SUC]docker_rootless_mirror'
 }
 
