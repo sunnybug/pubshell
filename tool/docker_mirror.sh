@@ -46,7 +46,7 @@ docker_rootless_proxy(){
 [Service]
 Environment="HTTP_PROXY=http://192.168.1.199:10816/"
 Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
-Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1,185"
+Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185"
 EOF
     echo '[SUC]docker_rootless_proxy'
     echo "create suc: $proxy_conf"
