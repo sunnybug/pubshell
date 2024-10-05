@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:12-slim
 
 ####################################################################
 #base 
@@ -12,9 +12,9 @@ COPY file/preferences /etc/apt/preferences
 
 RUN apt update\
     && apt install --no-install-recommends -y ssh nano p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
-    # && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
-    && pip config set global.trusted-host 192.168.1.20\
-    && pip config set global.index-url http://192.168.1.20:9090/simple/\
+    && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
+    # && pip config set global.trusted-host 192.168.1.20\
+    # && pip config set global.index-url http://192.168.1.20:9090/simple/\
     && pip install regex click --break-sys\
     && git config --global user.email "$MY_NAME@x.com"\
     && git config --global user.name "$MY_NAME"\
@@ -23,7 +23,7 @@ RUN apt update\
     && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
     && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
     && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
-    && apt install --no-install-recommends -y gcc-12 g++-12 gdb make cmake ninja-build\
+    && apt install --no-install-recommends -y gcc-12 g++-12 gdb make ninja-build\
     && link /usr/bin/gcc-12 /usr/bin/gcc\
     && link /usr/bin/g++-12 /usr/bin/g++\
     && link /usr/bin/g++-12 /usr/bin/c++\

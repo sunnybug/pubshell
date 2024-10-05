@@ -16,6 +16,11 @@ curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/webinstall.sh
 curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/add_user.sh | bash
 `
 
+## 以管理员身份修改ssh设置
+`
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/set_ssh.sh | bash
+`
+
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
