@@ -24,4 +24,4 @@ fi
 
 echo "Cloned repo to $temp_dir"
 
-bash $temp_dir/mybash.sh "${args[@]}"
+bash $temp_dir/pubshell.sh "${args[@]}"

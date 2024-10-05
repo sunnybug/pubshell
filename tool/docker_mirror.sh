@@ -47,7 +47,8 @@ docker_rootless_proxy(){
 [Service]
 Environment="HTTP_PROXY=http://192.168.1.199:10816/"
 Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
-Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net"
+Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.*"
+Environment="DOCKER_OPTS=--insecure-registry 192.168.1.185:5000"
 EOF
     echo "create suc: $proxy_conf"
     echo '手动执行: systemctl --user daemon-reload && systemctl --user restart docker'

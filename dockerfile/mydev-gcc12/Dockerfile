@@ -15,7 +15,7 @@ RUN apt update\
     # && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
     && pip config set global.trusted-host 192.168.1.20\
     && pip config set global.index-url http://192.168.1.20:9090/simple/\
-    && pip install regex click xBaseDev --break-sys\
+    && pip install regex click --break-sys\
     && git config --global user.email "$MY_NAME@x.com"\
     && git config --global user.name "$MY_NAME"\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\

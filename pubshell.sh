@@ -82,7 +82,7 @@ source ~/.myshell/tool/ssh_config.sh
 #     chsh -s $(which zsh)
 # fi
 
-echo 'init mybash suc'
+echo 'init pubshell suc'
 echo '1.1' > ~/.myshell/ver
 exec zsh -l
 

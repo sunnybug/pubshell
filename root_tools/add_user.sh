@@ -99,7 +99,7 @@ function MyBash() {
 
     # 以新用户身份执行命令
     # 下载https://gitee.com/sunnybug/pubshell/repository/archive/main.zip，并解压
-    echo $PASSWORD | su - $USERNAME -c "bash -c 'cd $HOME_DIR && curl -L https://gitee.com/sunnybug/pubshell/repository/archive/main.zip -o main.zip && unzip main.zip && rm -rf main.zip && mv pubshell-main pubshell && cd pubshell && bash mybash.sh'"
+    echo $PASSWORD | su - $USERNAME -c "bash -c 'cd $HOME_DIR && curl -L https://gitee.com/sunnybug/pubshell/repository/archive/main.zip -o main.zip && unzip main.zip && rm -rf main.zip && mv pubshell-main pubshell && cd pubshell && bash pubshell.sh'"
 }
 
 function Check()
