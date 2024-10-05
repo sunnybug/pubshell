@@ -29,8 +29,7 @@ check_tools() {
     fi
     
     if [ "$fail" = "y" ]; then
-        echo "please install missing tools: "
-        echo "sudo apt install -y git zsh curl lua5.4 jq"
+        echo "[ERR]please install missing tools: sudo apt install -y git zsh curl lua5.4 jq"
         exit -1
     fi
 }
