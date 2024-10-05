@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+: <<'END'
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/docker_mirror.sh | bash
+END
 
 docker_root_mirror(){
     conf="/etc/docker/daemon.json"
@@ -31,16 +34,11 @@ docker_root_proxy(){
 }
 
 docker_rootless_proxy(){
-    echo 'docker_rootless_proxy......'
+    echo '[...]docker_rootless_proxy....'
     proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
     
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         if [ -f $proxy_conf ]; then
-            # 如果旧文件中已存在192.168.1.199，则跳过
-            if grep -q "192.168.1.199" $proxy_conf; then
-                echo "${proxy_conf} already exists 192.168.1.199, skip"
-                return
-            fi
             mv $proxy_conf ${proxy_conf}.bak.$(date +"%Y%m%d%H%M%S")
         fi
         mkdir -p ~/.config/systemd/user/docker.service.d
@@ -50,6 +48,7 @@ Environment="HTTP_PROXY=http://192.168.1.199:10816/"
 Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
 Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1,185"
 EOF
+    echo '[SUC]docker_rootless_proxy'
     echo "create suc: $proxy_conf"
     echo '手动执行: systemctl --user daemon-reload && systemctl --user restart docker'
     fi
@@ -80,6 +79,9 @@ auto_docker_mirror(){
     else
         docker_root_proxy
     fi
+
+    echo "配置生效需要手动执行"
+    echo "systemctl --user daemon-reload && systemctl --user restart docker"
     
 }
 
