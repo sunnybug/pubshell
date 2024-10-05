@@ -20,6 +20,7 @@ services:
       - ${HOST_HOME}/module:/${HOST_HOME}/module
       - ${HOST_HOME}/.conan2:/${HOST_HOME}/.conan2
       - ${HOST_HOME}/.subversion:/root/.subversion
+      - ${HOST_HOME}/.vscode-server:/root/.vscode-server
       # 要保证${DOCKER_HOME}目录存在，方便保存数据
       - ${DOCKER_HOME}:/root
       - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys

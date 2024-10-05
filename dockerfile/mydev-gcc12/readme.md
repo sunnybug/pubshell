@@ -4,10 +4,10 @@ C++开发用的镜像
 
 ## 镜像构建
 ```shell
-docker build -t mydev:gcc12.0924 .
+docker build -t mydev:gcc14.0924 .
 ```
 
-docker compose stop && docker compose rm -f && docker build -t mydev:gcc12.0924 . && docker compose up -d && docker exec -it mydev12 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'
+docker compose stop && docker compose rm -f && docker build -t mydev:gcc14.0924 . && docker compose up -d && docker exec -it mydev14 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'
 
 docker pull registry.cn-hangzhou.aliyuncs.com/vigoo_pub/mydev:3.2
 
@@ -25,7 +25,11 @@ docker pull registry.cn-hangzhou.aliyuncs.com/vigoo_pub/mydev:3.2
 ```shell
 docker compose up -d
 
-docker compose stop && docker compose rm -f && docker build -t mydev:gcc12.0924 . && docker compose up -d && docker exec -it mydev12 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'     
+docker compose stop && docker compose rm -f && docker build -t mydev:gcc14.0924 . && docker compose up -d && docker exec -it mydev14 /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'     
+
+
+# docker run
+
 
 ```
 
@@ -36,7 +40,7 @@ docker exec -it $mydev_name bash -c 'curl -sSfL https://gitee.com/sunnybug/pubsh
 
 ## 本地交互式进入镜像
 ```shell
-docker exec -it mydev12 /usr/bin/zsh 
+docker exec -it mydev14 /usr/bin/zsh 
 ```
 
 ## 远程SSH进入镜像

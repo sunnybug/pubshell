@@ -25,24 +25,28 @@ install_omz(){
     
     if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
         echo "install zsh-syntax-highlighting...."
+        rm -rf ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
         GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     else
         echo "use current zsh-syntax-highlighting."
     fi
     if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
         echo "install zsh-autosuggestions...."
+        rm -rf ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
         GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     else
         echo "use current zsh-autosuggestions."
     fi
     if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
         echo "install zsh-history-substring-search...."
+        rm -rf ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
         GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
     else
         echo "use current zsh-history-substring-search."
     fi
     if ! [ -e ~/.oh-my-zsh/custom/plugins/zsh-you-should-use/zsh-you-should-use.plugin.zsh ]; then
         echo "install zsh-you-should-use...."
+        rm -rf ~/.oh-my-zsh/custom/plugins/zsh-you-should-use
         GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/MichaelAquilina/zsh-you-should-use ~/.oh-my-zsh/custom/plugins/zsh-you-should-use
     else
         echo "use current zsh-you-should-use."
