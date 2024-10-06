@@ -12,7 +12,7 @@ docker compose stop && docker compose rm -f && docker build -t mydev:gcc14.0924 
 
 ## 宿主机准备
 以rootless模式运行docker 
-参考文档：https://gitee.com/sunnybug/pubshell/blob/main/root_tools/docker-rootless/readme.md
+参考文档：https://gitee.com/sunnybug/pubshell/blob/main/root_tool/docker-rootless/readme.md
 
 ## 启动容器
 ./recreate.sh .env

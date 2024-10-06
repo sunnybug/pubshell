@@ -1,5 +1,8 @@
 FROM debian:12-slim
 
+# 定义构建时的参数
+ARG GCC_VER=12
+
 ####################################################################
 #base 
 EXPOSE 22/tcp
@@ -11,7 +14,7 @@ RUN echo '' > /etc/apt/sources.list.d/debian.sources
 COPY file/preferences /etc/apt/preferences
 
 RUN apt update\
-    && apt install --no-install-recommends -y vim jq ssh p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
+    && apt install --no-install-recommends -y gdb make ninja-build vim jq ssh p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
     # && pip config set global.trusted-host 192.168.1.20\
     # && pip config set global.index-url http://192.168.1.20:9090/simple/\
@@ -20,15 +23,22 @@ RUN apt update\
     && git config --global user.name "$MY_NAME"\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
     && mkdir /data\
-    && sed -i '/^PubkeyAcceptedAlgorithms/d;$aPubkeyAcceptedAlgorithms +ssh-rsa' /etc/ssh/sshd_config\
-    && sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config\
-    && sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config \
-    && apt install --no-install-recommends -y gcc-12 g++-12 gdb make ninja-build\
-    && link /usr/bin/gcc-12 /usr/bin/gcc\
-    && link /usr/bin/g++-12 /usr/bin/g++\
-    && link /usr/bin/g++-12 /usr/bin/c++\
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/locale.sh | bash
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/ssh_config.sh | bash\
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/locale.sh | bash
 
+RUN if [ "$GCC_VER" = "12" ]; then \
+        apt install --no-install-recommends -y gcc-12 g++-12 \
+        && link /usr/bin/gcc-12 /usr/bin/gcc\
+        && link /usr/bin/g++-12 /usr/bin/g++\
+        && link /usr/bin/g++-12 /usr/bin/c++\
+    elif [ "$GCC_VER" = "14" ]; then \
+        apt install --no-install-recommends -y gcc-14 g++-14 \
+        && link /usr/bin/gcc-14 /usr/bin/gcc\
+        && link /usr/bin/g++-14 /usr/bin/g++\
+        && link /usr/bin/g++-14 /usr/bin/c++\    
+    else \
+        exit 1
+    fi
 # distcc
 # RUN apt install -y distcc distcc-pump
 # COPY file/distcc /etc/default/distcc

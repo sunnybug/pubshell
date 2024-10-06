@@ -24,4 +24,4 @@ fi
 
 echo "Cloned repo to $temp_dir"
 
-bash $temp_dir/root_tools/install.sh "${args[@]}"
+bash $temp_dir/root_tool/install.sh "${args[@]}"

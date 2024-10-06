@@ -3,22 +3,22 @@
 
 ## 以管理员身份安装dev工具
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/webinstall.sh | bash -s -- --dev
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/webinstall.sh | bash -s -- --dev
 `
 ## 以管理员身份安装CPP服务器所需工具
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/webinstall.sh | bash -s -- --cppserver
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/webinstall.sh | bash -s -- --cppserver
 `
 
 ## 以管理员身份增加用户
 `
 有bug
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/add_user.sh | bash
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/add_user.sh | bash
 `
 
 ## 以管理员身份修改ssh设置
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/set_ssh.sh | bash
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/set_ssh.sh | bash
 `
 
 `

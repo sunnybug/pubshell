@@ -30,6 +30,11 @@ init_ssh_config(){
         echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
     fi
 
+    # 如果是root
+    if [ "$(whoami)" = "root" ]; then
+        sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config
+        sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+    fi
 }
 init_ssh_config
 check_ssh_config

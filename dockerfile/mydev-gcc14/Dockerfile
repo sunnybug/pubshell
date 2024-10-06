@@ -27,7 +27,7 @@ RUN apt update\
     && link /usr/bin/gcc-14 /usr/bin/gcc\
     && link /usr/bin/g++-14 /usr/bin/g++\
     && link /usr/bin/g++-14 /usr/bin/c++\
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tools/locale.sh | bash
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/locale.sh | bash
 
 # distcc
 # RUN apt install -y distcc distcc-pump
