@@ -36,6 +36,8 @@ source ~/.myshell/tool/svn_store_password.sh
 
 #########################
 source ~/.myshell/tool/proxy.sh
+xdetectproxy
+
 if [ "$use_proxy" == "y" ];then
     xopenproxy
 fi
