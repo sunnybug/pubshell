@@ -23,9 +23,6 @@ xdetectproxy(){
         elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         my_proxy='http://127.0.0.1:10811'
         use_proxy="y"
-        elif curl -IsL http://192.168.1.186:10813 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        my_proxy='http://192.168.1.186:10813'
-        use_proxy="y"
     fi
     
     # 如果当前用户是root
