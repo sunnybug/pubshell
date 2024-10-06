@@ -34,6 +34,7 @@ init_ssh_config(){
     if [ "$(id -u)" = "0" ]; then
         sed -i 's|\(^#\)\?MaxAuthTries.*|MaxAuthTries 30|' /etc/ssh/sshd_config
         sed -i 's/\(^#\)\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+        echo '[SUC]root权限，已设置ssh_config'
     fi
 }
 init_ssh_config
