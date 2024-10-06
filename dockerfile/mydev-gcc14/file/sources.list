@@ -1,0 +1,15 @@
+deb http://mirrors.aliyun.com/debian/ bookworm main contrib non-free
+deb http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free
+deb http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free
+#deb-src http://mirrors.aliyun.com/debian/ bookworm main contrib non-free
+#deb-src http://mirrors.aliyun.com/debian/ bookworm-updates main contrib non-free
+#deb-src http://mirrors.aliyun.com/debian-security bookworm-security main contrib non-free
+
+deb http://mirrors.aliyun.com/debian/ testing main contrib non-free 
+deb http://mirrors.aliyun.com/debian/ testing-updates main contrib non-free
+deb http://mirrors.aliyun.com/debian-security testing-security main contrib non-free
+#deb-src http://mirrors.aliyun.com/debian/ testing main contrib non-free 
+#deb-src http://mirrors.aliyun.com/debian/ testing-updates main contrib non-free
+#deb-src http://mirrors.aliyun.com/debian-security testing-security main contrib non-free
+
+

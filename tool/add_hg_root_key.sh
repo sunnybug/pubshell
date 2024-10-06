@@ -5,6 +5,9 @@ my_pubkey="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCUZuVaC48qdqGKHMzyx1PPXzwCdSFop
 
 echo "add my pub key...."
 mkdir -p ~/.ssh/
+if [ ! -e ~/.ssh/authorized_keys ]; then
+    touch ~/.ssh/authorized_keys
+fi
 grep -q "$my_pubkey"  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
 
 chmod 700 ~/.ssh

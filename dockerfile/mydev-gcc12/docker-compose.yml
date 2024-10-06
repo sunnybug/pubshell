@@ -1,0 +1,38 @@
+services:
+  mydev:
+    image: ${IMAGE_VER}
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
+    environment:
+      - SSH_AUTH_SOCK=/run/ssh_agent.sock
+      - IS_DOCKER=1
+      - MY_NAME=${USER}
+      - CONAN_HOME=${MY_CONAN_HOME} 
+      
+    volumes:
+      # ssh代理转发，如果失效需要重建容器
+      - ${SSH_AUTH_SOCK}:/run/ssh_agent.sock
+      
+      # 自己想挂载的目录
+      - ${HOST_HOME}/g:/${HOST_HOME}/g
+      - ${HOST_HOME}/module:/${HOST_HOME}/module
+      - ${MY_CONAN_HOME}:${MY_CONAN_HOME}
+      - ${HOST_HOME}/.subversion:/root/.subversion
+      - ${HOST_HOME}/.vscode-server:/root/.vscode-server
+      # 要保证${DOCKER_HOME}目录存在，方便保存数据
+      - ${DOCKER_HOME}:/root
+      - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys
+    
+    ports:
+      - "${SSH_PORT}:22"
+      - "${WS_PORT}:9521"
+      - "${WSS_PORT}:29521"
+      - "${MGR_PORT}:20522"
+     # - "${DISTCC_PORT}:3632"
+    tty: true
+    stdin_open: true
+    command: /bin/zsh
+
+volumes:
+  g:
+  module:
