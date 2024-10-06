@@ -16,7 +16,7 @@ xdetectproxy(){
             use_proxy="n"
         fi
     fi
-
+    echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         my_proxy='http://192.168.1.199:10816'
         use_proxy="y"
@@ -50,3 +50,4 @@ fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
 alias xopenproxy="export http_proxy='''$my_proxy''';export https_proxy='''$my_proxy''';echo \"HTTP Proxy:$my_proxy\";"
+xdetectproxy

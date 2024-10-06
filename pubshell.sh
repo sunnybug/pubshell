@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+# 由于curl会异常，不能开-e
+# set -e
 
 ##############################################
 # config
@@ -35,7 +36,6 @@ source ~/.myshell/tool/svn_store_password.sh
 
 #########################
 source ~/.myshell/tool/proxy.sh
-xdetectproxy
 if [ "$use_proxy" == "y" ];then
     xopenproxy
 fi
