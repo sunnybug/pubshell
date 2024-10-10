@@ -1,1 +1,0 @@
-docker compose exec mydev /bin/zsh
