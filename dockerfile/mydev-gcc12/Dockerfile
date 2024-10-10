@@ -1,7 +1,7 @@
 FROM debian:12-slim
 
 # 定义构建时的参数
-ARG GCC_VER=12
+ARG GCC_VER=none
 
 ####################################################################
 #base 
@@ -18,7 +18,7 @@ RUN apt update\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
     # && pip config set global.trusted-host 192.168.1.20\
     # && pip config set global.index-url http://192.168.1.20:9090/simple/\
-    && pip install regex click --break-sys\
+    && pip install cmake regex click --break-sys\
     && git config --global user.email "$MY_NAME@x.com"\
     && git config --global user.name "$MY_NAME"\
     && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
@@ -27,17 +27,18 @@ RUN apt update\
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/locale.sh | bash
 
 RUN if [ "$GCC_VER" = "12" ]; then \
-        apt install --no-install-recommends -y gcc-12 g++-12 \
-        && link /usr/bin/gcc-12 /usr/bin/gcc\
-        && link /usr/bin/g++-12 /usr/bin/g++\
-        && link /usr/bin/g++-12 /usr/bin/c++\
+        apt install --no-install-recommends -y gcc-12 g++-12 && \
+        ln -s /usr/bin/gcc-12 /usr/bin/gcc && \
+        ln -s /usr/bin/g++-12 /usr/bin/g++ && \
+        ln -s /usr/bin/g++-12 /usr/bin/c++; \
     elif [ "$GCC_VER" = "14" ]; then \
-        apt install --no-install-recommends -y gcc-14 g++-14 \
-        && link /usr/bin/gcc-14 /usr/bin/gcc\
-        && link /usr/bin/g++-14 /usr/bin/g++\
-        && link /usr/bin/g++-14 /usr/bin/c++\    
+        apt install --no-install-recommends -y gcc-14 g++-14 && \
+        ln -s /usr/bin/gcc-14 /usr/bin/gcc && \
+        ln -s /usr/bin/g++-14 /usr/bin/g++ && \
+        ln -s /usr/bin/g++-14 /usr/bin/c++; \
     else \
-        exit 1
+        echo "Unsupported GCC version: $GCC_VER" && \
+        exit 1; \
     fi
 # distcc
 # RUN apt install -y distcc distcc-pump

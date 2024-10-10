@@ -3,7 +3,7 @@
 check_ssh_config(){
     # 如果环境变量$SSH_AUTH_SOCK不存在或者指向的路径不存在，则报错
     if [ -z "$SSH_AUTH_SOCK" ]; then
-        echo "[ERR]环境变量\$SSH_AUTH_SOCK没有设置。可能时Mobxterm的转发未开"
+        echo "[ERR]环境变量\$SSH_AUTH_SOCK没有设置。可能Mobxterm的agent转发未开"
     else
         # 检查$SSH_AUTH_SOCK指向的路径是否存在
         if [ ! -e "$SSH_AUTH_SOCK" ]; then

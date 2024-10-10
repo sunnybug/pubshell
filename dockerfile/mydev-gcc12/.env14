@@ -1,4 +1,4 @@
-GCC_VER=12
+GCC_VER=14
 IMAGE_VER=192.168.1.185:5000/gs:gcc$GCC_VER.1005
 CONTAINER_NAME=mydev${GCC_VER}
 # 宿主机中用户的home目录(认为是代码和conan的默认目录)

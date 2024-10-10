@@ -46,3 +46,5 @@ bindkey "^[^D" list-choices                     # Ctrl+Shift+D 功能：列出�
 bindkey '^j' autosuggest-accept #ctrl+j 代替默认的right
 bindkey "\e[H" beginning-of-line #Home 行首
 bindkey "\e[F" end-of-line #End 行尾
+
+DISABLE_AUTO_UPDATE="true"

@@ -4,22 +4,19 @@ if [ -z "$1" ]; then
     echo "错误：缺少参数，请提供 .env 文件路径。"
     exit 1
 fi
-if [ -z "$2" ]; then
-    echo "错误：缺少参数，请提供 容器名。"
-    exit 1
-fi
 if [ ! -f "$1" ]; then
     echo "错误：文件 '$1' 不存在。"
     exit 1
 fi
 
 source $1
-CONTAINER_NAME=$2
 
-if docker ps -a | grep -qw "${CONTAINER_NAME}"; then
+if docker ps -a | grep -qP "^${CONTAINER_NAME}$|^${CONTAINER_NAME}\s"; then
   echo "容器 ${CONTAINER_NAME} 已存在。"
   exit 0
 fi
+
+echo "正在创建容器 ${CONTAINER_NAME}..."
 
 docker run \
   --name ${CONTAINER_NAME} \
@@ -38,7 +35,7 @@ docker run \
   -p ${WS_PORT}:9521 \
   -p ${WSS_PORT}:29521 \
   -p ${MGR_PORT}:20522 \
-  --tty \
+  --tty -d \
   --interactive \
   ${IMAGE_VER} \
   /bin/zsh
