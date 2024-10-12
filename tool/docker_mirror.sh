@@ -75,20 +75,23 @@ docker_rootless_proxy(){
     echo '[...]docker_rootless_proxy....'
     proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
     
-    if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    local myproxy="http://192.168.1.199:10816"
+    if curl -IsL $myproxy --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         if [ -f $proxy_conf ]; then
             mv $proxy_conf ${proxy_conf}.bak.$(date +"%Y%m%d%H%M%S")
         fi
         mkdir -p ~/.config/systemd/user/docker.service.d
         cat <<EOF > $proxy_conf
 [Service]
-Environment="HTTP_PROXY=http://192.168.1.199:10816/"
-Environment="HTTPS_PROXY=http://192.168.1.199:10816/"
+Environment="HTTP_PROXY=$myproxy"
+Environment="HTTPS_PROXY=$myproxy"
 Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185"
 EOF
 
-    echo '[SUC]docker_rootless_proxy'
-    echo "create suc: $proxy_conf"
+        echo "[SUC]docker_rootless_proxy,use:$myproxy"
+        echo "create suc: $proxy_conf"
+    else
+        echo "proxy not found"
     fi
 }
 
