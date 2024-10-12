@@ -71,3 +71,7 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 | ctrl+right | 接受当前建议的单词              |
 | Home       | 跳到行首                        |
 | End        | 跳到行尾                        |
+
+## New
+2024.10.12 
+1. docker_mirror.sh新增docker api端口自动检测支持，默认为id+1000

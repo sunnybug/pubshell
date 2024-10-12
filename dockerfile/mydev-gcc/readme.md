@@ -1,5 +1,12 @@
 C++开发用的镜像
 
+## 傻瓜版
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
+curl -o docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/docker-compose.yml
+curl -o .env14 https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/.env14
+编辑.env14中的镜像版本/端口等，默认配置下会将容器中的/root挂载到/home/$USER/mydev$GCC_VER_home
+docker compose --env-file=.env14 up -d
+
 ## 按需配置.env
 
 ## 镜像构建
