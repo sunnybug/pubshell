@@ -92,19 +92,11 @@ EOF
     fi
 }
 
-docker_rootless_mirror(){
-    echo '[...]docker_rootless_mirror....'
-    ret=0
-    daemon_cfg=~/.config/docker/daemon.json
-    if [ ! -e "$daemon_cfg" ]; then
-        mkdir -p ~/.config/docker
-        touch $daemon_cfg
-    fi    
-    # insecure-registries
-    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' $daemon_cfg >  tmp.json && mv tmp.json $daemon_cfg
-    
+docker_rootless_api(){
+    echo '[...]docker_rootless_api....'
     # docker api
     # 如果daemon.json中不存在hosts，则添加
+    daemon_cfg=~/.config/docker/daemon.json
     if ! jq -e '.hosts' $daemon_cfg > /dev/null; then
         USER_ID=$(id -u)
         PORT=$((USER_ID + 1000))
@@ -131,9 +123,23 @@ EOF
             echo "docker API 找不到可用端口"
         fi
     else
-        echo "daemon.json中已经存在hosts，无需配置"
+        echo "$daemon_cfg中已经存在hosts，无需配置"
     fi
-    echo '[SUC]docker_rootless_mirror'
+    echo '[SUC]docker_rootless_api'
+}
+
+docker_rootless_repo(){
+    echo '[...]docker_rootless_repo....'
+    ret=0
+    daemon_cfg=~/.config/docker/daemon.json
+    if [ ! -e "$daemon_cfg" ]; then
+        mkdir -p ~/.config/docker
+        touch $daemon_cfg
+    fi    
+    # insecure-registries
+    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' $daemon_cfg >  tmp.json && mv tmp.json $daemon_cfg
+    
+    echo '[SUC]docker_rootless_repo'
 }
 
 auto_docker_mirror(){
@@ -145,7 +151,8 @@ auto_docker_mirror(){
     # 如果docker info返回中包含rootless
     if docker info | grep -q "rootless"; then
         docker_rootless_proxy
-        docker_rootless_mirror
+        docker_rootless_repo
+        docker_rootless_api
     else
         docker_root_proxy
     fi
