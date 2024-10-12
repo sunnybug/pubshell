@@ -72,7 +72,7 @@ fi
 
 #######################
 source ~/.myshell/tool/pip_mirror.sh
-source ~/.myshell/tool/docker_mirror.sh
+source ~/.myshell/tool/config_docker.sh
 source ~/.myshell/tool/ssh_config.sh
 
 

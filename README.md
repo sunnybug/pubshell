@@ -72,6 +72,11 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 | Home       | 跳到行首                        |
 | End        | 跳到行尾                        |
 
+## 部分常用web install
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_docker.sh | sh
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | sh
+
+
 ## New
 2024.10.12 
-1. docker_mirror.sh新增docker api端口自动检测支持，默认为id+1000
+1. config_docker.sh新增docker api端口自动检测支持，默认为id+1000

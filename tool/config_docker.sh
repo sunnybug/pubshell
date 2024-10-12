@@ -4,7 +4,7 @@
 
 # example
 : <<'END'
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/docker_mirror.sh | bash
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
 END
 
 g_API_PORT=0
@@ -127,6 +127,9 @@ EOF
         fi
     else
         echo "$daemon_cfg中已经存在hosts，无需配置"
+        if hosts_content=$(jq -r '.hosts' "$daemon_cfg" 2>/dev/null); then
+            echo "$hosts_content"
+        fi
     fi
     echo '[SUC]docker_rootless_api'
 }
@@ -145,7 +148,7 @@ docker_rootless_repo(){
     echo '[SUC]docker_rootless_repo'
 }
 
-auto_docker_mirror(){
+auto_config_docker(){
     # 检查是否存在docker命令
     if ! [ -x "$(command -v docker)" ]; then
         return
@@ -165,4 +168,4 @@ auto_docker_mirror(){
     
 }
 
-auto_docker_mirror
+auto_config_docker
