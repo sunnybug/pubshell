@@ -117,7 +117,7 @@ docker_rootless_mirror(){
             # write to daemon.json
             jq -s --arg USER_ID "$USER_ID" --arg PORT "$PORT" '
                 .[0] + 
-                {"hosts": ["unix:///run/user/\($USER_ID)/docker.sock", "tcp://127.0.0.1:\($PORT)"]}
+                {"hosts": ["unix:///run/user/\($USER_ID)/docker.sock", "tcp://0.0.0.0:\($PORT)"]}
             ' $daemon_cfg > tmp.json && mv tmp.json $daemon_cfg
             
             #write to myapi.conf
@@ -125,7 +125,7 @@ docker_rootless_mirror(){
             touch $api_conf
             cat <<EOF > $api_conf
     [Service]
-    Environment=DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS="-p 127.0.0.1:$PORT:$PORT/tcp"
+    Environment=DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS="-p 0.0.0.0:$PORT:$PORT/tcp"
 EOF
         else
             echo "docker API 找不到可用端口"
