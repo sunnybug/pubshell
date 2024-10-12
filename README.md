@@ -73,8 +73,10 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 | End        | 跳到行尾                        |
 
 ## 部分常用web install
+```shell
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_docker.sh | sh
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | sh
+```
 
 
 ## New
