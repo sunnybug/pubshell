@@ -4,6 +4,7 @@ export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.
 
 #########################
 github_mirror="gitclone.com/github.com"
+my_proxy=""
 
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
@@ -39,12 +40,10 @@ xdetectproxy(){
     
     echo "my_proxy=$my_proxy"
     
-    # create file
-    if ! [ -d ~/.myshell ]; then
-        mkdir ~/.myshell
-        echo '未检测到.myshell目录，建议安装pubshell'
+    # save to file
+    if [ -d ~/.myshell ]; then
+        echo $my_proxy > ~/.myshell/.proxy
     fi
-    echo $my_proxy > ~/.myshell/.proxy
 }
 
 # read file to $my_proxy
@@ -55,4 +54,5 @@ else
 fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
-alias xopenproxy="export http_proxy='''$my_proxy''';export https_proxy='''$my_proxy''';echo \"HTTP Proxy:$my_proxy\";"
+alias xopenproxy="export http_proxy='''$my_proxy''';export https_proxy='''$my_proxy''';echo \"my_proxy:$my_proxy\";"
+echo "[SUC]my_proxy:$my_proxy"

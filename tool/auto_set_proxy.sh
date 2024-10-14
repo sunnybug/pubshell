@@ -2,7 +2,6 @@
 shopt -s expand_aliases
 
 script_path=$(dirname "$(realpath "$0")")
-
 tempfile="$script_path/xproxy.sh"
 if [ ! -f "$tempfile" ]; then
     tempfile=$(mktemp)
@@ -13,4 +12,5 @@ source "$tempfile"
 
 xopenproxy
 
+echo "[auto_set_proxy]http_proxy:$HTTP_PROXY" \
 echo "[auto_set_proxy]http_proxy:$HTTP_PROXY" \
