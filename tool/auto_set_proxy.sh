@@ -12,4 +12,4 @@ source "$tempfile"
 
 xopenproxy
 alias xopenproxy
-echo "[auto_set_proxy]http_proxy:$HTTP_PROXY"
+echo "[auto_set_proxy]http_proxy:$http_proxy"
