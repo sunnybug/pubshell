@@ -18,7 +18,7 @@ xdetectproxy(){
         curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/check_gfw.sh | bash
     fi
 
-    if [ $gfw_need_proxy = "y" ]; then
+    if [ "$gfw_need_proxy" = "y" ]; then
         use_proxy="y"
         github_mirror="github.com"
     fi
