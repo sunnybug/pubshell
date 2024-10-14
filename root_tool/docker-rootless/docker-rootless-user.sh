@@ -24,18 +24,8 @@ systemctl --user --now enable docker
 if loginctl show-user "$USER" | grep -qw 'Linger=yes'; then
     echo "当前用户服务已经设置为开机自启"
 else
-    echo "是否允许当前用户服务开机自启:y/n"
-    read -r user_input
-    if [[ "$user_input" == "y" ]]; then
-        echo "sudo loginctl enable-linger $USER"
-        if sudo loginctl enable-linger "$USER"; then
-            echo "[SUC] 成功设置开机自启。"
-        else
-            echo -e "\033[31m[ERR]无法设置开机自启，请检查权限或联系管理员执行sudo loginctl enable-linger $USER\033[0m"
-        fi
-    else
-        echo '禁止当前用户服务开机自启'
-    fi
+    echo "root执行:"
+    echo "sudo loginctl enable-linger $USER"
 fi
 
 ###############
