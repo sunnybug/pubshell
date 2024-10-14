@@ -43,7 +43,9 @@ RUN if [ "$GCC_VER" = "12" ]; then \
     fi
 
 RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
-    curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
+    curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh | . \
+    && echo "http_proxy:$HTTP_PROXY" \
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash; \
     fi
     

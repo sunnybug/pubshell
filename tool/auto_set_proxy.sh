@@ -12,3 +12,5 @@ fi
 source "$tempfile"
 
 xopenproxy
+
+echo "[auto_set_proxy]http_proxy:$HTTP_PROXY" \
