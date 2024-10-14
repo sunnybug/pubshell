@@ -2,7 +2,6 @@ FROM debian:bookworm
 
 # 定义构建时的参数
 ARG GCC_VER=0
-ARG INSTALL_DOCKER=0
 
 ####################################################################
 #base 
@@ -47,12 +46,6 @@ RUN if [ "$GCC_VER" = "12" ]; then \
         exit 1; \
     fi
 
-RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
-    source /mytool/pubshell/tool/auto_set_proxy.sh \
-    && source /mytool/pubshell/root_tool/install_debian_root_docker.sh \
-    && source /mytool/pubshell/tool/config_docker.sh; \
-    fi
-    
 # distcc
 # RUN apt install -y distcc distcc-pump
 # COPY file/distcc /etc/default/distcc

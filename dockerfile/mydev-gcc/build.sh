@@ -16,7 +16,7 @@ source $1
 
 # 构建镜像
 echo "IMAGE_VER:$IMAGE_VER"
-docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --build-arg INSTALL_DOCKER=$INSTALL_DOCKER --no-cache
+docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --no-cache
 if [ $? -ne 0 ]; then
     echo "Error: Docker build failed."
     exit 1
