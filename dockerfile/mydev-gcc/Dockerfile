@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:bookworm
 
 # 定义构建时的参数
 ARG GCC_VER=0
@@ -26,9 +26,10 @@ RUN apt update\
     && git config --global user.name "$MY_NAME"\
     && link /usr/bin/python3 /usr/bin/python\
     && mkdir /data\
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/ssh_config.sh | bash\
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/locale.sh | bash
-
+    && git clone https://gitee.com/sunnybug/pubshell.git /tmp/pubshell \
+    && bash /tmp/pubshell/tool/ssh_config.sh \
+    && bash /tmp/pubshell/root_tool/locale.sh
+    
 RUN if [ "$GCC_VER" = "12" ]; then \
         apt install --no-install-recommends -y gcc-12 g++-12 && \
         ln -s /usr/bin/gcc-12 /usr/bin/gcc && \
@@ -45,12 +46,9 @@ RUN if [ "$GCC_VER" = "12" ]; then \
     fi
 
 RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
-    curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh -o /tmp/auto_set_proxy.sh \
-    && chmod +x /tmp/auto_set_proxy.sh \
-    && source /tmp/auto_set_proxy.sh \
-    && echo "http_proxy1:$HTTP_PROXY" \
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
-    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash; \
+    source /tmp/pubshell/tool/auto_set_proxy.sh \
+    && source /tmp/pubshell/root_tool/install_debian_root_docker.sh \
+    && source /tmp/pubshell/tool/config_docker.sh; \
     fi
     
 # distcc
@@ -85,5 +83,5 @@ RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
 WORKDIR /root
 # 不能放root下，因为root目录后面会被挂载出去
 COPY file/entrypoint.sh /mytools/entrypoint.sh
-RUN chmod +x /mytools/entrypoint.sh
+RUN chmod +x /mytools/entrypoint.sh && rm -rf "/tmp/*"
 ENTRYPOINT ["/bin/bash", "-c", "/mytools/entrypoint.sh"]    

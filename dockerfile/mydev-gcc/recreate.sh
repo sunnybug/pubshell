@@ -13,8 +13,8 @@ fi
 source $1
 # 如果容器已在运行，则停止它
 if docker ps -a | grep -q "\b${CONTAINER_NAME}\b"; then
-  echo "停止容器 ${CONTAINER_NAME} "
-  docker stop ${CONTAINER_NAME}
+  echo "停止容器 ${CONTAINER_NAME} -t 0"
+  docker stop ${CONTAINER_NAME} 
   echo "删除容器 ${CONTAINER_NAME} "
   docker rm ${CONTAINER_NAME}
 fi
