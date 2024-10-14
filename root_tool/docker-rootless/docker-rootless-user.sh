@@ -49,4 +49,6 @@ else
     echo "[SUC] DOCKER_HOST is already set to '$DOCKER_HOST'"
 fi
 
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
+
 echo "[SUC] Docker Rootless 安装完成,请重新登录"
