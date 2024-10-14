@@ -31,7 +31,7 @@ fi
 ###############
 # 检查PATH是否已经包含~/bin
 current_path="$PATH"
-if [[ "$current_path" != *":$HOME/bin:"* ]]; then
+if [[ ! "$current_path" =~ *":$HOME/bin:"* ]]; then
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
     echo "[SUC] Added '~/bin' to PATH in ~/.bashrc"
 else
@@ -48,4 +48,4 @@ else
     echo "[SUC] DOCKER_HOST is already set to '$DOCKER_HOST'"
 fi
 
-echo "[SUC] Docker Rootless 安装完成"
+echo "[SUC] Docker Rootless 安装完成,请重新登录"
