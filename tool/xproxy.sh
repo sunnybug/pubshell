@@ -40,8 +40,6 @@ xdetectproxy(){
     #     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
     # fi
     
-    echo "g_my_proxy=$g_my_proxy"
-    
     # save to file
     if [ -d ~/.myshell ]; then
         echo $g_my_proxy > ~/.myshell/.proxy
