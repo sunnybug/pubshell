@@ -55,4 +55,3 @@ fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
 alias xopenproxy="export http_proxy='''$g_my_proxy''';export https_proxy='''$g_my_proxy''';echo \"g_my_proxy:$g_my_proxy\";"
-echo "[SUC]g_my_proxy:$g_my_proxy"
