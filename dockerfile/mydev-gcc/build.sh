@@ -12,6 +12,8 @@ fi
 
 source $1
 
+# 由于镜像中需要安装docker，所以需要开proxy
+
 # 构建镜像
 docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --build-arg INSTALL_DOCKER=$INSTALL_DOCKER
 if [ $? -ne 0 ]; then
