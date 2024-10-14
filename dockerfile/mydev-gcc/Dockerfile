@@ -48,7 +48,7 @@ RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
     curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh -o /tmp/auto_set_proxy.sh \
     && chmod +x /tmp/auto_set_proxy.sh \
     && source /tmp/auto_set_proxy.sh \
-    && echo "http_proxy3:$HTTP_PROXY" \
+    && echo "http_proxy4:$HTTP_PROXY" \
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash; \
     fi

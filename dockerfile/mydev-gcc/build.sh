@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 如果输入y，则push镜像
-read -p "是否push镜像 $IMAGE_VER[y/n]" answer < /dev/stdin
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    docker push $IMAGE_VER
-fi
+# read -p "是否push镜像 $IMAGE_VER[y/n]" answer < /dev/stdin
+# if [[ "$answer" =~ ^[Yy]$ ]]; then
+#     docker push $IMAGE_VER
+# fi

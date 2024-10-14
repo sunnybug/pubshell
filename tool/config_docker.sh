@@ -76,10 +76,9 @@ docker_rootless_proxy() {
     echo '[...]docker_rootless_proxy....'
     local proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
 
-    local myproxy="http://192.168.1.199:10816"
-    if curl -IsL "$myproxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    if curl -IsL "$g_my_proxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         if [ -f "$proxy_conf" ]; then
-            if grep -q "$myproxy" "$proxy_conf"; then
+            if grep -q "$g_my_proxy" "$proxy_conf"; then
                 echo "HTTP_PROXY已配置:$myproxy，无需修改"
                 return
             fi
@@ -87,12 +86,12 @@ docker_rootless_proxy() {
         mkdir -p ~/.config/systemd/user/docker.service.d
         cat <<EOF > "$proxy_conf"
 [Service]
-Environment="HTTP_PROXY=$myproxy"
-Environment="HTTPS_PROXY=$myproxy"
+Environment="HTTP_PROXY=$g_my_proxy"
+Environment="HTTPS_PROXY=$g_my_proxy"
 Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185"
 EOF
 
-        echo "[SUC]docker_rootless_proxy, use: $myproxy"
+        echo "[SUC]docker_rootless_proxy, use: $g_my_proxy"
         echo "create suc: $proxy_conf"
         g_Change=true
     else
@@ -173,6 +172,16 @@ auto_config_docker() {
     # 检查是否存在docker命令
     if ! [ -x "$(command -v docker)" ]; then
         return
+    fi
+
+    # 如果本地存在该文件，则执行
+    script_dir=$(dirname "$(realpath "$0")")
+    if [ -f "$script_dir/xproxy.sh" ]; then
+        echo "使用本地xproxy.sh"
+        source "$script_dir/xproxy.sh"
+    else
+        echo "下载xproxy.sh"
+        curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh | bash
     fi
 
     # 如果docker info返回中包含rootless

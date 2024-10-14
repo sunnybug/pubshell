@@ -4,7 +4,7 @@ export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.
 
 #########################
 github_mirror="gitclone.com/github.com"
-my_proxy=""
+g_my_proxy=""
 
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
@@ -12,9 +12,11 @@ xdetectproxy(){
 
     # 如果本地存在该文件，则执行
     script_dir=$(dirname "$(realpath "$0")")
-    if [ -f "$script_dir/$check_gfw" ]; then
+    if [ -f "$script_dir/check_gfw.sh" ]; then
+        echo "使用本地check_gfw.sh"
         source "$script_dir/check_gfw.sh"
     else
+        echo "下载check_gfw.sh"
         curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/check_gfw.sh | bash
     fi
 
@@ -25,10 +27,10 @@ xdetectproxy(){
     
     echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        my_proxy='http://192.168.1.199:10816'
+        g_my_proxy='http://192.168.1.199:10816'
         use_proxy="y"
         elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        my_proxy='http://127.0.0.1:10811'
+        g_my_proxy='http://127.0.0.1:10811'
         use_proxy="y"
     fi
     
@@ -38,21 +40,21 @@ xdetectproxy(){
     #     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
     # fi
     
-    echo "my_proxy=$my_proxy"
+    echo "g_my_proxy=$g_my_proxy"
     
     # save to file
     if [ -d ~/.myshell ]; then
-        echo $my_proxy > ~/.myshell/.proxy
+        echo $g_my_proxy > ~/.myshell/.proxy
     fi
 }
 
-# read file to $my_proxy
+# read file to $g_my_proxy
 if [ -e ~/.myshell/.proxy ]; then
-    my_proxy=$(cat ~/.myshell/.proxy)
+    g_my_proxy=$(cat ~/.myshell/.proxy)
 else
     xdetectproxy
 fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
-alias xopenproxy="export http_proxy='''$my_proxy''';export https_proxy='''$my_proxy''';echo \"my_proxy:$my_proxy\";"
-echo "[SUC]my_proxy:$my_proxy"
+alias xopenproxy="export http_proxy='''$g_my_proxy''';export https_proxy='''$g_my_proxy''';echo \"g_my_proxy:$g_my_proxy\";"
+echo "[SUC]g_my_proxy:$g_my_proxy"
