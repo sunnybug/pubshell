@@ -15,7 +15,8 @@ source $1
 # 由于镜像中需要安装docker，所以需要开proxy
 
 # 构建镜像
-docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --build-arg INSTALL_DOCKER=$INSTALL_DOCKER
+echo "IMAGE_VER:$IMAGE_VER"
+docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --build-arg INSTALL_DOCKER=$INSTALL_DOCKER --no-cache
 if [ $? -ne 0 ]; then
     echo "Error: Docker build failed."
     exit 1
@@ -26,3 +27,4 @@ fi
 # if [[ "$answer" =~ ^[Yy]$ ]]; then
 #     docker push $IMAGE_VER
 # fi
+

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function install_debian_root_docker(){
-    echo "[...]install_debian_root_docker......."
+    echo "[...]install_debian_root_docker for bookworm......."
     
     # 检查是否debian
     if [ ! -f /etc/debian_version ]; then
@@ -18,8 +18,8 @@ function install_debian_root_docker(){
     fi
 
     echo $result | gpg --dearmor > /usr/share/keyrings/docker-ce.gpg
-    source /etc/os-release
-    sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-ce.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
+    # source /etc/os-release
+    sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-ce.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bookworm stable" > /etc/apt/sources.list.d/docker.list
     sudo apt update
     if [ $? -ne 0 ]; then
         echo "apt update error"

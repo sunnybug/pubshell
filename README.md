@@ -77,6 +77,7 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_debian_root_docker.sh | bash
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh | bash
+curl -o /etc/apt/sources.list https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/file/sources.list
 ```
 
 
