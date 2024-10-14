@@ -35,7 +35,7 @@ echo "source ~/.myshell/.myrc" >> ~/.bashrc
 source ~/.myshell/tool/svn_store_password.sh
 
 #########################
-source ~/.myshell/tool/proxy.sh
+source ~/.myshell/tool/xproxy.sh
 xdetectproxy
 
 if [ "$use_proxy" == "y" ];then

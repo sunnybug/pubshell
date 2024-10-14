@@ -8,6 +8,7 @@ curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | 
 END
 
 g_API_PORT=0
+g_Change=false
 
 # 判断端口是否被占用
 check_port() {
@@ -41,20 +42,20 @@ find_available_port() {
     return 0
 }
 
-
-docker_root_mirror(){
-    conf="/etc/docker/daemon.json"
+docker_root_mirror() {
+    local conf="/etc/docker/daemon.json"
     # 如果有配置镜像就不配置了
-    if grep -q "registry-mirrors" ${conf}; then
-        echo "registry-mirrors already exists, skip"
+    if grep -q "registry-mirrors" "${conf}"; then
+        echo "registry-mirrors 已经正确配置，无需修改"
         return
     fi
-    
-    if [ -f $conf ]; then
-        mv $conf ${conf}.bak.$(date +"%Y%m%d%H%M%S")
+
+    if [ -f "$conf" ]; then
+        mv "$conf" "${conf}.bak.$(date +"%Y%m%d%H%M%S")"
+        g_Change=true
     fi
-    
-cat <<EOF > $conf
+
+    cat <<EOF > "$conf"
 {
     "registry-mirrors": [
         "https://registry.docker-cn.com",
@@ -66,89 +67,109 @@ cat <<EOF > $conf
 EOF
 }
 
-docker_root_proxy(){
+docker_root_proxy() {
     echo '未实现root docker，暂不支持'
     exit 1
 }
 
-docker_rootless_proxy(){
+docker_rootless_proxy() {
     echo '[...]docker_rootless_proxy....'
-    proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
-    
+    local proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
+
     local myproxy="http://192.168.1.199:10816"
-    if curl -IsL $myproxy --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        if [ -f $proxy_conf ]; then
-            mv $proxy_conf ${proxy_conf}.bak.$(date +"%Y%m%d%H%M%S")
+    if curl -IsL "$myproxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+        if [ -f "$proxy_conf" ]; then
+            if grep -q "$myproxy" "$proxy_conf"; then
+                echo "HTTP_PROXY已配置:$myproxy，无需修改"
+                return
+            fi
         fi
         mkdir -p ~/.config/systemd/user/docker.service.d
-        cat <<EOF > $proxy_conf
+        cat <<EOF > "$proxy_conf"
 [Service]
 Environment="HTTP_PROXY=$myproxy"
 Environment="HTTPS_PROXY=$myproxy"
 Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185"
 EOF
 
-        echo "[SUC]docker_rootless_proxy,use:$myproxy"
+        echo "[SUC]docker_rootless_proxy, use: $myproxy"
         echo "create suc: $proxy_conf"
+        g_Change=true
     else
         echo "proxy not found"
     fi
 }
 
-docker_rootless_api(){
+docker_rootless_api() {
     echo '[...]docker_rootless_api....'
-    # docker api
-    # 如果daemon.json中不存在hosts，则添加
-    daemon_cfg=~/.config/docker/daemon.json
-    if ! jq -e '.hosts' $daemon_cfg > /dev/null; then
-        USER_ID=$(id -u)
-        PORT=$((USER_ID + 1000))
+    local daemon_cfg=~/.config/docker/daemon.json
+    local USER_ID=$(id -u)
+    local PORT=$((USER_ID + 1000))
+
+    # 获取当前的hosts配置
+    local current_hosts=$(jq -r '.hosts // empty' "$daemon_cfg" 2>/dev/null)
+
+    # 检查是否已存在特定的hosts配置
+    if [[ -z "$current_hosts" ]]; then
+        # 如果不存在，则查找可用端口并进行配置
         find_available_port $PORT
-        result=$?
+        local result=$?
         if [ $result -eq 1 ]; then
             PORT=$g_API_PORT
-            echo "docker API 端口:$PORT"
-            
-            # write to daemon.json
+            echo "docker API 端口: $PORT"
+
+            # 写入daemon.json
             jq -s --arg USER_ID "$USER_ID" --arg PORT "$PORT" '
-                .[0] + 
+                .[0] +
                 {"hosts": ["unix:///run/user/\($USER_ID)/docker.sock", "tcp://127.0.0.1:\($PORT)"]}
-            ' $daemon_cfg > tmp.json && mv tmp.json $daemon_cfg
-            
-            #write to myapi.conf
-            api_conf=~/.config/systemd/user/docker.service.d/myapi.conf
-            touch $api_conf
-            cat <<EOF > $api_conf
-    [Service]
-    Environment=DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS="-p 127.0.0.1:$PORT:$PORT/tcp"
+            ' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
+            g_Change=true
+
+            # 写入myapi.conf
+            local api_conf=~/.config/systemd/user/docker.service.d/myapi.conf
+            touch "$api_conf"
+            cat <<EOF > "$api_conf"
+[Service]
+Environment=DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS="-p 127.0.0.1:$PORT:$PORT/tcp"
 EOF
         else
             echo "docker API 找不到可用端口"
         fi
     else
         echo "$daemon_cfg中已经存在hosts，无需配置"
-        if hosts_content=$(jq -r '.hosts' "$daemon_cfg" 2>/dev/null); then
+        local hosts_content=$(jq -r '.hosts' "$daemon_cfg" 2>/dev/null)
+        if [[ -n "$hosts_content" ]]; then
             echo "$hosts_content"
         fi
     fi
     echo '[SUC]docker_rootless_api'
 }
 
-docker_rootless_repo(){
+docker_rootless_repo() {
     echo '[...]docker_rootless_repo....'
-    ret=0
-    daemon_cfg=~/.config/docker/daemon.json
-    if [ ! -e "$daemon_cfg" ]; then
+    local ret=0
+    local daemon_cfg=~/.config/docker/daemon.json
+    if [ ! -f "$daemon_cfg" ]; then
         mkdir -p ~/.config/docker
-        touch $daemon_cfg
-    fi    
+        touch "$daemon_cfg"
+    fi
+
+    # jq无法正常处理-符号，所以改为python
+    local insecure_registries=$(python -c "import json; data = json.load(open('$daemon_cfg')); print(data['insecure-registries'])")
+
+    if echo "$insecure_registries" | grep -q '192.168.1.185:5000'; then
+        echo "insecure-registries 已经正确配置，无需修改"
+        return
+    fi
+
     # insecure-registries
-    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' $daemon_cfg >  tmp.json && mv tmp.json $daemon_cfg
-    
+    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
+    g_Change=true
+
     echo '[SUC]docker_rootless_repo'
 }
 
-auto_config_docker(){
+auto_config_docker() {
     # 检查是否存在docker命令
     if ! [ -x "$(command -v docker)" ]; then
         return
@@ -159,13 +180,17 @@ auto_config_docker(){
         docker_rootless_proxy
         docker_rootless_repo
         docker_rootless_api
+
+        if [ "$g_Change" = true ]; then
+            echo "配置已修改，请重启 Docker 服务以使更改生效:"
+            echo "systemctl --user daemon-reload && systemctl --user restart docker"
+        else
+            echo "没有进行任何配置修改。"
+        fi
     else
         docker_root_proxy
     fi
 
-    echo "配置生效需要手动执行"
-    echo "systemctl --user daemon-reload && systemctl --user restart docker"
-    
 }
 
 auto_config_docker

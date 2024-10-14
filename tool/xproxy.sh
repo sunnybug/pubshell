@@ -8,14 +8,12 @@ github_mirror="gitclone.com/github.com"
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     use_proxy="n"
-    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -o response.log -w "%{http_code}" https://github.com/login)
-    if [ "$response" -eq 200 ]; then
-        if grep -q "xxx" response.log; then
-            echo 'curl github.com success'
-            github_mirror="github.com"
-            use_proxy="n"
-        fi
+    source check_gfw.sh
+    if [ $gfw_need_proxy = "y" ]; then
+        use_proxy="y"
+        github_mirror="github.com"
     fi
+    
     echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         my_proxy='http://192.168.1.199:10816'
@@ -44,8 +42,6 @@ xdetectproxy(){
 # read file to $my_proxy
 if [ -e ~/.myshell/.proxy ]; then
     my_proxy=$(cat ~/.myshell/.proxy)
-else
-    echo 'no ~/.myshell/.proxy'
 fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"

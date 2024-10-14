@@ -1,7 +1,8 @@
-FROM debian:12-slim
+FROM debian:12
 
 # 定义构建时的参数
-ARG GCC_VER=none
+ARG GCC_VER=0
+ARG INSTALL_DOCKER=0
 
 ####################################################################
 #base 
@@ -40,6 +41,12 @@ RUN if [ "$GCC_VER" = "12" ]; then \
         echo "Unsupported GCC version: $GCC_VER" && \
         exit 1; \
     fi
+
+RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
+    curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
+    && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash; \
+    fi
+    
 # distcc
 # RUN apt install -y distcc distcc-pump
 # COPY file/distcc /etc/default/distcc

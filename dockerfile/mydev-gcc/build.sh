@@ -13,7 +13,7 @@ fi
 source $1
 
 # 构建镜像
-docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER
+docker build . -t $IMAGE_VER --build-arg GCC_VER=$GCC_VER --build-arg INSTALL_DOCKER=$INSTALL_DOCKER
 if [ $? -ne 0 ]; then
     echo "Error: Docker build failed."
     exit 1
