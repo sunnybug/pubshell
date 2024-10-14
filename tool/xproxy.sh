@@ -8,7 +8,15 @@ github_mirror="gitclone.com/github.com"
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     use_proxy="n"
-    source check_gfw.sh
+
+    # 如果本地存在该文件，则执行
+    script_dir=$(dirname "$(realpath "$0")")
+    if [ -f "$script_dir/$check_gfw" ]; then
+        source "$script_dir/check_gfw.sh"
+    else
+        curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/check_gfw.sh | bash
+    fi
+
     if [ $gfw_need_proxy = "y" ]; then
         use_proxy="y"
         github_mirror="github.com"
