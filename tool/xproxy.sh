@@ -42,6 +42,8 @@ xdetectproxy(){
 # read file to $my_proxy
 if [ -e ~/.myshell/.proxy ]; then
     my_proxy=$(cat ~/.myshell/.proxy)
+else
+    xdetectproxy
 fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"

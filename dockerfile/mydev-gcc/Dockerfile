@@ -14,6 +14,8 @@ COPY file/sources.list /etc/apt/sources.list
 RUN echo '' > /etc/apt/sources.list.d/debian.sources
 COPY file/preferences /etc/apt/preferences
 
+SHELL ["/bin/bash", "-c"]
+
 RUN apt update\
     && apt install --no-install-recommends -y gdb make ninja-build vim jq ssh p7zip-full python3.12-minimal python3-pip python3.12-venv subversion git curl zsh sudo lua5.4\
     && pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/\
@@ -22,7 +24,7 @@ RUN apt update\
     && pip install cmake regex click --break-sys\
     && git config --global user.email "$MY_NAME@x.com"\
     && git config --global user.name "$MY_NAME"\
-    && unlink /usr/bin/python ; link /usr/bin/python3 /usr/bin/python\
+    && link /usr/bin/python3 /usr/bin/python\
     && mkdir /data\
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/ssh_config.sh | bash\
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/locale.sh | bash
@@ -43,8 +45,10 @@ RUN if [ "$GCC_VER" = "12" ]; then \
     fi
 
 RUN if [ "$INSTALL_DOCKER" = "1" ]; then \
-    curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh | . \
-    && echo "http_proxy:$HTTP_PROXY" \
+    curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh -o /tmp/auto_set_proxy.sh \
+    && chmod +x /tmp/auto_set_proxy.sh \
+    && source /tmp/auto_set_proxy.sh \
+    && echo "http_proxy2:$HTTP_PROXY" \
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_root_docker.sh | bash \
     && curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash; \
     fi
