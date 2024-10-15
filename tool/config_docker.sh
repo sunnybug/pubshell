@@ -199,8 +199,7 @@ auto_config_docker() {
         docker_rootless_api
 
         if [ "$g_Change" = true ]; then
-            echo "配置已修改，请重启 Docker 服务以使更改生效:"
-            echo "systemctl --user daemon-reload && systemctl --user restart docker"
+            systemctl --user daemon-reload && systemctl --user restart docker
         else
             echo "没有进行任何配置修改。"
         fi
