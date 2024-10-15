@@ -102,9 +102,9 @@ docker_rootless_proxy() {
         mkdir -p ~/.config/systemd/user/docker.service.d
         cat <<EOF > "$proxy_conf"
 [Service]
-Environment="HTTP_PROXY=$g_my_proxy"
-Environment="HTTPS_PROXY=$g_my_proxy"
-Environment="NO_PROXY=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185"
+Environment="http_proxy=$g_my_proxy"
+Environment="https_proxy=$g_my_proxy"
+Environment="no_proxy=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185,*.aliyuncs.com"
 EOF
 
         echo "[SUC]docker_rootless_proxy, use: $g_my_proxy"
