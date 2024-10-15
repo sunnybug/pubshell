@@ -10,6 +10,22 @@ END
 g_API_PORT=0
 g_Change=false
 
+auto_load_xproxy(){
+    if [ ! -z "$g_my_proxy" ]; then
+        return
+    fi
+    echo '[...]auto_load_xproxy...'
+    # xproxy.sh
+    script_path=$(dirname "$(realpath "$0")")
+    tempfile="$script_path/xproxy.sh"
+    if [ ! -f "$tempfile" ]; then
+        tempfile=$(mktemp)
+        curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh -o "$tempfile"
+    fi
+    source "$tempfile"
+    echo '[SUC]auto_load_xproxy'
+}
+
 # 判断端口是否被占用
 check_port() {
     local port=$1
@@ -174,15 +190,7 @@ auto_config_docker() {
         return
     fi
 
-    # 如果本地存在该文件，则执行
-    script_dir=$(dirname "$(realpath "$0")")
-    if [ -f "$script_dir/xproxy.sh" ]; then
-        echo "使用本地xproxy.sh"
-        source "$script_dir/xproxy.sh"
-    else
-        echo "下载xproxy.sh"
-        curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh | bash
-    fi
+    auto_load_xproxy
 
     # 如果docker info返回中包含rootless
     if docker info | grep -q "rootless"; then
@@ -198,6 +206,7 @@ auto_config_docker() {
         fi
     else
         docker_root_proxy
+        # docker_root_mirror
     fi
 
 }
