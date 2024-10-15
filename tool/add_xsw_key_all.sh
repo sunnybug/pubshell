@@ -29,8 +29,8 @@ for user_dir in /home/*; do
         chown "$username:$username" "$authorized_keys"
         chmod 600 "$authorized_keys"
     fi
-
-    grep -q "$my_pubkey"  ~/.ssh/authorized_keys || echo "$my_pubkey" >>  ~/.ssh/authorized_keys
+    echo "add my pub key to $username"
+    grep -q "$my_pubkey"  "$authorized_keys" || echo "$my_pubkey" >>  "$authorized_keys"
   fi
   
 done
