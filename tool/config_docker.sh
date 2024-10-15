@@ -201,7 +201,7 @@ auto_config_docker() {
         if [ "$g_Change" = true ]; then
             systemctl --user daemon-reload && systemctl --user restart docker
         else
-            echo "没有进行任何配置修改。"
+            echo "配置无修改"
         fi
     else
         docker_root_proxy

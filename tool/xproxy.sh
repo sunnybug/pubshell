@@ -1,6 +1,7 @@
 #/bin/bash
 
 export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mirrors.tencent.com,mirrors.aliyun.com,*.aliyuncs.com"
+g_use_proxy="n"
 
 #########################
 github_mirror="gitclone.com/github.com"
@@ -8,7 +9,7 @@ g_my_proxy=""
 
 xdetectproxy(){
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
-    use_proxy="n"
+    g_use_proxy="n"
 
     # 如果本地存在该文件，则执行
     script_dir=$(dirname "$(realpath "$0")")
@@ -21,17 +22,17 @@ xdetectproxy(){
     fi
 
     if [ "$gfw_need_proxy" = "y" ]; then
-        use_proxy="y"
+        g_use_proxy="y"
         github_mirror="github.com"
     fi
     
     echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         g_my_proxy='http://192.168.1.199:10816'
-        use_proxy="y"
+        g_use_proxy="y"
         elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         g_my_proxy='http://127.0.0.1:10811'
-        use_proxy="y"
+        g_use_proxy="y"
     fi
     
     # 如果当前用户是root
