@@ -4,8 +4,8 @@ C++开发用的镜像
 以容器名为dev-ga为例
 curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
 curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/web_create_devgcc.sh | bash -- "dev-ga"
-编辑~/devgcc/dev14/.env中的镜像版本/端口等
 
+编辑~/devgcc/dev-ga/.env中的镜像版本/端口等(否则启动容器时会提示端口冲突)
 创建并开启容器
 cd ~/devgcc && bash ./start.sh dev-ga
 进入容器
