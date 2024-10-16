@@ -84,3 +84,6 @@ curl -o /etc/apt/sources.list https://gitee.com/sunnybug/pubshell/raw/main/docke
 ## New
 2024.10.12 
 1. config_docker.sh新增docker api端口自动检测支持，默认为id+1000
+
+2024.10.16
+1. add default .vimrc

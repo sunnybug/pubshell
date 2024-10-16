@@ -4,8 +4,9 @@ C++开发用的镜像
 curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
 curl -o docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/docker-compose.yml
 curl -o .mydev14 https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/.mydev14
-编辑.mydev14中的镜像版本/端口等，默认配置下会将容器中的/root挂载到/home/$USER/mydev${GCC_VER}_home
+编辑.mydev14中的镜像版本/端口等
 docker compose --env-file=.mydev14 up -d
+将代码放在/root/下，默认配置下宿主机目录为/home/$USER/mydev${GCC_VER}_home
 
 ## 按需配置.env
 
