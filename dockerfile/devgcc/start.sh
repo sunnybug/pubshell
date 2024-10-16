@@ -38,8 +38,10 @@ function create_container() {
     fi
 
     echo "正在创建容器 $container_name..."
-    SCRIPT_DIR=$(cd $(dirname ${env_file}); pwd)
-    docker compose --env-file="$env_file" -f "$SCRIPT_DIR/docker-compose.yml" up -d
+ local SCRIPT_DIR=$(cd "$(dirname "$env_file")"; pwd)
+    local cmd="docker compose --env-file=\"$env_file\" -f \"$SCRIPT_DIR/docker-compose.yml\" up -d"
+    echo "$cmd"
+    eval "$cmd"
 }
 
 # 主程序入口

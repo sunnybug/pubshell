@@ -24,11 +24,11 @@ create_dev_environment() {
     curl -o $dir_name/docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/docker-compose.yml
     curl -o $dir_name/.env https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/.env
     curl -o start.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/start.sh
-    curl -o del.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/del.sh
+    curl -o remove.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/remove.sh
     curl -o enter.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/enter.sh
 
     # 使 start.sh 脚本可执行
-    chmod +x start.sh
+    chmod +x $dir_name/*.sh
 
     # 替换目录中所有文件里的字符串 "dev14" 为 $dir_name
     find . -type f -exec sed -i "s/dev14/$dir_name/g" {} \;
