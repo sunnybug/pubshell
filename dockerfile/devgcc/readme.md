@@ -8,6 +8,8 @@ curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/web_create_devgc
 
 创建并开启容器
 cd ~/devgcc && bash ./start.sh dev-ga
+进入容器
+cd ~/devgcc && bash ./enter.sh dev-ga
 删除容器
 cd ~/devgcc && bash ./del.sh dev-ga
 将代码放在/root/下，默认配置下宿主机目录为/home/$USER/容器名_home
