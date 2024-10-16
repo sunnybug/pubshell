@@ -1,6 +1,6 @@
 services:
-  mydev:
-    image: ${IMAGE_VER}
+  dev14:
+    image: ${image_ver}
     container_name: ${CONTAINER_NAME}
     hostname: ${CONTAINER_NAME}
     environment:

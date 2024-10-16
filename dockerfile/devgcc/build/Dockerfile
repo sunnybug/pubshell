@@ -1,7 +1,7 @@
 FROM debian:bookworm
 
 # 定义构建时的参数
-ARG GCC_VER=0
+ARG gcc_ver=0
 
 ####################################################################
 #base 
@@ -31,18 +31,18 @@ RUN apt update\
     && bash /mytool/pubshell/root_tool/locale.sh
 
    
-RUN if [ "$GCC_VER" = "12" ]; then \
+RUN if [ "$gcc_ver" = "12" ]; then \
         apt install --no-install-recommends -y gcc-12 g++-12 && \
         ln -s /usr/bin/gcc-12 /usr/bin/gcc && \
         ln -s /usr/bin/g++-12 /usr/bin/g++ && \
         ln -s /usr/bin/g++-12 /usr/bin/c++; \
-    elif [ "$GCC_VER" = "14" ]; then \
+    elif [ "$gcc_ver" = "14" ]; then \
         apt install --no-install-recommends -y gcc-14 g++-14 && \
         ln -s /usr/bin/gcc-14 /usr/bin/gcc && \
         ln -s /usr/bin/g++-14 /usr/bin/g++ && \
         ln -s /usr/bin/g++-14 /usr/bin/c++; \
     else \
-        echo "Unsupported GCC version: $GCC_VER" && \
+        echo "Unsupported GCC version: $gcc_ver" && \
         exit 1; \
     fi
 
