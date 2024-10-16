@@ -1,16 +1,16 @@
 C++开发用的镜像
 
 ## 傻瓜版
-以容器名为dev14为例（要多个容器就创建多个目录，同时替换所有dev14关键字）：
+以容器名为dev-ga为例
 curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
-mkdir -p ~/devgcc14/dev14 && cd ~/devgcc14
-curl -o dev14/docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/dev-gcc/dev14/docker-compose.yml
-curl -o dev14/.env https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/dev-gcc/dev14/.env
-curl -o start.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/dev-gcc/start.sh
-chmod +x start.sh
-编辑dev14/.env中的镜像版本/端口等
-./start.sh dev14
-将代码放在/root/下，默认配置下宿主机目录为/home/$USER/dev14_home
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/web_create_devgcc.sh | bash -- "dev-ga"
+编辑~/devgcc/dev14/.env中的镜像版本/端口等
+
+创建并开启容器
+cd ~/devgcc && bash ./start.sh dev-ga
+删除容器
+cd ~/devgcc && bash ./del.sh dev-ga
+将代码放在/root/下，默认配置下宿主机目录为/home/$USER/容器名_home
 
 ## 按需配置.env
 

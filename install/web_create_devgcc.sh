@@ -24,6 +24,7 @@ create_dev_environment() {
     curl -o $dir_name/docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/docker-compose.yml
     curl -o $dir_name/.env https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/.env
     curl -o start.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/start.sh
+    curl -o del.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/del.sh
 
     # 使 start.sh 脚本可执行
     chmod +x start.sh
