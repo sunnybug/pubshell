@@ -28,7 +28,7 @@ create_dev_environment() {
     curl -o enter.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/enter.sh
 
     # 使 start.sh 脚本可执行
-    chmod +x $dir_name/*.sh
+    chmod +x ~/devgcc/*.sh
 
     # 替换目录中所有文件里的字符串 "dev14" 为 $dir_name
     find . -type f -exec sed -i "s/dev14/$dir_name/g" {} \;
