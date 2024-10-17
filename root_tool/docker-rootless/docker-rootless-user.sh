@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # 不能是root
 # if [ "$(id -u)" = "0" ]; then
 #     echo "不允许root执行"
