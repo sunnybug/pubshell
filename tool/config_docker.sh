@@ -170,7 +170,17 @@ docker_rootless_repo() {
     fi
 
     # jq无法正常处理-符号，所以改为python
-    local insecure_registries=$(python -c "import json; data = json.load(open('$daemon_cfg')); print(data['insecure-registries'])")
+    local insecure_registries=$(python -c "
+import json
+import sys
+
+try:
+    with open('$daemon_cfg') as f:
+        data = json.load(f)
+        print(data['insecure-registries'])
+except Exception:
+    pass  # 捕获异常并不输出任何信息
+")
 
     if echo "$insecure_registries" | grep -q '192.168.1.185:5000'; then
         echo "insecure-registries 已经正确配置，无需修改"
