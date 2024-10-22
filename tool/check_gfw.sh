@@ -11,7 +11,7 @@ function check_gfw(){
     response=$(curl -fsSL --connect-timeout 3 --max-time 3 -o "$tmpfile" -w "%{http_code}" https://github.com/login)
 
     if [ "$response" -eq 200 ]; then
-        if grep -q "xxx" "$tmpfile"; then
+        if grep -q "github.githubassets.com" "$tmpfile"; then
             echo 'curl github.com success'
             gfw_github_ok="y"
         fi
