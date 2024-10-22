@@ -4,7 +4,8 @@ export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.
 g_use_proxy="n"
 
 #########################
-github_mirror="gitclone.com/github.com"
+# github_mirror="gitclone.com/github.com"
+github_mirror="github.com"
 g_my_proxy=""
 
 xdetectproxy(){
@@ -23,7 +24,6 @@ xdetectproxy(){
 
     if [ "$gfw_need_proxy" = "y" ]; then
         g_use_proxy="y"
-        github_mirror="github.com"
     fi
     
     echo 'check 192.168.1.199:10816'
