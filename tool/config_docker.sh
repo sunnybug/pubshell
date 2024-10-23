@@ -85,7 +85,6 @@ EOF
 
 docker_root_proxy() {
     echo '未实现root docker，暂不支持'
-    exit 1
 }
 
 docker_rootless_proxy() {
