@@ -18,7 +18,7 @@ curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/add_user.sh | 
 
 ## 以管理员身份修改ssh设置
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/set_ssh.sh | bash
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/ssh_config.sh | bash
 `
 
 `

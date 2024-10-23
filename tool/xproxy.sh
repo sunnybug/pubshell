@@ -4,6 +4,7 @@ export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.
 g_use_proxy="n"
 
 #########################
+# 2024-10-22 502 错误
 # github_mirror="gitclone.com/github.com"
 github_mirror="github.com"
 g_my_proxy=""
