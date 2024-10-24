@@ -15,11 +15,10 @@ xdetectproxy(){
 
     # 如果本地存在该文件，则执行
     script_dir=$(dirname "$(realpath "$0")")
-    if [ -f "$script_dir/check_gfw.sh" ]; then
-        echo "使用本地check_gfw.sh"
-        source "$script_dir/check_gfw.sh"
+    if [ -f "$script_dir/tool/check_gfw.sh" ]; then
+        source "$script_dir/tool/check_gfw.sh"
     else
-        echo "下载check_gfw.sh"
+        echo "[WRN]download check_gfw.sh"
         curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/check_gfw.sh | bash
     fi
 

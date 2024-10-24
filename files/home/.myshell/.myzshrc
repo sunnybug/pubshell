@@ -15,6 +15,7 @@ plugins=(
     sudo # 双击ESC自动加sudo
     pip
     poetry
+    command-not-found
     # 第三方
     zsh-you-should-use
     zsh-autosuggestions #自动完成历史命令

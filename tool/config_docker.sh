@@ -17,8 +17,9 @@ auto_load_xproxy(){
     echo '[...]auto_load_xproxy...'
     # xproxy.sh
     script_path=$(dirname "$(realpath "$0")")
-    tempfile="$script_path/xproxy.sh"
+    tempfile="$script_path/tool/xproxy.sh"
     if [ ! -f "$tempfile" ]; then
+        echo '[WRN]download xproxy.sh'
         tempfile=$(mktemp)
         curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh -o "$tempfile"
     fi
