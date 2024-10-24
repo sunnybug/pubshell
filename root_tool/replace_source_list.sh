@@ -25,5 +25,3 @@ elif [ -x /usr/bin/apt ] && grep -q "NAME.*Ubuntu" /etc/os-release; then
     echo "Current OS is Ubuntu"
     _replace_ubuntu_sources
 fi
-
-_replace_debian_sources
