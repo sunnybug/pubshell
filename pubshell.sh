@@ -77,10 +77,7 @@ source ~/.myshell/tool/ssh_config.sh
 
 ######################
 if [ ! -f ~/.vimrc ]; then
-    echo 'copy .vimrc'
     cp $SCRIPT_DIR/files/copy_if_notexist/.vimrc ~/
-else
-    echo '.vimrc exists'
 fi
 
 ## 安装时zsh会处理，而且这里拿到的$SHELL依然是旧的
