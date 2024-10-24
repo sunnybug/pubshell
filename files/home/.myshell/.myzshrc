@@ -20,6 +20,7 @@ plugins=(
     zsh-you-should-use
     zsh-autosuggestions #自动完成历史命令
     zsh-history-substring-search
+    zsh-bat
     zsh-syntax-highlighting #必须在最后，shell 命令的代码高亮
 )
 

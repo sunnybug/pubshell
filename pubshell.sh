@@ -6,7 +6,7 @@
 # config
 
 SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
-cd $SCRIPT_DIR
+pushd $SCRIPT_DIR
 
 # /etc/sudoers.d/all
 # Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/chsh,/bin/mysql
@@ -64,7 +64,7 @@ git config --global http.sslVerify false
 # chown $(whoami):$(whoami) -R ~
 
 if [ -d ~/.ssh ]; then
-    echo "chmod for ~/.ssh"
+    echo "chmod for ~/.ssh"git clone https://gitee.com/sunnybug/pubshell
     chown $(whoami):$(whoami) -R ~/.ssh
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*
@@ -93,3 +93,4 @@ echo '1.1' > ~/.myshell/ver
 exec zsh -l
 
 echo 'install pubshell suc'
+popd
