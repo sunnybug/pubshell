@@ -2,7 +2,7 @@
 支持docker rootless模式
 
 # root用户（每个机器只需要运行一次）
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/docker-rootless/docker-rootless-root.sh | bash
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/docker-rootless/docker-rootless-root.sh | sudo bash
 
 # root用户对每个用户执行以下命令，以允许每个用户的rootless docker服务开机自启动
 sudo loginctl enable-linger 用户名
