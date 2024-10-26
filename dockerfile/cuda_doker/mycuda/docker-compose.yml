@@ -1,0 +1,31 @@
+services:
+  mycuda:
+    image: ${image_ver}
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
+    environment:
+      - SSH_AUTH_SOCK=/run/ssh_agent.sock
+      - IS_DOCKER=1
+      - MY_NAME=${USER}
+      
+    volumes:
+      # ssh代理转发，如果失效需要重建容器
+      - ${SSH_AUTH_SOCK}:/run/ssh_agent.sock
+      
+      # 自己想挂载的目录
+      - ${HOST_HOME}/g:/${HOST_HOME}/g
+      - ${HOST_HOME}/module:/${HOST_HOME}/module
+      - ${HOST_HOME}/.subversion:/root/.subversion
+      # 要保证${DOCKER_HOME}目录存在，方便保存数据
+      - ${DOCKER_HOME}:/root
+      - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys
+    
+    ports:
+      - "${SSH_PORT}:22"
+    tty: true
+    stdin_open: true
+    command: /bin/zsh
+
+volumes:
+  g:
+  module:
