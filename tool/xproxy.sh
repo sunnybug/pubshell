@@ -1,6 +1,6 @@
 #/bin/bash
 
-export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mirrors.tencent.com,mirrors.aliyun.com,*.aliyuncs.com"
+export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mirrors.tencent.com,mirrors.aliyun.com,*.aliyuncs.com,*.cn"
 g_use_proxy="n"
 
 #########################

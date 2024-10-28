@@ -8,7 +8,9 @@ plugins=(
     extract #适配解压命令，只需要extract 文件名
     command-not-found #输入一条不存在的命令时，会自动查询这条命令可以如何获得
     safe-paste #往 zsh 粘贴脚本时，不会被立刻运行
-    # 加上之后按tab反而不会自动完成docker命令
+    docker
+    conda
+    # debian 加上之后按tab反而不会自动完成docker命令
     # docker
     # docker-compose
     colored-man-pages
