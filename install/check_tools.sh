@@ -34,6 +34,7 @@ check_tools() {
     fi
     
     if [ "$fail" = "y" ]; then
+        sudo apt update
         if ! sudo apt install -y git zsh curl lua5.4 jq bat; then
             echo '[ERR]apt install failed.' >&2
             echo '手动执行 sudo apt install -y git zsh curl lua5.4 jq bat' >&2
