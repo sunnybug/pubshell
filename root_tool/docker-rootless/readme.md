@@ -9,3 +9,6 @@ sudo loginctl enable-linger 用户名
 
 # 普通用户(每个用docker的用户都需要运行一次)
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/docker-rootless/docker-rootless-user.sh | bash
+
+# root 查看所有用户的容器
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/docker-rootless/list-all.sh | bash
