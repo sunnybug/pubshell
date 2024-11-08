@@ -1,6 +1,5 @@
 #/bin/bash
 
-export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mirrors.tencent.com,mirrors.aliyun.com,.aliyuncs.com,.cn"
 g_use_proxy="n"
 
 #########################
@@ -56,3 +55,7 @@ fi
 
 alias xcloseproxy="export http_proxy=;export https_proxy=;echo \"HTTP Proxy off\";"
 alias xopenproxy="export http_proxy='''$g_my_proxy''';export https_proxy='''$g_my_proxy''';echo \"g_my_proxy:$g_my_proxy\";"
+
+#解决bzip2 403问题(但直接从v2ray走则正常):
+#  curl -sSL https://sourceware.org -v -x http://127.0.0.1:10811
+export no_proxy="gitclone.com,gitee.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,mirrors.tencent.com,mirrors.aliyun.com,.aliyuncs.com,.cn,sourceware.org"

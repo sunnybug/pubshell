@@ -21,3 +21,4 @@ fi
 alias venv='source ~/.myshell/venv.sh;entry_venv'
 alias sys='systemctl'
 alias sysu='systemctl --user'
+alias dps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"'
