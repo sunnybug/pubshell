@@ -18,7 +18,7 @@ cd ~/devgcc && bash ./remove.sh dev-ga
 
 ## 镜像构建
 ```shell
-build/build.sh --gcc_ver 14 --image_ver 192.168.1.185:5000/dev:1016
+build/build.sh --gcc_ver 14 --image_ver 192.168.1.185:5000/devgcc14
 ```
 
 docker compose stop && docker compose rm -f && docker build -t dev:gcc14.0924 . && docker compose up -d && docker exec -it dev /usr/bin/zsh -c 'cd /home/xushuwei; exec /usr/bin/zsh'
