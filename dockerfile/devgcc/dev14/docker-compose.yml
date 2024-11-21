@@ -1,7 +1,6 @@
 services:
   dev14:
     image: ${image_ver}
-    cpu_count:  ${CPU_CORES} 
     container_name: ${CONTAINER_NAME}
     hostname: ${CONTAINER_NAME}
     environment:
