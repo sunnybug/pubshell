@@ -16,7 +16,7 @@ plugins=(
     colored-man-pages
     sudo # 双击ESC自动加sudo
     pip
-    poetry
+    uv
     command-not-found
     # 第三方
     zsh-you-should-use
