@@ -21,7 +21,7 @@ function _replace_debian_sources() {
 
     # 如果存在/etc/apt/sources.list.d/debian.sources，则备份
     if [ -f /etc/apt/sources.list.d/debian.sources ]; then
-        $cmd_prefix mv /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak
+        $cmd_prefix cp /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak
 
         # 将debian.sources中的deb.debian.org替换为mirrors.aliyun.com
         $cmd_prefix sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list.d/debian.sources
