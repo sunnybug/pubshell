@@ -1,6 +1,13 @@
 #!/bin/bash
 
 check_tools() {
+    # Check if sudo exists and set command prefix accordingly
+    if command -v sudo >/dev/null 2>&1; then
+        cmd_prefix="sudo"
+    else
+        cmd_prefix=""
+    fi
+
     fail='n'
     missing_tools=''
     fail_zsh='n'
@@ -39,7 +46,7 @@ check_tools() {
     if [ "$fail" = "y" ]; then
         read -p "是否安装？ ${missing_tools} (y/n) [可选]" REPLY
         if [ "$REPLY" = "y" ]; then
-            sudo apt update && sudo apt install ${missing_tools}
+            $cmd_prefix apt update && $cmd_prefix apt install ${missing_tools}
             if [ $? -ne 0 ]; then
                 echo "安装工具失败" >&2
                 exit 1
@@ -50,7 +57,7 @@ check_tools() {
     if [ "$fail_zsh" = "y" ]; then
         read -p "是否安装必需工具？ ${missing_tools_zsh} (y/n) " REPLY
         if [ "$REPLY" = "y" ]; then
-            sudo apt update && sudo apt install ${missing_tools_zsh}
+            $cmd_prefix apt update && $cmd_prefix apt install ${missing_tools_zsh}
             if [ $? -ne 0 ]; then
                 echo "安装工具失败" >&2
                 exit 1
