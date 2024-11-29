@@ -8,6 +8,7 @@ ARG gcc_ver=0
 EXPOSE 22/tcp
 
 ENV TZ=Asia/Shanghai LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
  
 COPY file/sources.list /etc/apt/sources.list
 RUN echo '' > /etc/apt/sources.list.d/debian.sources

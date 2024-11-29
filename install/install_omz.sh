@@ -27,7 +27,8 @@ install_omz(){
         sh -c $temp_dir/tools/install.sh --unattended
         rm -rf $temp_dir
     else
-        echo "use current $ZSH."
+        echo "update current $ZSH."
+        ~/.oh-my-zsh/tools/upgrade.sh
     fi
     
     if ! [ -e $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then

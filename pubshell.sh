@@ -48,16 +48,18 @@ source $SCRIPT_DIR/install/install_omz.sh
 cp -rTf $SCRIPT_DIR/files/home/.oh-my-zsh/ ~/.oh-my-zsh
 
 ##################################
-if [ -z "$(git config --global user.name)" ]; then
-    git config --global user.name "$(whoami)"
+# 如果有安装git
+if [ -x "$(command -v git)" ]; then
+    if [ -z "$(git config --global user.name)" ]; then
+        git config --global user.name "$(whoami)"
+    fi
+
+    if [ -z "$(git config --global user.email)" ]; then
+        git config --global user.email "$(whoami)@x.com"
+    fi
+
+    git config --global http.sslVerify false
 fi
-
-if [ -z "$(git config --global user.email)" ]; then
-    git config --global user.email "$(whoami)@x.com"
-fi
-
-git config --global http.sslVerify false
-
 #################################
 # ~下所有目录都只允许本用户访问而且属于本用户（但拦不住root）
 # find ~ -name "*" -ls -type d -exec chmod 700 {} \; -exec chown $(whoami):$(whoami) {} \;
