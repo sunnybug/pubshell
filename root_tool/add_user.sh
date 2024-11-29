@@ -18,7 +18,7 @@ function GetAccount()
         PASSWORD+="${CHARACTERS:$RANDOM % ${#CHARACTERS}:1}"
     done
     
-    read -p "输入用户名: " mUN
+    read -p "输入用户名: " mUN < /dev/tty
     if [ -z "$mUN" ]; then
         echo "用户名不能为空"
         exit 2
