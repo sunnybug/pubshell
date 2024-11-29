@@ -45,7 +45,7 @@ check_tools() {
     
     if [ "$fail" = "y" ]; then
         echo "是否安装？ ${missing_tools}  请输入 (y/n): [可选]"
-        read REPLY
+        read REPLY < /dev/tty
         if [ "$REPLY" = "y" ]; then
             $cmd_prefix apt update && $cmd_prefix apt install ${missing_tools}
             if [ $? -ne 0 ]; then
@@ -57,7 +57,7 @@ check_tools() {
 
     if [ "$fail_zsh" = "y" ]; then
         echo "是否安装必需工具？ ${missing_tools_zsh} 请输入 (y/n): "
-        read REPLY
+        read REPLY < /dev/tty
         if [ "$REPLY" = "y" ]; then
             $cmd_prefix apt update && $cmd_prefix apt install ${missing_tools_zsh}
             if [ $? -ne 0 ]; then
