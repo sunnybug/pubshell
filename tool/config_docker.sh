@@ -187,6 +187,12 @@ except Exception:
         return
     fi
 
+    # 如果没有安装jq，则使用python
+    if ! [ -x "$(command -v jq)" ]; then
+        echo "未安装jq"
+        return
+    fi
+
     # insecure-registries
     jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
     g_Change=true
