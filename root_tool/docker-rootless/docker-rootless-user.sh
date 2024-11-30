@@ -43,8 +43,8 @@ fi
 # 检查DOCKER_HOST环境变量是否已设置
 if [ -z "$DOCKER_HOST" ]; then
     # 环境变量未设置，将其添加到~/.bashrc
-    echo 'export DOCKER_HOST=unix://run/user/1000/docker.sock' >> ~/.bashrc
-    echo "[SUC] DOCKER_HOST set to 'unix://run/user/1000/docker.sock' in ~/.bashrc"
+    echo 'export DOCKER_HOST=unix://run/user/$UID/docker.sock' >> ~/.bashrc
+    echo "[SUC] DOCKER_HOST set to 'unix://run/user/$UID/docker.sock' in ~/.bashrc"
 else
     echo "[SUC] DOCKER_HOST is already set to '$DOCKER_HOST'"
 fi
