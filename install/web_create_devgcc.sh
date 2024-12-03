@@ -35,6 +35,7 @@ create_dev_environment() {
     curl -o start.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/start.sh
     curl -o remove.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/remove.sh
     curl -o enter.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/enter.sh
+    curl -o create_new.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/create_new.sh
 
     # 使 start.sh 脚本可执行
     chmod +x ~/devgcc/*.sh
