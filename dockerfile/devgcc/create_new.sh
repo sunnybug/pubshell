@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# 接收所有传递给脚本的参数
-args=("$@")
-
 create_dev_environment() {
     local dir_name=$1
 
@@ -53,4 +50,4 @@ create_dev_environment() {
 }
 
 # 使用函数，传入你想要的目录名称作为参数
-create_dev_environment "${args[@]}"
+create_dev_environment "$1"
