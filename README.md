@@ -78,6 +78,8 @@ curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_debian_
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
 curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh | bash
 curl -o /etc/apt/sources.list https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/file/sources.list
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/replace_source_list.sh | bash
+
 ```
 
 
