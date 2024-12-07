@@ -10,7 +10,7 @@ services:
       - JENKINS_WORKDIR=${JENKINS_WORKDIR}
     volumes:
       - /data/jenkins-module_slave:/home/jenkins
-      - /run/user/${UID}/docker.sock:/var/run/docker.sock
+      - /run/user/${USER_ID}/docker.sock:/var/run/docker.sock
       - ~/bin/docker:/usr/bin/docker
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

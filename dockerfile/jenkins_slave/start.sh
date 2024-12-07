@@ -38,7 +38,9 @@ function create_container() {
     fi
 
     echo "正在创建容器 $container_name..."
- local SCRIPT_DIR=$(cd "$(dirname "$env_file")"; pwd)
+    local SCRIPT_DIR=$(cd "$(dirname "$env_file")"; pwd)
+    # 导出当前用户的 UID 到环境变量
+    export USER_ID=$(id -u)
     local cmd="docker compose --env-file=\"$env_file\" -f \"$SCRIPT_DIR/docker-compose.yml\" up -d"
     echo "$cmd"
     eval "$cmd"
@@ -55,7 +57,6 @@ main() {
     create_container "$env_file" "$CONTAINER_NAME"
 
     docker exec -it $CONTAINER_NAME bash -c 'if [ ! -d /root/.myshell ]; then curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash; fi'
-
 }
 
 # 脚本入口
