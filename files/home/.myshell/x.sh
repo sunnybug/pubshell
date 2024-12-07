@@ -14,7 +14,7 @@ if [ -x /usr/bin/dircolors ] ; then
 fi
 
 # pip install会安装到~/.local/bin
-export PATH=~/bin:~/.local/bin:$PATH
+export PATH=/usr/sbin:~/bin:~/.local/bin:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
 export UV_INDEX_URL=$(pip config get global.index-url)
 

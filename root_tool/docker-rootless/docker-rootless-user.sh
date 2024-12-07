@@ -16,6 +16,8 @@ else
     echo "网络检查通过: https://get.docker.com/rootless"
 fi
 
+systemctl --user stop docker
+
 curl -fsSL https://get.docker.com/rootless | FORCE_ROOTLESS_INSTALL=1 sh
 systemctl --user --now enable docker
 
