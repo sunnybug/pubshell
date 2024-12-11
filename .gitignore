@@ -2,3 +2,4 @@
 *.log
 response.log
 *.swp
+dockerfile/jenkins_slave/xsw_frame_linux

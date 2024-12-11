@@ -4,7 +4,7 @@
 # 错误处理函数
 handle_error() {
     echo "错误: $1"
-    echo "示例: --gcc_ver 14 --image_ver 192.168.1.185:5000/devgcc14:1016"
+    echo "示例: --gcc_ver 14 --image_ver 192.168.1.185:5000/devgcc14:241211"
     exit 1
 }
 
@@ -40,7 +40,7 @@ build_image() {
     echo "构建镜像: $image_ver"
     SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
     pushd "$SCRIPT_DIR" > /dev/null
-    
+
     # 构建指定版本的镜像
     docker build . -t "$image_ver" --build-arg gcc_ver="$gcc_ver"
     if [ $? -ne 0 ]; then
@@ -49,7 +49,7 @@ build_image() {
 
     # 标记为 latest 镜像
     docker tag "$image_ver" "${image_ver%:*}:latest"
-    
+
     popd > /dev/null
 }
 

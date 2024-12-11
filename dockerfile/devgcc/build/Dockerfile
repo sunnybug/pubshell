@@ -4,12 +4,12 @@ FROM debian:bookworm
 ARG gcc_ver=0
 
 ####################################################################
-#base 
+#base
 EXPOSE 22/tcp
 
 ENV TZ=Asia/Shanghai LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
- 
+
 COPY file/sources.list /etc/apt/sources.list
 RUN echo '' > /etc/apt/sources.list.d/debian.sources
 COPY file/preferences /etc/apt/preferences
@@ -30,8 +30,8 @@ RUN apt update\
     && git clone https://gitee.com/sunnybug/pubshell.git /mytool/pubshell \
     && bash /mytool/pubshell/tool/ssh_config.sh \
     && bash /mytool/pubshell/root_tool/locale.sh \
-    # llvm    
-    && apt install -y --no-install-recommends apt-transport-https ca-certificates debian-keyring gnupg\
+    # llvm
+    && apt install -y --no-install-recommends apt-transport-https ca-certificates debian-keyring gnupg docker-cli\
     && gpg --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421 \
     && gpg --export --armor 15CF4D18AF4F7421 | apt-key add - \
     && echo 'deb http://mirrors.tuna.tsinghua.edu.cn/llvm-apt/bookworm/ llvm-toolchain-bookworm-19 main' > /etc/apt/sources.list.d/llvm.list \
@@ -62,7 +62,7 @@ RUN apt update\
 # RUN apt install -y distcc distcc-pump
 # COPY file/distcc /etc/default/distcc
 
-    
+
 # RUN apt clean -y && apt autoclean -y && apt autoremove -y && bash -c 'rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*'
 
 
@@ -76,4 +76,4 @@ WORKDIR /root
 # 不能放root下，因为root目录后面会被挂载出去
 COPY file/entrypoint.sh /mytool/entrypoint.sh
 RUN chmod +x /mytool/entrypoint.sh && rm -rf "/tmp/*"
-ENTRYPOINT ["/bin/bash", "-c", "/mytool/entrypoint.sh"]    
+ENTRYPOINT ["/bin/bash", "-c", "/mytool/entrypoint.sh"]
