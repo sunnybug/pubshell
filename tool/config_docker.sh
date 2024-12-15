@@ -22,6 +22,20 @@ auto_load_xproxy(){
         echo '[WRN]download xproxy.sh'
         tempfile=$(mktemp)
         curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh -o "$tempfile"
+        if [ ! -f "$tempfile" ]; then
+            echo "下载xproxy.sh失败"
+            return 1
+        fi
+    fi
+    # 检查文件是否为空
+    if [ ! -s "$tempfile" ]; then
+        echo "xproxy.sh文件为空"
+        return 1
+    fi
+    # 检查文件是否包含有效的shell脚本
+    if ! grep -q "^#/bin/bash" "$tempfile"; then
+        echo "xproxy.sh不是有效的shell脚本"
+        return 1
     fi
     source "$tempfile"
     echo '[SUC]auto_load_xproxy'
