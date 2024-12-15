@@ -4,7 +4,7 @@
 
 # example
 : <<'END'
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/config_docker.sh | bash
 END
 
 g_API_PORT=0
@@ -21,7 +21,7 @@ auto_load_xproxy(){
     if [ ! -f "$tempfile" ]; then
         echo '[WRN]download xproxy.sh'
         tempfile=$(mktemp)
-        curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh -o "$tempfile"
+        curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/xproxy.sh -o "$tempfile"
         if [ ! -f "$tempfile" ]; then
             echo "下载xproxy.sh失败"
             return 1

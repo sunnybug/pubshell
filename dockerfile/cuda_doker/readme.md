@@ -1,6 +1,6 @@
 ## 傻瓜版
 以容器名为mycuda为例
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/web_create_devgcc.sh | bash -s -- "mycuda"
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/web_create_devgcc.sh | bash -s -- "mycuda"
 
 编辑~/devgcc/mycuda/.env中的镜像版本/端口等(否则启动容器时会提示端口冲突)
 创建并开启容器

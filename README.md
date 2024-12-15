@@ -3,33 +3,33 @@
 
 ## 以管理员身份安装dev工具
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/webinstall.sh | bash -s -- --dev
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/webinstall.sh | bash -s -- --dev
 `
 ## 以管理员身份安装CPP服务器所需工具
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/webinstall.sh | bash -s -- --cppserver
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/webinstall.sh | bash -s -- --cppserver
 `
 
 ## 以管理员身份增加用户
 `
 有bug
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/add_user.sh | bash
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/add_user.sh | bash
 `
 
 ## 以管理员身份修改ssh设置
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/ssh_config.sh | bash
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/ssh_config.sh | bash
 `
 
 `
 ## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
 `
-curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/webinstall_pubshell.sh | bash
 `
 
 ## 添加证书
 `
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/add_xsw_key.sh | sh
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/add_xsw_key.sh | sh
 `
 ## 目的
 方便debian用户初始化，会覆盖部分配置文件
@@ -74,17 +74,17 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 
 ## 部分常用web install
 ```shell
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/install_debian_root_docker.sh | bash
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/config_docker.sh | bash
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/auto_set_proxy.sh | bash
-curl -o /etc/apt/sources.list https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/mydev-gcc/file/sources.list
-curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/root_tool/replace_source_list.sh | bash
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/install_debian_root_docker.sh | bash
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/config_docker.sh | bash
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/auto_set_proxy.sh | bash
+curl -o /etc/apt/sources.list https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/mydev-gcc/file/sources.list
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/replace_source_list.sh | bash
 
 ```
 
 
 ## New
-2024.10.12 
+2024.10.12
 1. config_docker.sh新增docker api端口自动检测支持，默认为id+1000
 
 2024.10.16

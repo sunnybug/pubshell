@@ -30,12 +30,12 @@ create_dev_environment() {
     done
 
     # 下载文件
-    curl -o $dir_name/docker-compose.yml https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/docker-compose.yml
-    curl -o $dir_name/.env https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/dev14/.env
-    curl -o start.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/start.sh
-    curl -o remove.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/remove.sh
-    curl -o enter.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/enter.sh
-    curl -o create_new.sh https://gitee.com/sunnybug/pubshell/raw/main/dockerfile/devgcc/create_new.sh
+    curl -o $dir_name/docker-compose.yml https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/dev14/docker-compose.yml
+    curl -o $dir_name/.env https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/dev14/.env
+    curl -o start.sh https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/start.sh
+    curl -o remove.sh https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/remove.sh
+    curl -o enter.sh https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/enter.sh
+    curl -o create_new.sh https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/devgcc/create_new.sh
 
     # 使 start.sh 脚本可执行
     chmod +x ~/devgcc/*.sh

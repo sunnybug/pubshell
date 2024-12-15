@@ -54,7 +54,7 @@ main() {
 
     create_container "$env_file" "$CONTAINER_NAME"
 
-    docker exec -it $CONTAINER_NAME bash -c 'if [ ! -d /root/.myshell ]; then curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/webinstall_pubshell.sh | bash; fi'
+    docker exec -it $CONTAINER_NAME bash -c 'if [ ! -d /root/.myshell ]; then curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/webinstall_pubshell.sh | bash; fi'
 
 }
 

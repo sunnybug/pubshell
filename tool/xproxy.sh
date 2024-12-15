@@ -18,13 +18,13 @@ xdetectproxy(){
         source "$script_dir/tool/check_gfw.sh"
     else
         echo "[WRN]download check_gfw.sh"
-        curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/tool/check_gfw.sh | bash
+        curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/check_gfw.sh | bash
     fi
 
     if [ "$gfw_need_proxy" = "y" ]; then
         g_use_proxy="y"
     fi
-    
+
     echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
         g_my_proxy='http://192.168.1.199:10816'
@@ -33,13 +33,13 @@ xdetectproxy(){
         g_my_proxy='http://127.0.0.1:10811'
         g_use_proxy="y"
     fi
-    
+
     # 如果当前用户是root
     # if [ "$(whoami)" = "root" ]; then
     #     echo "add GitHub520"
     #     sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts
     # fi
-    
+
     # save to file
     if [ -d ~/.myshell ]; then
         echo $g_my_proxy > ~/.myshell/.proxy
