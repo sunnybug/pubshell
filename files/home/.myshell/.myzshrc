@@ -27,7 +27,7 @@ plugins=(
 )
 
 eval "$(lua ~/.myshell/.z.lua/z.lua  --init zsh)"
-source ~/.myshell/tool/xhaha.sh
+source ~/.myshell/tool/xproxy.sh
 source $ZSH/oh-my-zsh.sh
 source ~/.myshell/alias.sh # 在oh-my-zsh.sh之后，覆盖oh-my-zsh的alias
 

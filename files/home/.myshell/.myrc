@@ -1,4 +1,4 @@
 source ~/.myshell/x.sh
 eval "$(lua ~/.myshell/.z.lua/z.lua  --init bash)"   # BASH 初始化
-[[ -s ~/.myshell//xhaha.sh ]] && source ~/.myshell/tool/xhaha.sh
+[[ -s ~/.myshell//xproxy.sh ]] && source ~/.myshell/tool/xproxy.sh
 source ~/.myshell/alias.sh

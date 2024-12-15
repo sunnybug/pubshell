@@ -14,27 +14,27 @@ auto_load_xproxy(){
     if [ ! -z "$g_my_proxy" ]; then
         return
     fi
-    echo '[...]auto_load_xhaha...'
-    # xhaha.sh
+    echo '[...]auto_load_xproxy...'
+    # xproxy.sh
     script_path=$(dirname "$(realpath "$0")")
-    tempfile="$script_path/tool/xhaha.sh"
+    tempfile="$script_path/tool/xproxy.sh"
     if [ ! -f "$tempfile" ]; then
-        echo '[WRN]download xhaha.sh'
+        echo '[WRN]download xproxy.sh'
         tempfile=$(mktemp)
-        curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/xhaha.sh -o "$tempfile"
+        curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/tool/xproxy.sh -o "$tempfile"
         if [ ! -f "$tempfile" ]; then
-            echo "下载xhaha.sh失败"
+            echo "下载xproxy.sh失败"
             return 1
         fi
     fi
     # 检查文件是否为空
     if [ ! -s "$tempfile" ]; then
-        echo "xhaha.sh文件为空"
+        echo "xproxy.sh文件为空"
         return 1
     fi
     # 检查文件是否包含有效的shell脚本
     if ! grep -q "^#/bin/bash" "$tempfile"; then
-        echo "ERR:xhaha.sh不是有效的shell脚本:"
+        echo "ERR:xproxy.sh不是有效的shell脚本:"
         cat "$tempfile"
         return 1
     fi
