@@ -36,8 +36,8 @@ create_dev_environment() {
     # 使 start.sh 脚本可执行
     chmod +x ~/devgcc/*.sh
 
-    # 替换目录中所有文件里的字符串 "dev14" 为 $dir_name
-    find . -type f -exec sed -i "s/dev14/$dir_name/g" {} \;
+    # 替换目录中所有文件里的字符串 "temp_str" 为 $dir_name
+    find . -type f -exec sed -i "s/temp_str/$dir_name/g" {} \;
 
     # 修改$dir_name/.env中的PORT_BASE
     sed -i "s/PORT_BASE=.*/PORT_BASE=$((max_port_base + 1))/" $dir_name/.env
