@@ -25,8 +25,7 @@ main() {
     validate_args "$env_dir"
 
     SCRIPT_DIR=$(cd $(dirname ${env_file}); pwd)
-    docker compose -f "$SCRIPT_DIR/docker-compose.yml" --env-file=$env_file rm -sf
-    docker compose -f "$SCRIPT_DIR/docker-compose.yml" --env-file=$env_file down
+    docker compose -f "$SCRIPT_DIR/docker-compose.yml" --env-file=$env_file down -t 0
 }
 
 # 脚本入口
