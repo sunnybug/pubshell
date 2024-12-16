@@ -1,9 +1,8 @@
 C++开发用的镜像
 
 ## 傻瓜版
-以容器名为dev-ga为例
-curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/webinstall_pubshell.sh | bash
-curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/web_create_devgcc.sh | bash -s -- "dev-ga"
+以容器名为ga为例
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/web_create_devgcc.sh | bash -s -- "ga"
 
 编辑~/devgcc/dev-ga/.env中的镜像版本/端口等(否则启动容器时会提示端口冲突)
 创建并开启容器
