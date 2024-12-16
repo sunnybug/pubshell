@@ -12,3 +12,15 @@ curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/ro
 
 # root 查看所有用户的容器
 curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/docker-rootless/list-all.sh | bash
+
+# 普通用户卸载rootless docker
+```bash
+systemctl --user daemon-reload
+systemctl --user stop docker
+systemctl --user disable docker
+dockerd-rootless-setuptool.sh uninstall
+~/bin/rootlesskit rm -rf ~/.local/share/docker
+rm -rf ~/.docker
+rm -rf ~/.config/systemd/user/docker.service.d
+rm -rf ~/.config/docker
+```

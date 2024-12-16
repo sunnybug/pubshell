@@ -26,7 +26,7 @@ main() {
 
     SCRIPT_DIR=$(cd $(dirname ${env_file}); pwd)
     docker compose -f "$SCRIPT_DIR/docker-compose.yml" --env-file=$env_file rm -sf
-
+    docker compose -f "$SCRIPT_DIR/docker-compose.yml" --env-file=$env_file down
 }
 
 # 脚本入口

@@ -1,5 +1,5 @@
 # pubshell
-注意：会自动加上我个人公钥，如果是个人使用的环境请注意修改my_pubkey变量！
+curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/webinstall_pubshell.sh | bash
 
 ## 以管理员身份安装dev工具
 `
@@ -19,12 +19,6 @@ curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/r
 ## 以管理员身份修改ssh设置
 `
 curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/ssh_config.sh | bash
-`
-
-`
-## 初始化当前用户环境(alias/.bashrc/.zshrc/proxy)
-`
-curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/webinstall_pubshell.sh | bash
 `
 
 ## 添加证书
