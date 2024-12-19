@@ -4,7 +4,7 @@
 # 错误处理函数
 handle_error() {
     echo "错误: $1"
-    echo "示例: --gcc_ver 14 --image_ver 192.168.1.185:5000/devgcc14:241211"
+    echo "示例: --gcc_ver 14 --image_ver 192.168.1.185:5000/devgcc14:241219"
     exit 1
 }
 
