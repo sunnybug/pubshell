@@ -12,7 +12,7 @@ services:
     volumes:
       # ssh代理转发，如果失效需要重建容器
       - ${SSH_AUTH_SOCK}:/run/ssh_agent.sock
-
+      - /run/user/${USER_ID}/docker.sock:/var/run/docker.sock
       # 自己想挂载的目录
       - ${HOST_HOME}/g:/${HOST_HOME}/g
       - ${HOST_HOME}/module:/${HOST_HOME}/module
@@ -31,7 +31,3 @@ services:
     tty: true
     stdin_open: true
     command: /bin/zsh
-
-volumes:
-  g:
-  module:

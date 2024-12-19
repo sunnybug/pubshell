@@ -2,15 +2,15 @@ C++开发用的镜像
 
 ## 傻瓜版
 以容器名为ga为例
-curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/install/web_create_devgcc.sh | bash -s -- "ga"
+curl -sSfL https://gitee.com/sunnybug/pubshell/raw/main/install/web_create_devgcc.sh | bash -s -- "ga"
 
-编辑~/devgcc/dev-ga/.env中的镜像版本/端口等(否则启动容器时会提示端口冲突)
+编辑~/devgcc/ga/.env中的镜像版本/端口等(否则启动容器时会提示端口冲突)
 创建并开启容器
-cd ~/devgcc && bash ./start.sh dev-ga
+cd ~/devgcc && bash ./start.sh ga
 进入容器
-cd ~/devgcc && bash ./enter.sh dev-ga
+cd ~/devgcc && bash ./enter.sh ga
 删除容器
-cd ~/devgcc && bash ./remove.sh dev-ga
+cd ~/devgcc && bash ./remove.sh ga
 将代码放在/root/下，默认配置下宿主机目录为/home/$USER/容器名_home
 
 ## 按需配置.env

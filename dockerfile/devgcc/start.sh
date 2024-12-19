@@ -51,6 +51,7 @@ main() {
 
     validate_args "$env_dir"
     source "$env_file"
+    sed -i "s/USER_ID=.*/USER_ID=$(id -u)/" $env_file
 
     create_container "$env_file" "$CONTAINER_NAME"
 
