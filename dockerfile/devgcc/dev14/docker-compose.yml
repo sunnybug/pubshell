@@ -21,6 +21,7 @@ services:
       # 要保证${DOCKER_HOME}目录存在，方便保存数据
       - ${DOCKER_HOME}:/root
       - ${AUTHORIZED_KEYS}:/root/.ssh/authorized_keys
+      - /etc/localtime:/etc/localtime
 
     ports:
       - "${SSH_PORT}:22"
