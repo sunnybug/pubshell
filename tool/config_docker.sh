@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# 国内不允许直接下载xproxy.sh，所以将xproxy.sh代码复制到当前脚本中
 # set -e
 
 # example
@@ -9,37 +9,63 @@ END
 
 g_API_PORT=0
 g_Change=false
+g_use_proxy="n"
+g_my_proxy=""
 
-auto_load_xproxy(){
-    if [ ! -z "$g_my_proxy" ]; then
-        return
+# 检查 DockerHub 连接性
+check_dockerhub() {
+    local response=$(curl -fsSL --connect-timeout 2 --max-time 2 -w "%{http_code}" https://hub.docker.com 2>/dev/null)
+    if [ "$response" -eq 200 ]; then
+        echo 'y'
+    else
+        echo 'n'
     fi
-    echo '[...]auto_load_xproxy...'
-    # xproxy.sh
-    script_path=$(dirname "$(realpath "$0")")
-    tempfile="$script_path/tool/xproxy.sh"
-    if [ ! -f "$tempfile" ]; then
-        echo '[WRN]download xproxy.sh'
-        tempfile=$(mktemp)
-        curl -sSfL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/xproxy.sh -o "$tempfile"
-        if [ ! -f "$tempfile" ]; then
-            echo "下载xproxy.sh失败"
-            return 1
-        fi
+}
+
+# 检查是否需要代理
+check_gfw() {
+    local gfw_need_proxy="y"
+    echo "[...]check_gfw"
+
+    local gfw_dockerhub_ok=$(check_dockerhub | tail -n1)
+
+    # 打印结果
+    if [ "$gfw_dockerhub_ok" = "y" ]; then
+        echo -e "dockerhub:   \033[32m可连接\033[0m"
+    else
+        echo -e "dockerhub:   \033[31m不可连接\033[0m"
+        gfw_need_proxy="y"
     fi
-    # 检查文件是否为空
-    if [ ! -s "$tempfile" ]; then
-        echo "xproxy.sh文件为空"
-        return 1
+    if [ "$gfw_need_proxy" = "y" ]; then
+        echo -e "\033[31m需要代理\033[0m"
+    else
+        echo -e "\033[32m不需要代理\033[0m"
     fi
-    # 检查文件是否包含有效的shell脚本
-    if ! grep -q "^#/bin/bash" "$tempfile"; then
-        echo "ERR:xproxy.sh不是有效的shell脚本:"
-        cat "$tempfile"
-        return 1
+    echo "[SUC]check_gfw"
+
+    if [ "$gfw_need_proxy" = "y" ]; then
+        g_use_proxy="y"
     fi
-    source "$tempfile"
-    echo '[SUC]auto_load_xproxy'
+}
+
+# 检测代理
+detect_proxy() {
+    echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
+    check_gfw
+
+    echo 'check 192.168.1.199:10816'
+    if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" >/dev/null; then
+        g_my_proxy='http://192.168.1.199:10816'
+        g_use_proxy="y"
+    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" >/dev/null; then
+        g_my_proxy='http://127.0.0.1:10811'
+        g_use_proxy="y"
+    fi
+
+    # save to file
+    if [ -d ~/.myshell ]; then
+        echo $g_my_proxy >~/.myshell/.proxy
+    fi
 }
 
 # 判断端口是否被占用
@@ -48,7 +74,7 @@ check_port() {
 
     # 使用 netstat 检查端口是否被占用
     if netstat -tuln | grep -q ':'"$port"'[[:space:]]'; then
-        return 1  # 端口被占用，返回 1
+        return 1 # 端口被占用，返回 1
     fi
     return 0
 }
@@ -127,7 +153,7 @@ configure_docker_proxy() {
     local conf_dir=$(dirname "$1")
 
     # 检查代理是否可用
-    if ! curl -IsL "$g_my_proxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    if ! curl -IsL "$g_my_proxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" >/dev/null; then
         echo "proxy not found"
         return
     fi
@@ -142,7 +168,7 @@ configure_docker_proxy() {
     mkdir -p "$conf_dir"
 
     # 创建配置文件
-    cat <<EOF > "$proxy_conf"
+    cat <<EOF >"$proxy_conf"
 [Service]
 Environment="http_proxy=$g_my_proxy"
 Environment="https_proxy=$g_my_proxy"
@@ -185,13 +211,13 @@ docker_rootless_api() {
             jq -s --arg USER_ID "$USER_ID" --arg PORT "$PORT" '
                 .[0] +
                 {"hosts": ["unix:///run/user/\($USER_ID)/docker.sock", "tcp://127.0.0.1:\($PORT)"]}
-            ' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
+            ' "$daemon_cfg" >tmp.json && mv tmp.json "$daemon_cfg"
             g_Change=true
 
             # 写入myapi.conf
             local api_conf=~/.config/systemd/user/docker.service.d/myapi.conf
             touch "$api_conf"
-            cat <<EOF > "$api_conf"
+            cat <<EOF >"$api_conf"
 [Service]
 Environment=DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS="-p 127.0.0.1:$PORT:$PORT/tcp"
 EOF
@@ -255,7 +281,7 @@ auto_config_docker() {
         return
     fi
 
-    auto_load_xproxy
+    detect_proxy
 
     # 如果docker info返回中包含rootless
     if docker info | grep -q "rootless"; then
@@ -272,7 +298,6 @@ auto_config_docker() {
         docker_root_proxy
         # docker_root_mirror
     fi
-
 }
 
 auto_config_docker
