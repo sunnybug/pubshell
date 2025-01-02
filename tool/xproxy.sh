@@ -1,19 +1,18 @@
 #/bin/bash
-
+set -e
 g_use_proxy="n"
 
-check_dockerhub(){
-    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -w "%{http_code}" https://hub.docker.com 2>/dev/null)
+check_dockerhub() {
+    response=$(curl -fsSL --connect-timeout 2 --max-time 2 -w "%{http_code}" https://hub.docker.com 2>/dev/null)
     if [ "$response" -eq 200 ]; then
         echo 'y'
-        return 0
+    else
+        echo 'n'
     fi
-    echo 'n'
-    return 0
 }
 
-check_github(){
-    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -o "$tmpfile" -w "%{http_code}" https://github.com/login 2>/dev/null)
+check_github() {
+    response=$(curl -fsSL --connect-timeout 2 --max-time 2 -o "$tmpfile" -w "%{http_code}" https://github.com/login 2>/dev/null)
     if [ "$response" -eq 200 ]; then
         if grep -q "github.githubassets.com" "$tmpfile" 2>/dev/null; then
             echo 'y'
@@ -32,7 +31,7 @@ check_gfw() {
     tmpfile=$(mktemp)
 
     gfw_github_ok=$(check_github)
-    gfw_dockerhub_ok=$(check_dockerhub)
+    gfw_dockerhub_ok=$(check_dockerhub | tail -n1)
 
     # 打印结果
     if [ "$gfw_github_ok" = "y" ]; then
@@ -59,15 +58,15 @@ check_gfw() {
     fi
 }
 
-xdetectproxy(){
+xdetectproxy() {
     echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
     check_gfw
 
     echo 'check 192.168.1.199:10816'
-    if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" >/dev/null; then
         g_my_proxy='http://192.168.1.199:10816'
         g_use_proxy="y"
-        elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+    elif curl -IsL http://127.0.0.1:10811 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" >/dev/null; then
         g_my_proxy='http://127.0.0.1:10811'
         g_use_proxy="y"
     fi
@@ -80,12 +79,14 @@ xdetectproxy(){
 
     # save to file
     if [ -d ~/.myshell ]; then
-        echo $g_my_proxy > ~/.myshell/.proxy
+        echo $g_my_proxy >~/.myshell/.proxy
     fi
 }
 
 # read file to $g_my_proxy
-if [ -e ~/.myshell/.proxy ]; then
+if [ "$1" = "--detect" ]; then
+    xdetectproxy
+elif [ -e ~/.myshell/.proxy ]; then
     g_my_proxy=$(cat ~/.myshell/.proxy)
 else
     xdetectproxy
