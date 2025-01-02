@@ -2,28 +2,66 @@
 
 g_use_proxy="n"
 
-#########################
-# 2024-10-22 502 错误
-# github_mirror="gitclone.com/github.com"
-github_mirror="github.com"
-g_my_proxy=""
-
-xdetectproxy(){
-    echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
-    g_use_proxy="n"
-
-    # 如果本地存在该文件，则执行
-    script_dir=$(dirname "$(realpath "$0")")
-    if [ -f "$script_dir/tool/check_gfw.sh" ]; then
-        source "$script_dir/tool/check_gfw.sh"
-    else
-        echo "[WRN]download check_gfw.sh"
-        curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/check_gfw.sh | bash
+check_dockerhub(){
+    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -w "%{http_code}" https://hub.docker.com 2>/dev/null)
+    if [ "$response" -eq 200 ]; then
+        echo 'y'
+        return 0
     fi
+    echo 'n'
+    return 0
+}
+
+check_github(){
+    response=$(curl -fsSL --connect-timeout 3 --max-time 3 -o "$tmpfile" -w "%{http_code}" https://github.com/login 2>/dev/null)
+    if [ "$response" -eq 200 ]; then
+        if grep -q "github.githubassets.com" "$tmpfile" 2>/dev/null; then
+            echo 'y'
+            return 0
+        fi
+    fi
+
+    echo 'n'
+    return 0
+}
+
+check_gfw() {
+    gfw_need_proxy="y"
+    echo "[...]check_gfw"
+
+    tmpfile=$(mktemp)
+
+    gfw_github_ok=$(check_github)
+    gfw_dockerhub_ok=$(check_dockerhub)
+
+    # 打印结果
+    if [ "$gfw_github_ok" = "y" ]; then
+        echo -e "github.com:   \033[32m可连接\033[0m"
+    else
+        echo -e "github.com:   \033[31m不可连接\033[0m"
+        gfw_need_proxy="y"
+    fi
+    if [ "$gfw_dockerhub_ok" = "y" ]; then
+        echo -e "dockerhub:   \033[32m可连接\033[0m"
+    else
+        echo -e "dockerhub:   \033[31m不可连接\033[0m"
+        gfw_need_proxy="y"
+    fi
+    if [ "$gfw_need_proxy" = "y" ]; then
+        echo -e "\033[31m需要代理\033[0m"
+    else
+        echo -e "\033[32m不需要代理\033[0m"
+    fi
+    echo "[SUC]check_gfw"
 
     if [ "$gfw_need_proxy" = "y" ]; then
         g_use_proxy="y"
     fi
+}
+
+xdetectproxy(){
+    echo 'check proxy(如果卡太久，就Ctrl+c，再运行一次)...'
+    check_gfw
 
     echo 'check 192.168.1.199:10816'
     if curl -IsL http://192.168.1.199:10816 --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then

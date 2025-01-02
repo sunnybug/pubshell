@@ -74,60 +74,93 @@ find_available_port() {
     return 0
 }
 
-docker_root_mirror() {
-    local conf="/etc/docker/daemon.json"
-    # 如果有配置镜像就不配置了
-    if grep -q "registry-mirrors" "${conf}"; then
-        echo "registry-mirrors 已经正确配置，无需修改"
+# 配置Docker镜像加速器的通用函数[国内镜像基本被封杀]
+# configure_docker_mirror() {
+#     local conf="$1"
+#     echo '[...]配置Docker镜像加速器...'
+
+#     # 检查是否已配置镜像
+#     if grep -q "registry-mirrors" "${conf}"; then
+#         echo "registry-mirrors 已经正确配置，无需修改"
+#         return
+#     fi
+
+#     # 备份现有配置
+#     if [ -f "$conf" ]; then
+#         mv "$conf" "${conf}.bak.$(date +"%Y%m%d%H%M%S")"
+#         g_Change=true
+#     fi
+
+#     # 确保配置目录存在
+#     mkdir -p "$(dirname "$conf")"
+
+#     # 写入镜像配置
+#     cat <<EOF > "$conf"
+# {
+#     "registry-mirrors": [
+#         "https://registry.docker-cn.com",
+#         "https://yxzrazem.mirror.aliyuncs.com"
+#     ]
+# }
+# EOF
+#     echo "[SUC]镜像加速器配置完成: $conf"
+# }
+
+# root模式下配置镜像加速器
+# docker_root_mirror() {
+#     configure_docker_mirror "/etc/docker/daemon.json"
+# }
+
+# rootless模式下配置镜像加速器
+# docker_rootless_mirror() {
+#     configure_docker_mirror "$HOME/.config/docker/daemon.json"
+# }
+
+# 通用的代理配置函数
+configure_docker_proxy() {
+    if [ "$g_use_proxy" = "n" ]; then
+        echo "无需使用proxy"
         return
     fi
 
-    if [ -f "$conf" ]; then
-        mv "$conf" "${conf}.bak.$(date +"%Y%m%d%H%M%S")"
-        g_Change=true
+    local proxy_conf="$1"
+    local conf_dir=$(dirname "$1")
+
+    # 检查代理是否可用
+    if ! curl -IsL "$g_my_proxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
+        echo "proxy not found"
+        return
     fi
 
-    cat <<EOF > "$conf"
-{
-    "registry-mirrors": [
-        "https://registry.docker-cn.com",
-        "http://hub-mirror.c.163.com",
-        "https://docker.mirrors.ustc.edu.cn/",
-        "https://yxzrazem.mirror.aliyuncs.com"
-    ]
-}
-EOF
-}
+    # 检查是否已配置
+    if [ -f "$proxy_conf" ] && grep -q "$g_my_proxy" "$proxy_conf"; then
+        echo "HTTP_PROXY已配置:$g_my_proxy，无需修改"
+        return
+    fi
 
-docker_root_proxy() {
-    echo '未实现root docker，暂不支持'
-}
+    # 创建配置目录
+    mkdir -p "$conf_dir"
 
-docker_rootless_proxy() {
-    echo '[...]docker_rootless_proxy....'
-    local proxy_conf=~/.config/systemd/user/docker.service.d/proxy.conf
-
-    if curl -IsL "$g_my_proxy" --connect-timeout 2 --max-time 2 | grep "400 Bad Request" > /dev/null; then
-        if [ -f "$proxy_conf" ]; then
-            if grep -q "$g_my_proxy" "$proxy_conf"; then
-                echo "HTTP_PROXY已配置:$myproxy，无需修改"
-                return
-            fi
-        fi
-        mkdir -p ~/.config/systemd/user/docker.service.d
-        cat <<EOF > "$proxy_conf"
+    # 创建配置文件
+    cat <<EOF > "$proxy_conf"
 [Service]
 Environment="http_proxy=$g_my_proxy"
 Environment="https_proxy=$g_my_proxy"
 Environment="no_proxy=*.aliyuncs.com,*.tencentyun.com,*.cn,*.zentao.net,192.168.1.185,*.aliyuncs.com"
 EOF
 
-        echo "[SUC]docker_rootless_proxy, use: $g_my_proxy"
-        echo "create suc: $proxy_conf"
-        g_Change=true
-    else
-        echo "proxy not found"
-    fi
+    echo "[SUC]create suc: $proxy_conf"
+    g_Change=true
+}
+
+# root模式的代理配置
+docker_root_proxy() {
+    configure_docker_proxy "/etc/systemd/system/docker.service.d/proxy.conf"
+}
+
+# rootless模式的代理配置
+docker_rootless_proxy() {
+    configure_docker_proxy "~/.config/systemd/user/docker.service.d/proxy.conf"
 }
 
 docker_rootless_api() {
@@ -175,45 +208,46 @@ EOF
     echo '[SUC]docker_rootless_api'
 }
 
-docker_rootless_repo() {
-    echo '[...]docker_rootless_repo....'
-    local ret=0
-    local daemon_cfg=~/.config/docker/daemon.json
-    if [ ! -f "$daemon_cfg" ]; then
-        mkdir -p ~/.config/docker
-        touch "$daemon_cfg"
-    fi
+# rootless模式下的私有仓库配置(不再使用，改用支持ssl的私有仓库)
+# docker_rootless_repo() {
+#     echo '[...]docker_rootless_repo....'
+#     local ret=0
+#     local daemon_cfg=~/.config/docker/daemon.json
+#     if [ ! -f "$daemon_cfg" ]; then
+#         mkdir -p ~/.config/docker
+#         touch "$daemon_cfg"
+#     fi
 
-    # jq无法正常处理-符号，所以改为python
-    local insecure_registries=$(python -c "
-import json
-import sys
+#     # jq无法正常处理-符号，所以改为python
+#     local insecure_registries=$(python -c "
+# import json
+# import sys
 
-try:
-    with open('$daemon_cfg') as f:
-        data = json.load(f)
-        print(data['insecure-registries'])
-except Exception:
-    pass  # 捕获异常并不输出任何信息
-")
+# try:
+#     with open('$daemon_cfg') as f:
+#         data = json.load(f)
+#         print(data['insecure-registries'])
+# except Exception:
+#     pass  # 捕获异常并不输出任何信息
+# ")
 
-    if echo "$insecure_registries" | grep -q '192.168.1.185:5000'; then
-        echo "insecure-registries 已经正确配置，无需修改"
-        return
-    fi
+#     if echo "$insecure_registries" | grep -q '192.168.1.185:5000'; then
+#         echo "insecure-registries 已经正确配置，无需修改"
+#         return
+#     fi
 
-    # 如果没有安装jq，则使用python
-    if ! [ -x "$(command -v jq)" ]; then
-        echo "未安装jq"
-        return
-    fi
+#     # 如果没有安装jq，则使用python
+#     if ! [ -x "$(command -v jq)" ]; then
+#         echo "未安装jq"
+#         return
+#     fi
 
-    # insecure-registries
-    jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
-    g_Change=true
+#     # insecure-registries
+#     jq -s '.[0] + {"insecure-registries": ["192.168.1.185:5000"]}' "$daemon_cfg" > tmp.json && mv tmp.json "$daemon_cfg"
+#     g_Change=true
 
-    echo '[SUC]docker_rootless_repo'
-}
+#     echo '[SUC]docker_rootless_repo'
+# }
 
 auto_config_docker() {
     # 检查是否存在docker命令
@@ -226,7 +260,7 @@ auto_config_docker() {
     # 如果docker info返回中包含rootless
     if docker info | grep -q "rootless"; then
         docker_rootless_proxy
-        docker_rootless_repo
+        # docker_rootless_repo
         docker_rootless_api
 
         if [ "$g_Change" = true ]; then
