@@ -24,6 +24,7 @@ plugins=(
     zsh-history-substring-search
     zsh-bat
     zsh-syntax-highlighting #必须在最后，shell 命令的代码高亮
+    kubectl
 )
 
 eval "$(lua ~/.myshell/.z.lua/z.lua  --init zsh)"

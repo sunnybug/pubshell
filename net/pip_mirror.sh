@@ -1,12 +1,11 @@
 #!/bin/bash
 
-
-auto_pip_mirror(){
+auto_pip_mirror() {
     if [ -x "$(command -v python3)" ]; then
         echo 'check pip host...'
-        if curl -IsL http://192.168.1.185:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" > /dev/null; then
+        if curl -IsL http://192.168.1.185:9090/simple --connect-timeout 2 --max-time 2 | grep "200 OK" >/dev/null; then
             pip_host='mypip'
-            elif ! [ -z "$(python3 -m pip config get global.trusted-host)" ]; then
+        elif ! [ -z "$(python3 -m pip config get global.trusted-host)" ]; then
             pip_host='aliyun'
         fi
 
@@ -18,6 +17,5 @@ auto_pip_mirror(){
         fi
     fi
 }
-
 
 auto_pip_mirror

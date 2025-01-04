@@ -68,13 +68,10 @@ Cmnd_Alias SVR_CMD =  /bin/apt,/usr/bin/docker,/usr/bin/chsh
 
 ## 部分常用web install
 ```shell
-curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/install_debian_root_docker.sh | bash
-curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/config_docker.sh | bash
-curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/tool/auto_set_proxy.sh | bash
+curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/install_root_docker.sh | bash
 curl -o /etc/apt/sources.list https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/dockerfile/mydev-gcc/file/sources.list
-curl -sSL https://raw.githubusercontent.com/sunnybug/pubshell/refs/heads/main/root_tool/replace_source_list.sh | bash
-
 ```
+
 
 
 ## New

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# example
+: <<'END'
+curl -sSL https://gitee.com/sunnybug/pubshell/raw/main/net/debian_mirror.sh | bash
+END
+
 # Check if sudo exists and set command prefix accordingly
 if command -v sudo >/dev/null 2>&1; then
     cmd_prefix="sudo"
@@ -58,6 +63,9 @@ if [ -x /usr/bin/apt ] && grep -q "NAME.*Debian" /etc/os-release; then
 elif [ -x /usr/bin/apt ] && grep -q "NAME.*Ubuntu" /etc/os-release; then
     echo "Current OS is Ubuntu"
     _replace_ubuntu_sources
+else
+    echo "Current OS is not Debian or Ubuntu"
+    exit 1
 fi
 
 $cmd_prefix apt update

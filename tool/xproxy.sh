@@ -3,29 +3,27 @@ set -e
 g_use_proxy="n"
 
 check_dockerhub() {
-    response=$(curl -fsSL --connect-timeout 2 --max-time 2 -w "%{http_code}" https://hub.docker.com 2>/dev/null)
+    local response=$(curl -fsSL --connect-timeout 2 --max-time 2 -w "%{http_code}"  -o /dev/null https://hub.docker.com)
     if [ "$response" -eq 200 ]; then
         echo 'y'
+            return
     else
         echo 'n'
     fi
 }
 
 check_github() {
-    response=$(curl -fsSL --connect-timeout 2 --max-time 2 -o "$tmpfile" -w "%{http_code}" https://github.com/login 2>/dev/null)
+    local response=$(curl -fsSL --connect-timeout 2 --max-time 2 -o /dev/null -w "%{http_code}"  -o /dev/null https://github.com/login)
     if [ "$response" -eq 200 ]; then
-        if grep -q "github.githubassets.com" "$tmpfile" 2>/dev/null; then
-            echo 'y'
-            return 0
-        fi
+        echo 'y'
+        return
     fi
 
     echo 'n'
-    return 0
 }
 
 check_gfw() {
-    gfw_need_proxy="y"
+    gfw_need_proxy="n"
     echo "[...]check_gfw"
 
     tmpfile=$(mktemp)

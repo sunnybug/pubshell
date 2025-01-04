@@ -24,6 +24,7 @@ source $SCRIPT_DIR/install/check_tools.sh
 echo "copy files/home/ to ~"
 cp -rTf $SCRIPT_DIR/files/home/ ~
 cp -rTf $SCRIPT_DIR/tool/ ~/.myshell/tool/
+cp -rTf $SCRIPT_DIR/net/ ~/.myshell/net/
 
 #########################
 if [ ! -e ~/.bashrc ]; then
@@ -73,7 +74,7 @@ if [ -d ~/.ssh ]; then
 fi
 
 #######################
-source ~/.myshell/tool/pip_mirror.sh
+source ~/.myshell/net/pip_mirror.sh
 source ~/.myshell/tool/config_docker.sh
 source ~/.myshell/tool/ssh_config.sh
 
