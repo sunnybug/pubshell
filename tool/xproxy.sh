@@ -1,5 +1,4 @@
 #/bin/bash
-set -e
 g_use_proxy="n"
 
 check_dockerhub() {
