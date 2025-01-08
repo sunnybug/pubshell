@@ -38,11 +38,6 @@ check_tools() {
         fail='y'
     fi
 
-    if ! [ -x "$(command -v batcat)" ]; then
-        missing_tools+=" bat"
-        fail='y'
-    fi
-
     if [ "$fail" = "y" ]; then
         $cmd_prefix apt update && $cmd_prefix apt install ${missing_tools} -y
         if [ $? -ne 0 ]; then

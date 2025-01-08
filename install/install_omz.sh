@@ -7,14 +7,14 @@ install_omz(){
     if [ -z "$ZSH" ]; then
         ZSH=~/.oh-my-zsh
     fi
-    
+
     if ! [ -e ~/.myshell/.z.lua/z.lua ]; then
         echo "install z.lua...."
         GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/skywind3000/z.lua.git ~/.myshell/.z.lua
     else
         echo "use current z.lua"
     fi
-    
+
     # 如果出现类似gnutls_handshake() failed: The TLS connection was non-properly terminated.的错误，则切换代理
     # chmod +x $SCRIPT_DIR/tool/ohmyzsh.sh && sh -c "$SCRIPT_DIR/tool/ohmyzsh.sh --unattended --keep-zshrc"
     # 如果已经有oh-my-zsh了，就不再安装
@@ -30,7 +30,7 @@ install_omz(){
         echo "update current $ZSH."
         ~/.oh-my-zsh/tools/upgrade.sh
     fi
-    
+
     if ! [ -e $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
         echo "install zsh-syntax-highlighting...."
         rm -rf $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
@@ -52,7 +52,7 @@ install_omz(){
     else
         echo "use current zsh-history-substring-search."
     fi
-    
+
     if ! [ -e $ZSH_CUSTOM/plugins/zsh-you-should-use/zsh-you-should-use.plugin.zsh ]; then
         echo "install zsh-you-should-use...."
         rm -rf $ZSH_CUSTOM/plugins/zsh-you-should-use
@@ -60,13 +60,17 @@ install_omz(){
     else
         echo "use current zsh-you-should-use."
     fi
-    
-    if ! [ -e $ZSH_CUSTOM/plugins/zsh-bat/zsh-bat.plugin.zsh ]; then
-        echo "install zsh-bat...."
-        rm -rf $ZSH_CUSTOM/plugins/zsh-bat
-        GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/fdellwing/zsh-bat.git $ZSH_CUSTOM/plugins/zsh-bat
+
+    if command -v batcat &> /dev/null; then
+        if ! [ -e $ZSH_CUSTOM/plugins/zsh-bat/zsh-bat.plugin.zsh ]; then
+            echo "install zsh-bat...."
+            rm -rf $ZSH_CUSTOM/plugins/zsh-bat
+            GIT_SSH_COMMAND='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' git clone https://$github_mirror/fdellwing/zsh-bat.git $ZSH_CUSTOM/plugins/zsh-bat
+        else
+            echo "use current zsh-bat."
+        fi
     else
-        echo "use current zsh-bat."
+        echo "batcat not found, skip zsh-bat."
     fi
 
     # 替换包含.myshell的行
