@@ -1,6 +1,8 @@
 #!/bin/bash
 
 install_omz(){
+    local github_mirror="github.com"
+
     if [ -z "$ZSH_CUSTOM" ]; then
         ZSH_CUSTOM=~/.oh-my-zsh/custom
     fi
