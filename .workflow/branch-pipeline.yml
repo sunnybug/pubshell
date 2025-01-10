@@ -1,6 +1,6 @@
 version: '1.0'
-name: pipeline-20250110
-displayName: pipeline-20250110
+name: xsw-test
+displayName: xsw-test
 triggers:
   trigger: auto
   push:
@@ -18,7 +18,6 @@ stages:
       - step: shell@agent
         name: execute_shell
         displayName: Shell 脚本执行
-        hostGroupID: ''
         script:
           - bash pubshell.sh
         notify:
